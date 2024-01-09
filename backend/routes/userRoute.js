@@ -1,5 +1,5 @@
 import express from "express";
-const router = express.Router();
+const userRouter = express.Router();
 
 import {
   authUser,
@@ -9,9 +9,9 @@ import {
   updateUserProfile,
 } from "../controllers/userController.js";
 
-router.post("/auth", authUser);
-router.post("/", registerUser);
-router.post("/logout", logOutUser);
-router.route("/profile").get(getUserProfile).put(updateUserProfile);
+userRouter.post("/auth", authUser);
+userRouter.post("/", registerUser);
+userRouter.post("/logout", logOutUser);
+userRouter.route("/profile").get(getUserProfile).put(updateUserProfile);
 
-export default router;
+export default userRouter;

@@ -7,6 +7,6 @@ const pool = mysql.createPool({
   database: "jack",
 }).promise();
 
-const result = await pool.query("SELECT * FROM test1");
 
-console.log(result);
+
+export {pool};
