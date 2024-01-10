@@ -3,6 +3,52 @@ import { pool } from "../models/database.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
+const secretKey = "james123"; // Change this to a secure random key for production
+
+const comparePassword = async (password, hashedPassword) => {
+  try {
+    return await bcrypt.compare(password, hashedPassword);
+  } catch (error) {
+    console.error("Error comparing passwords:", error);
+    throw error;
+  }
+};
+
+const generateToken = (res,userID) => {
+  const token = jwt.sign({ userID }, secretKey, { expiresIn: "1h" });
+
+  res.cookie('jwt', token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV !== 'development',
+    sameSite: 'strict',
+    maxAge: 1 * 60 * 60 * 1000
+  })
+};
+
+// Auth User
+// POST req api/users/auth
+// Public
+const authUser = async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const query = "SELECT * FROM Users WHERE Email = ?";
+    const [rows] = await pool.query(query, [email]);
+    if (rows.length === 0) {
+      return res.status(401).json({ error: "Invalid credentials" });
+    }
+    const user = rows[0];
+    const isPasswordValid = await comparePassword(password, user.Password);
+    if (!isPasswordValid) {
+      return res.status(401).json({ error: "Invalid credentials" });
+    }
+    const token = generateToken(res, user.UserID);
+    return res.json({ message: "Login successful", token });
+  } catch (error) {
+    console.error("Error during login:", error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 const doesUserExist = async (email) => {
   const query = "SELECT * FROM Users WHERE Email = ?";
   const values = [email];
@@ -25,51 +71,6 @@ const hashPassword = async (password) => {
   } catch (error) {
     console.error(`Error hashing password: ${error}`);
     throw error;
-  }
-};
-
-const secretKey = "james123"; // Change this to a secure random key for production
-
-const comparePassword = async (password, hashedPassword) => {
-  try {
-    return await bcrypt.compare(password, hashedPassword);
-  } catch (error) {
-    console.error("Error comparing passwords:", error);
-    throw error;
-  }
-};
-
-const generateToken = (userID) => {
-  return jwt.sign({ userID }, secretKey, { expiresIn: "1h" }); // Adjust the expiration as needed
-};
-
-// Auth User
-// POST req api/users/auth
-// Public
-const authUser = async (req, res) => {
-  const { email, password } = req.body;
-
-  try {
-    const query = "SELECT * FROM Users WHERE Email = ?";
-    const [rows] = await pool.query(query, [email]);
-
-    if (rows.length === 0) {
-      return res.status(401).json({ error: "Invalid credentials" });
-    }
-
-    const user = rows[0];
-    const isPasswordValid = await comparePassword(password, user.Password);
-
-    if (!isPasswordValid) {
-      return res.status(401).json({ error: "Invalid credentials" });
-    }
-
-    const token = generateToken(user.UserID);
-
-    return res.json({ message: "Login successful", token });
-  } catch (error) {
-    console.error("Error during login:", error);
-    return res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
@@ -105,7 +106,12 @@ const registerUser = async (req, res) => {
 // POST req api/users/logout
 // Public
 const logOutUser = async (req, res) => {
-  res.status(200).json({ message: "User Logged Out" });
+  res.cookie('jwt gone','', {
+    httpOnly: true,
+    expires: new Date(0)
+  })
+
+  res.status(200).json({message: "User Logged out!"})
 };
 
 // User Profile

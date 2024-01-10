@@ -2,7 +2,6 @@ import express from "express";
 import mysql from "mysql2";
 import bcrypt from "bcryptjs";
 
-
 const PORT = 3001;
 const app = express();
 

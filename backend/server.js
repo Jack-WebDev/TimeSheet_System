@@ -2,7 +2,6 @@ import express from "express";
 import dotenv from "dotenv";
 dotenv.config();
 // import { notFound, handleErrors } from "./middleware/errorHandler.js";
-import mysql from "mysql2";
 const port = process.env.PORT || 5001;
 import userRoutes from "./routes/userRoute.js";
 import timeSheetRouter from "./routes/timeSheetRoute.js";
