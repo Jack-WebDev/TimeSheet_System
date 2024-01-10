@@ -3,7 +3,6 @@ import { pool } from "../models/database.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-const secretKey = "james123"; // Change this to a secure random key for production
 
 const comparePassword = async (password, hashedPassword) => {
   try {
@@ -15,7 +14,7 @@ const comparePassword = async (password, hashedPassword) => {
 };
 
 const generateToken = (res,userID) => {
-  const token = jwt.sign({ userID }, secretKey, { expiresIn: "1h" });
+  const token = jwt.sign({ userID }, process.env.JWT_KEY, { expiresIn: "1h" });
 
   res.cookie('jwt', token, {
     httpOnly: true,
@@ -118,6 +117,8 @@ const logOutUser = async (req, res) => {
 // GET req api/users/profile
 // Private
 const getUserProfile = async (req, res) => {
+  console.log(req.user.name)
+
   res.status(200).json({ message: "User Profile" });
 };
 
