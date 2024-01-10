@@ -1,10 +1,9 @@
 -- Users Table
 CREATE TABLE Users (
     UserID INT PRIMARY KEY AUTO_INCREMENT,
-    Username VARCHAR(255) NOT NULL,
-    Password VARCHAR(255) NOT NULL,
-    Role ENUM('Admin', 'Manager', 'Employee') NOT NULL
-);
+    Name VARCHAR(255) NOT NULL,
+    Email VARCHAR(255) NOT NULL,
+    Password VARCHAR(255) NOT NULL);
 
 -- Employees Table
 CREATE TABLE Employees (
@@ -13,7 +12,6 @@ CREATE TABLE Employees (
     FirstName VARCHAR(255) NOT NULL,
     LastName VARCHAR(255) NOT NULL,
     Email VARCHAR(255) NOT NULL,
-    -- Add other relevant employee details here
     FOREIGN KEY (UserID) REFERENCES Users(UserID)
 );
 
@@ -37,7 +35,6 @@ CREATE TABLE Managers (
     FirstName VARCHAR(255) NOT NULL,
     LastName VARCHAR(255) NOT NULL,
     Email VARCHAR(255) NOT NULL,
-    -- Add other relevant manager details here
     FOREIGN KEY (UserID) REFERENCES Users(UserID)
 );
 
