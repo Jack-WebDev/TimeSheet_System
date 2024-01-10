@@ -117,7 +117,7 @@ const logOutUser = async (req, res) => {
 // GET req api/users/profile
 // Private
 const getUserProfile = async (req, res) => {
-  console.log(req.user.name)
+  console.log(req.user)
 
   res.status(200).json({ message: "User Profile" });
 };
