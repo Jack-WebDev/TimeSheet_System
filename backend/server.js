@@ -13,21 +13,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/users", userRoutes);
 app.use("/api/timesheets", timeSheetRouter);
 
-// const db = mysql.createPool({
-//   host: "127.0.0.1",
-//   user: "root",
-//   password: "Jackwebdev@123",
-//   database: "jack",
-// });
-
-// app.get("/users", (req, res) => {
-//   const sql = "SELECT * FROM test1";
-
-//   db.query(sql, (err, data) => {
-//     if (err) return res.json(err);
-//     return res.json(data);
-//   });
-// });
 
 // app.use(notFound);
 // app.use(handleErrors);

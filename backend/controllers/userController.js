@@ -119,7 +119,22 @@ const getUserProfile = async (req, res) => {
 // PUT req api/users
 // Private
 const updateUserProfile = async (req, res) => {
-  res.status(200).json({ message: "User Profile Updated" });
+  const { userID, newName, password } = req.body;
+
+  try {
+    const hashedPassword = await hashPassword(password);
+
+    const updateQuery =
+      "UPDATE Users SET Name = ?, Password = ?  WHERE UserID = ?";
+    const updateValues = [newName, hashedPassword, userID];
+
+    await pool.query(updateQuery, updateValues);
+
+    return res.json({ message: "User Profile Updated!" });
+  } catch (error) {
+    console.error("Error updating username:", error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
 };
 
 export {
