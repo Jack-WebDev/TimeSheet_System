@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Navbar, Container, NavDropdown, Form, Button } from "react-bootstrap";
+import { Navbar, Nav, Container, Form, Button } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { FormContainer } from "../components/FormContainer";
 import { toast } from "react-toastify";
@@ -47,12 +47,14 @@ const Employee = () => {
             </LinkContainer>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
-              <NavDropdown title={"User Name"} id="username">
+              <Nav className="ms-auto">
                 <LinkContainer to="/profile">
-                  <NavDropdown.Item>Profile</NavDropdown.Item>
+                  <Nav.Link>Profile</Nav.Link>
                 </LinkContainer>
-                <NavDropdown.Item onClick={null}>Logout</NavDropdown.Item>
-              </NavDropdown>
+                <LinkContainer to="/logout">
+                  <Nav.Link>Logout</Nav.Link>
+                </LinkContainer>
+              </Nav>
             </Navbar.Collapse>
           </Container>
         </Navbar>
