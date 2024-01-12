@@ -1,104 +1,32 @@
-import { useState } from "react";
-import { Navbar, Nav, Container, Form, Button } from "react-bootstrap";
-import { LinkContainer } from "react-router-bootstrap";
-import { FormContainer } from "../components/FormContainer";
-import { toast } from "react-toastify";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
-const Admin = () => {
-  const [form, setForm] = useState({
-    email: "",
-    password: "",
-  });
+import { useState } from 'react';
 
-  const navigate = useNavigate();
-  const submitHandler = async (e) => {
+// eslint-disable-next-line react/prop-types
+const Admin = ({ onSubmit, onCancel, departmentToEdit }) => {
+  // eslint-disable-next-line react/prop-types
+  const [name, setName] = useState(departmentToEdit ? departmentToEdit.name : '');
+  // eslint-disable-next-line react/prop-types
+  const [description, setDescription] = useState(departmentToEdit ? departmentToEdit.description : '');
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-
-    try {
-      const response = await axios.post(
-        "http://localhost:8001/api/users/login",
-        form
-      );
-      navigate("/home");
-      toast.success(response.data.message);
-    } catch (error) {
-      // Handle errors
-      toast.error("Invalid email or password");
-    }
-  };
-
-  const onChangeHandler = (e) => {
-    e.preventDefault();
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value,
-    });
+    onSubmit({ name, description });
   };
 
   return (
-    <>
-      <header>
-        <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
-          <Container>
-            <LinkContainer to="/">
-              <Navbar.Brand>NDT Timesheet System</Navbar.Brand>
-            </LinkContainer>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse id="basic-navbar-nav">
-              <Nav className="ms-auto">
-                <LinkContainer to="/departments">
-                  <Nav.Link>Manage Departments</Nav.Link>
-                </LinkContainer>
-                <LinkContainer to="/projects">
-                  <Nav.Link>Manage Projects</Nav.Link>
-                </LinkContainer>
-                <LinkContainer to="/manage">
-                  <Nav.Link>Manage Employees/Managers</Nav.Link>
-                </LinkContainer>
-                <LinkContainer to="/profile">
-                  <Nav.Link>Profile</Nav.Link>
-                </LinkContainer>
-                <LinkContainer to="/logout">
-                  <Nav.Link>Logout</Nav.Link>
-                </LinkContainer>
-              </Nav>
-            </Navbar.Collapse>
-          </Container>
-        </Navbar>
-      </header>
+    <div>
+      <h2>{departmentToEdit ? 'Edit' : 'Add'} Department</h2>
+      <form onSubmit={handleSubmit}>
+        <label>Name:</label>
+        <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
 
-      <FormContainer>
-        <h1>Sign In</h1>
+        <label>Description:</label>
+        <textarea value={description} onChange={(e) => setDescription(e.target.value)} />
 
-        <Form onSubmit={submitHandler}>
-          <Form.Group className="my-2" controlId="email">
-            <Form.Label>Email:</Form.Label>
-            <Form.Control
-              type="email"
-              name="email"
-              placeholder="Enter your email..."
-              onChange={onChangeHandler}
-            ></Form.Control>
-          </Form.Group>
-
-          <Form.Group className="my-2" controlId="password">
-            <Form.Label>Password:</Form.Label>
-            <Form.Control
-              type="password"
-              name="password"
-              placeholder="Enter your password..."
-              onChange={onChangeHandler}
-            ></Form.Control>
-          </Form.Group>
-
-          <Button type="submit" variant="primary" className="mt-3">
-            Sign In
-          </Button>
-        </Form>
-      </FormContainer>
-    </>
+        <button type="submit">{departmentToEdit ? 'Update' : 'Add'}</button>
+        <button type="button" onClick={onCancel}>Cancel</button>
+      </form>
+    </div>
   );
 };
 

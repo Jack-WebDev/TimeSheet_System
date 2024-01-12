@@ -19,6 +19,7 @@ const verifyToken = async (req, res, next) => {
   }
 };
 
+
 const isAdmin = async (req, res, next) => {
   let token = req.cookies.jwt;
 
