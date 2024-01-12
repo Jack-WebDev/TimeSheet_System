@@ -1,50 +1,74 @@
--- Users Table
-CREATE TABLE Users (
+-- Create Database
+CREATE DATABASE IF NOT EXISTS NDT_Timesheet;
+
+-- Use the Database
+USE NDT_Timesheet;
+
+-- Create User Table
+CREATE TABLE IF NOT EXISTS Users (
     UserID INT PRIMARY KEY AUTO_INCREMENT,
-    Name VARCHAR(255) NOT NULL,
-    Email VARCHAR(255) NOT NULL,
-    Password VARCHAR(255) NOT NULL);
-
--- Employees Table
-CREATE TABLE Employees (
-    EmployeeID INT PRIMARY KEY AUTO_INCREMENT,
-    UserID INT UNIQUE,
-    FirstName VARCHAR(255) NOT NULL,
-    LastName VARCHAR(255) NOT NULL,
-    Email VARCHAR(255) NOT NULL,
-    FOREIGN KEY (UserID) REFERENCES Users(UserID)
+    Username VARCHAR(50) NOT NULL,
+    Password VARCHAR(100) NOT NULL,  -- Use a secure hashing algorithm
+    Role ENUM('Employee', 'Manager', 'Administrator') NOT NULL
 );
 
--- Timesheets Table
-CREATE TABLE Timesheets (
+-- Create Department Table
+CREATE TABLE IF NOT EXISTS Departments (
+    DepartmentID INT PRIMARY KEY AUTO_INCREMENT,
+    DepartmentName VARCHAR(50) NOT NULL
+);
+
+-- Create Project Table
+CREATE TABLE IF NOT EXISTS Projects (
+    ProjectID INT PRIMARY KEY AUTO_INCREMENT,
+    ProjectName VARCHAR(50) NOT NULL,
+    DepartmentID INT,
+    FOREIGN KEY (DepartmentID) REFERENCES Departments(DepartmentID)
+);
+
+-- Create Timesheets Table
+CREATE TABLE IF NOT EXISTS Timesheets (
     TimesheetID INT PRIMARY KEY AUTO_INCREMENT,
-    EmployeeID INT,
-    Date DATE NOT NULL,
-    StartTime TIME NOT NULL,
-    EndTime TIME NOT NULL,
-    TotalHours DECIMAL(5,2) NOT NULL,
-    TaskDescription TEXT,
-    Status ENUM('Pending', 'Approved', 'Rejected') NOT NULL,
-    FOREIGN KEY (EmployeeID) REFERENCES Employees(EmployeeID)
+    UserID INT,
+    ProjectID INT,
+    StartTime DATETIME NOT NULL,
+    EndTime DATETIME NOT NULL,
+    HoursWorked DECIMAL(5, 2) NOT NULL,
+    Status ENUM('Draft', 'Submitted', 'Approved', 'Rejected') DEFAULT 'Draft',
+    SubmissionDate DATETIME,
+    ApprovalDate DATETIME,
+    FOREIGN KEY (UserID) REFERENCES Users(UserID),
+    FOREIGN KEY (ProjectID) REFERENCES Projects(ProjectID)
 );
 
--- Managers Table
-CREATE TABLE Managers (
-    ManagerID INT PRIMARY KEY AUTO_INCREMENT,
-    UserID INT UNIQUE,
-    FirstName VARCHAR(255) NOT NULL,
-    LastName VARCHAR(255) NOT NULL,
-    Email VARCHAR(255) NOT NULL,
-    FOREIGN KEY (UserID) REFERENCES Users(UserID)
+-- Create TimePeriods Table
+CREATE TABLE IF NOT EXISTS TimePeriods (
+    TimePeriodID INT PRIMARY KEY AUTO_INCREMENT,
+    PeriodType ENUM('Daily', 'Weekly', 'Monthly') NOT NULL,
+    StartDate DATE NOT NULL,
+    EndDate DATE NOT NULL
 );
 
--- Approvals Table
-CREATE TABLE Approvals (
-    ApprovalID INT PRIMARY KEY AUTO_INCREMENT,
+-- Create TimesheetTimePeriods Table (to associate timesheets with time periods)
+CREATE TABLE IF NOT EXISTS TimesheetTimePeriods (
     TimesheetID INT,
-    ManagerID INT,
-    ApprovalStatus ENUM('Approved', 'Rejected') NOT NULL,
-    Comments TEXT,
+    TimePeriodID INT,
+    PRIMARY KEY (TimesheetID, TimePeriodID),
     FOREIGN KEY (TimesheetID) REFERENCES Timesheets(TimesheetID),
-    FOREIGN KEY (ManagerID) REFERENCES Managers(ManagerID)
+    FOREIGN KEY (TimePeriodID) REFERENCES TimePeriods(TimePeriodID)
+);
+
+-- Create Reports Table (to store generated reports)
+CREATE TABLE IF NOT EXISTS Reports (
+    ReportID INT PRIMARY KEY AUTO_INCREMENT,
+    UserID INT,
+    DepartmentID INT,
+    ProjectID INT,
+    TimePeriodID INT,
+    ReportData TEXT,
+    GeneratedDate DATETIME,
+    FOREIGN KEY (UserID) REFERENCES Users(UserID),
+    FOREIGN KEY (DepartmentID) REFERENCES Departments(DepartmentID),
+    FOREIGN KEY (ProjectID) REFERENCES Projects(ProjectID),
+    FOREIGN KEY (TimePeriodID) REFERENCES TimePeriods(TimePeriodID)
 );

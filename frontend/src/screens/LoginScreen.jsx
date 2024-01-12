@@ -1,7 +1,9 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import FormContainer from "../components/FormContainer";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 const LoginScreen = () => {
   const [form, setForm] = useState({
@@ -9,7 +11,25 @@ const LoginScreen = () => {
     password: "",
   });
 
-  const submitHandler = (e) => {
+  const navigate = useNavigate();
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post(
+        "http://localhost:8001/api/users/login",
+        form
+      );
+      navigate("/home");
+      toast.success(response.data.message);
+    } catch (error) {
+      // Handle errors
+      toast.error("Invalid email or password");
+    }
+  };
+
+  const onChangeHandler = (e) => {
     e.preventDefault();
     setForm({
       ...form,
@@ -21,14 +41,14 @@ const LoginScreen = () => {
     <FormContainer>
       <h1>Sign In</h1>
 
-      <Form>
+      <Form onSubmit={submitHandler}>
         <Form.Group className="my-2" controlId="email">
           <Form.Label>Email:</Form.Label>
           <Form.Control
             type="email"
             name="email"
             placeholder="Enter your email..."
-            onChange={submitHandler}
+            onChange={onChangeHandler}
           ></Form.Control>
         </Form.Group>
 
@@ -38,7 +58,7 @@ const LoginScreen = () => {
             type="password"
             name="password"
             placeholder="Enter your password..."
-            onChange={submitHandler}
+            onChange={onChangeHandler}
           ></Form.Control>
         </Form.Group>
 

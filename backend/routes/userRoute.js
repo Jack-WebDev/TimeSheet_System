@@ -9,14 +9,9 @@ import {
   updateUserProfile,
 } from "../controllers/userController.js";
 
-import { protectRoutes } from "../middleware/authHandler.js";
-
 userRouter.post("/login", authUser);
 userRouter.post("/register", registerUser);
 userRouter.post("/logout", logOutUser);
-userRouter
-  .route("/profile")
-  .get(protectRoutes, getUserProfile)
-  .put(protectRoutes, updateUserProfile);
+userRouter.route("/profile").get(getUserProfile).put(updateUserProfile);
 
 export default userRouter;

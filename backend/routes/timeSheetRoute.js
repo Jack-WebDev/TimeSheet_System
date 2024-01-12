@@ -1,12 +1,19 @@
 import express from "express";
-const timeSheetRouter = express.Router();
+const timesheetRouter = express.Router();
 
 import {
-  getTimeSheets,
-  getTimeSheet,
+  getTimesheets,
+  getTimesheet,
+  createTimesheet,
+  deleteTimesheet,
+  updateTimesheet,
 } from "../controllers/timeSheetController.js";
 
-timeSheetRouter.get("/", getTimeSheets);
-timeSheetRouter.get("/timeSheet{id}", getTimeSheet);
+timesheetRouter.route("/timesheet").get(getTimesheets).post(createTimesheet);
+timesheetRouter
+  .route("/timesheet/:id")
+  .delete(deleteTimesheet)
+  .put(updateTimesheet)
+  .get(getTimesheet);
 
-export default timeSheetRouter;
+export default timesheetRouter;

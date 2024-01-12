@@ -1,28 +1,11 @@
-// import asyncHandler from "express-async-handler";
+
 import { pool } from "../models/database.js";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
-
-
-const comparePassword = async (password, hashedPassword) => {
-  try {
-    return await bcrypt.compare(password, hashedPassword);
-  } catch (error) {
-    console.error("Error comparing passwords:", error);
-    throw error;
-  }
-};
-
-const generateToken = (res,userID) => {
-  const token = jwt.sign({ userID }, process.env.JWT_KEY, { expiresIn: "1h" });
-
-  res.cookie('jwt', token, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV !== 'development',
-    sameSite: 'strict',
-    maxAge: 1 * 60 * 60 * 1000
-  })
-};
+import {
+  doesUserExist,
+  generateToken,
+  hashPassword,
+  comparePassword,
+} from "../middleware/authHandler.js";
 
 // Auth User
 // POST req api/users/auth
@@ -48,31 +31,6 @@ const authUser = async (req, res) => {
   }
 };
 
-const doesUserExist = async (email) => {
-  const query = "SELECT * FROM Users WHERE Email = ?";
-  const values = [email];
-
-  try {
-    const [rows] = await pool.query(query, values);
-
-    return rows.length > 0;
-  } catch (error) {
-    console.error(`Error checking user existence: ${error}`);
-    throw error;
-  }
-};
-
-const hashPassword = async (password) => {
-  try {
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-    return hashedPassword;
-  } catch (error) {
-    console.error(`Error hashing password: ${error}`);
-    throw error;
-  }
-};
-
 // Register User
 // POST req api/users
 // Public
@@ -94,7 +52,7 @@ const registerUser = async (req, res) => {
 
     await pool.query(insertQuery, insertValues);
 
-    return res.status(201).json({ message: "User has been registered!" });
+    return res.status(201).json({ message: "You has been registered!" });
   } catch (error) {
     console.error(`Error registering user: ${error}`);
     return res.status(500).json({ message: "Internal Server Error" });
@@ -105,19 +63,19 @@ const registerUser = async (req, res) => {
 // POST req api/users/logout
 // Public
 const logOutUser = async (req, res) => {
-  res.cookie('jwt gone','', {
+  res.cookie("jwt gone", "", {
     httpOnly: true,
-    expires: new Date(0)
-  })
+    expires: new Date(0),
+  });
 
-  res.status(200).json({message: "User Logged out!"})
+  res.status(200).json({ message: "User Logged out!" });
 };
 
 // User Profile
 // GET req api/users/profile
 // Private
 const getUserProfile = async (req, res) => {
-  console.log(req.user)
+  console.log(req.user);
 
   res.status(200).json({ message: "User Profile" });
 };

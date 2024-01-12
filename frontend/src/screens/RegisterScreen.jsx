@@ -1,7 +1,9 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import FormContainer from "../components/FormContainer";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const RegisterScreen = () => {
   const [form, setForm] = useState({
@@ -10,7 +12,26 @@ const RegisterScreen = () => {
     password: "",
   });
 
-  const submitHandler = (e) => {
+  const navigate = useNavigate();
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post(
+        "http://localhost:8001/api/users/register",
+        form
+      );
+      navigate("/home");
+      toast.success(response.data.message);
+    } catch (error) {
+      const res = error.response.data;
+      // Handle errors
+      toast.error(res.error);
+    }
+  };
+
+  const onChangeHandler = (e) => {
     e.preventDefault();
     setForm({
       ...form,
@@ -22,14 +43,15 @@ const RegisterScreen = () => {
     <FormContainer>
       <h1>Register</h1>
 
-      <Form>
+      <Form onSubmit={submitHandler}>
         <Form.Group className="my-2" controlId="name">
-          <Form.Label>Email:</Form.Label>
+          <Form.Label>Name:</Form.Label>
           <Form.Control
             type="text"
             name="name"
             placeholder="Enter your full name..."
-            onChange={submitHandler}
+            onChange={onChangeHandler}
+            required
           ></Form.Control>
         </Form.Group>
 
@@ -39,7 +61,8 @@ const RegisterScreen = () => {
             type="email"
             name="email"
             placeholder="Enter your email..."
-            onChange={submitHandler}
+            onChange={onChangeHandler}
+            required
           ></Form.Control>
         </Form.Group>
 
@@ -49,9 +72,20 @@ const RegisterScreen = () => {
             type="password"
             name="password"
             placeholder="Enter your password..."
-            onChange={submitHandler}
+            onChange={onChangeHandler}
+            required
           ></Form.Control>
         </Form.Group>
+
+        {/* <Form.Group className="my-2" controlId="confirmPassword">
+          <Form.Label>Confirm Password:</Form.Label>
+          <Form.Control
+            type="password"
+            name="confirmPassword"
+            placeholder="Confirm your password..."
+            onChange={onChangeHandler}
+          ></Form.Control>
+        </Form.Group> */}
 
         <Button type="submit" variant="primary" className="mt-3">
           Register
