@@ -8,12 +8,16 @@ import {
   deleteProject,
   updateProject,
 } from "../controllers/projectController.js";
+import { verifyToken, isAdmin } from "../middleware/protectRoute.js";
 
-projectRouter.route("/Project").get(getProjects).post(createProject);
+projectRouter
+  .route("/Project")
+  .get(verifyToken, isAdmin, getProjects)
+  .post(verifyToken, isAdmin, createProject);
 projectRouter
   .route("/Project/:id")
-  .delete(deleteProject)
-  .put(updateProject)
-  .get(getProject);
+  .delete(verifyToken, isAdmin, deleteProject)
+  .put(verifyToken, isAdmin, updateProject)
+  .get(verifyToken, isAdmin, getProject);
 
 export default projectRouter;

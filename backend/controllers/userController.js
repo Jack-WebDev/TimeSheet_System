@@ -1,4 +1,3 @@
-
 import { pool } from "../models/database.js";
 import {
   doesUserExist,
@@ -35,7 +34,7 @@ const authUser = async (req, res) => {
 // POST req api/users
 // Public
 const registerUser = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, role } = req.body;
 
   const userExists = await doesUserExist(email);
 
@@ -47,8 +46,8 @@ const registerUser = async (req, res) => {
     const hashedPassword = await hashPassword(password);
 
     const insertQuery =
-      "INSERT INTO Users (Name, Email, Password) VALUES (?,?,?)";
-    const insertValues = [name, email, hashedPassword];
+      "INSERT INTO Users (Name, Email, Password, Role) VALUES (?,?,?,?)";
+    const insertValues = [name, email, hashedPassword, role];
 
     await pool.query(insertQuery, insertValues);
 
@@ -69,6 +68,13 @@ const logOutUser = async (req, res) => {
   });
 
   res.status(200).json({ message: "User Logged out!" });
+};
+
+const getAllUsers = async (req, res) => {
+  const query = "SELECT * FROM USERS";
+  const response = await pool.query(query);
+
+  res.status(201).json({ response });
 };
 
 // User Profile
@@ -106,6 +112,7 @@ export {
   authUser,
   registerUser,
   logOutUser,
+  getAllUsers,
   getUserProfile,
   updateUserProfile,
 };
