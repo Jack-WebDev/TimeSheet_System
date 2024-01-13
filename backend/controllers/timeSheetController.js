@@ -11,7 +11,7 @@ const getTimesheets = asyncHandler(async (req, res) => {
     if (rows.length === 0) {
       return res.status(401).json({ message: "No Timesheets available" });
     }
-    res.status(200).json({ message: "All Timesheets" });
+    res.status(200).json({ rows });
   } catch (error) {
     console.error("Error getting timesheets", error);
   }
@@ -21,17 +21,18 @@ const getTimesheets = asyncHandler(async (req, res) => {
 // Post req
 // Public
 const createTimesheet = asyncHandler(async (req, res) => {
-  const { date, startTime, endTime, taskDescription } = req.body;
+  const {  } = req.body;
 
   try {
-    const query =
-      "INSERT INTO Timesheets(Date, StartTime, EndTime,TaskDescription) VALUES (?,?,?,?)";
-    const values = [date, startTime, endTime, taskDescription];
+    const query = "INSERT INTO Projects (ProjectName) VALUES (?)";
+    const value = [projectName];
 
-    await pool.query(query, values);
-    res.status(200).json({ message: "Timesheet Created" });
+    await pool.query(query, value);
+
+    res.status(200).json({ message: "Project created!" });
   } catch (error) {
-    console.error("Error creating timesheet", error);
+    console.error("Error creating project", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
@@ -39,28 +40,45 @@ const createTimesheet = asyncHandler(async (req, res) => {
 // Get req
 // Public
 const getTimesheet = asyncHandler(async (req, res) => {
-  
-  try {
-    const query = "SELECT * FROM Timesheet WHERE TimesheetID = ?"
+  const { id } = req.params;
 
+  try {
+    const query = "SELECT * FROM Timesheets WHERE TimesheetID = ?";
+    const value = [id];
+
+    const response = await pool.query(query, value);
+
+    res.status(200).json({ message: response[0][0] });
   } catch (error) {
-    
+    console.error("Error getting project", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
-  res.status(200).json({ message: "Get Timesheet" });
 });
 
 // Delete Timesheet by ID
 // Delete req
 // Public
 const deleteTimesheet = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: "Timesheet Deleted" });
+  const { id } = req.params;
+
+  try {
+    const query = "DELETE FROM Timesheets WHERE TimesheetsID = ?";
+    const values = [id];
+
+    await pool.query(query, values);
+
+    res.status(200).json({ message: "Project deleted!" });
+  } catch (error) {
+    console.error("Error deleting project", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 // Update Timesheet by ID
 // Put req
 // Public
 const updateTimesheet = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: "Timesheet Updated" });
+  
 });
 
 export {
