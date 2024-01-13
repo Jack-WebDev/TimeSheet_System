@@ -27,9 +27,7 @@ const createDepartment = asyncHandler(async (req, res) => {
     const query = "INSERT INTO Departments (DepartmentName) VALUES (?)";
     const values = [departmentName];
 
-    const response = await pool.query(query, values);
-
-    console.log(response);
+    await pool.query(query, values);
 
     res.status(200).json({ message: "Department created!" });
   } catch (error) {
@@ -42,31 +40,34 @@ const createDepartment = asyncHandler(async (req, res) => {
 // Get req
 // Public
 const getDepartment = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
   try {
-    const query = "SELECT * FROM Deparments WHERE DepartmentID = ?";
-  } catch (error) {}
-  res.status(200).json({ message: "Get Department" });
+    const query = "SELECT * FROM Departments WHERE DepartmentID = ?";
+    const value = [id];
+
+    const response = await pool.query(query, value);
+
+    res.status(200).json({ message: response[0][0] });
+  } catch (error) {
+    console.error("Error getting department", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 // Delete Department by ID
 // Delete req
 // Public
 const deleteDepartment = asyncHandler(async (req, res) => {
-  const {departmentID} = req.params.id; // Assuming you pass the department ID as a URL parameter
+  const { id } = req.params;
 
-  // console.log(departmentID)
   try {
     const query = "DELETE FROM Departments WHERE DepartmentID = ?";
-    const values = [departmentID];
-    // console.log(values[0])
+    const values = [id];
 
-    const result = await pool.query(query, values);
+    await pool.query(query, values);
 
-    if (result.affectedRows > 0) {
-      res.status(200).json({ message: "Department deleted successfully." });
-    } else {
-      res.status(404).json({ error: "Department not found." });
-    }
+    res.status(200).json({ message: "Department deleted!" });
   } catch (error) {
     console.error("Error deleting department", error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -77,7 +78,20 @@ const deleteDepartment = asyncHandler(async (req, res) => {
 // Put req
 // Public
 const updateDepartment = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: "Department Updated" });
+  const { id } = req.params;
+  const { departmentName } = req.body;
+
+  try {
+    const query =
+      "UPDATE Departments SET DepartmentName = ? WHERE DepartmentID = ?";
+    const values = [departmentName, id];
+    await pool.query(query, values);
+
+    res.status(200).json({ message: "Department Updated" });
+  } catch (error) {
+    console.error("Error updating department", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 export {
