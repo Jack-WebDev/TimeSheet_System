@@ -10,29 +10,26 @@ CREATE TABLE Users (
 
 -- Create Department Table
 CREATE TABLE Departments (
-    DepartmentID INT PRIMARY KEY AUTO_INCREMENT,
-    DepartmentName VARCHAR(50) NOT NULL
+    DepartmentName VARCHAR(50) NOT NULL PRIMARY KEY
 );
 
 -- Create Project Table
 CREATE TABLE Projects (
-    ProjectID INT PRIMARY KEY AUTO_INCREMENT,
-    ProjectName VARCHAR(50) NOT NULL,
-    DepartmentID INT,
-    FOREIGN KEY (DepartmentID) REFERENCES Departments(DepartmentID)
+    ProjectName VARCHAR(50) NOT NULL UNIQUE,
+    DepartmentName VARCHAR(50),
+    FOREIGN KEY (DepartmentName) REFERENCES Departments(DepartmentName)
 );
 
 -- Create Timesheets Table
 CREATE TABLE Timesheets (
     TimesheetID INT PRIMARY KEY AUTO_INCREMENT,
-    UserID INT,
-    ProjectID INT,
+    FullName VARCHAR(255),
+    ProjectName VARCHAR(50),
     StartTime DATETIME NOT NULL,
     EndTime DATETIME NOT NULL,
     HoursWorked DECIMAL(5, 2) NOT NULL,
-    Status ENUM('Draft', 'Submitted', 'Approved', 'Rejected') DEFAULT 'Draft',
+    Status ENUM('Submitted', 'Approved', 'Rejected') DEFAULT 'Submitted',
     SubmissionDate DATETIME,
-    FOREIGN KEY (UserID) REFERENCES Users(UserID),
-    FOREIGN KEY (ProjectID) REFERENCES Projects(ProjectID)
+    FOREIGN KEY (ProjectName) REFERENCES Projects(ProjectName)
 );
 

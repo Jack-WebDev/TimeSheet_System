@@ -21,13 +21,29 @@ const getTimesheets = asyncHandler(async (req, res) => {
 // Post req
 // Public
 const createTimesheet = asyncHandler(async (req, res) => {
-  const {  } = req.body;
+  const {
+    fullName,
+    projectName,
+    startTime,
+    endTime,
+    hoursWorked,
+    submissionDate,
+  } = req.body;
+
 
   try {
-    const query = "INSERT INTO Projects (ProjectName) VALUES (?)";
-    const value = [projectName];
+    const query =
+      "INSERT INTO Timesheets (FullName,ProjectName, StartTime,EndTime,HoursWorked, SubmissionDate) VALUES (?,?,?,?,?,?)";
+    const values = [
+      fullName,
+      projectName,
+      startTime,
+      endTime,
+      hoursWorked,
+      submissionDate,
+    ];
 
-    await pool.query(query, value);
+    await pool.query(query, values);
 
     res.status(200).json({ message: "Project created!" });
   } catch (error) {
@@ -77,9 +93,7 @@ const deleteTimesheet = asyncHandler(async (req, res) => {
 // Update Timesheet by ID
 // Put req
 // Public
-const updateTimesheet = asyncHandler(async (req, res) => {
-  
-});
+const updateTimesheet = asyncHandler(async (req, res) => {});
 
 export {
   getTimesheets,
