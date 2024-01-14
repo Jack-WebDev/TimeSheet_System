@@ -13,7 +13,7 @@ const getDepartments = asyncHandler(async (req, res) => {
     }
     res.status(200).json({ rows });
   } catch (error) {
-    console.error("Error getting depeartments", error);
+    console.error("Error getting departments", error);
   }
 });
 

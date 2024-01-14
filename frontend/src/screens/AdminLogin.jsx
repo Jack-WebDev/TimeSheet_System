@@ -5,7 +5,7 @@ import FormContainer from "../components/FormContainer";
 import { toast } from "react-toastify";
 import axios from "axios";
 
-const LoginScreen = () => {
+const AdminLogin = () => {
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -17,11 +17,14 @@ const LoginScreen = () => {
     e.preventDefault();
 
     try {
+      axios.defaults.withCredentials = true;
       const response = await axios.post(
-        "http://localhost:8001/api/users/login",
+        "http://localhost:8001/api/auth/admin/login",
         form
       );
-      navigate("/home");
+      console.log(response);
+
+      navigate("/admin");
       toast.success(response.data.message);
     } catch (error) {
       // Handle errors
@@ -76,4 +79,4 @@ const LoginScreen = () => {
   );
 };
 
-export default LoginScreen;
+export default AdminLogin;

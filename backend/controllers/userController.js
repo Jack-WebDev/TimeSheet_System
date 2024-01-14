@@ -22,8 +22,8 @@ const authUser = async (req, res) => {
     if (!isPasswordValid) {
       return res.status(401).json({ error: "Invalid credentials" });
     }
-    const token = generateToken(res, user.UserID);
-    return res.json({ message: "Login successful", token });
+    const token = generateToken(res, user.UserID, user.role);
+    return res.json({ token });
   } catch (error) {
     console.error("Error during login:", error);
     return res.status(500).json({ error: "Internal Server Error" });
@@ -49,9 +49,9 @@ const registerUser = async (req, res) => {
       "INSERT INTO Users (Name, Email, Password, Role) VALUES (?,?,?,?)";
     const insertValues = [name, email, hashedPassword, role];
 
-    await pool.query(insertQuery, insertValues);
+    const response = await pool.query(insertQuery, insertValues);
 
-    return res.status(201).json({ message: "You has been registered!" });
+    return res.status(201).json({ response });
   } catch (error) {
     console.error(`Error registering user: ${error}`);
     return res.status(500).json({ message: "Internal Server Error" });

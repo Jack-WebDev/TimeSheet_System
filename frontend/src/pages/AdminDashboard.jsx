@@ -1,30 +1,9 @@
-// import axios from "axios";
-import { useEffect, useState } from "react";
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { FaSignOutAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 
-const DashboardScreen = () => {
-  const [timesheets, setTimesheets] = useState(null);
-
-  useEffect(() => {
-    const fetchTimesheets = async () => {
-      const response = await fetch(
-        "http://localhost:8001/api/employee/timesheet"
-      );
-      const data = await response.json();
-
-      console.log(data);
-
-      if (response.ok) {
-        setTimesheets(data);
-      }
-    };
-
-    fetchTimesheets();
-  }, [setTimesheets]);
-
+const AdminDashboard = () => {
   return (
     <>
       <header className="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow py-3">
@@ -118,18 +97,6 @@ const DashboardScreen = () => {
                 </button>
               </div>
             </div>
-
-            <h1>
-              {timesheets &&
-                timesheets.map((timesheet) => (
-                  <ul key={timesheet.TimesheetID}>
-                    <li>{timesheet.fullName}</li>
-                    <li>{timesheet.startTime}</li>
-                    <li>{timesheet.endTime}</li>
-                    <li>{timesheet.hoursWorked}</li>
-                  </ul>
-                ))}
-            </h1>
           </main>
         </div>
       </div>
@@ -137,4 +104,4 @@ const DashboardScreen = () => {
   );
 };
 
-export default DashboardScreen;
+export default AdminDashboard;

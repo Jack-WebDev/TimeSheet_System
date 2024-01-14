@@ -1,30 +1,9 @@
-// import axios from "axios";
-import { useEffect, useState } from "react";
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { FaSignOutAlt } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import {Link} from 'react-router-dom'
 import { LinkContainer } from "react-router-bootstrap";
 
-const DashboardScreen = () => {
-  const [timesheets, setTimesheets] = useState(null);
-
-  useEffect(() => {
-    const fetchTimesheets = async () => {
-      const response = await fetch(
-        "http://localhost:8001/api/employee/timesheet"
-      );
-      const data = await response.json();
-
-      console.log(data);
-
-      if (response.ok) {
-        setTimesheets(data);
-      }
-    };
-
-    fetchTimesheets();
-  }, [setTimesheets]);
-
+const EmployeeDashboard = () => {
   return (
     <>
       <header className="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow py-3">
@@ -93,8 +72,16 @@ const DashboardScreen = () => {
           </nav>
 
           <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <div className="chartjs-size-monitor">
+              <div className="chartjs-size-monitor-expand">
+                <div className=""></div>
+              </div>
+              <div className="chartjs-size-monitor-shrink">
+                <div className=""></div>
+              </div>
+            </div>
             <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-              <h1 className="h2">Hello Admin!</h1>
+              <h1 className="h2">Welcome to the Employee Timesheet Dashboard!</h1>
               <div className="btn-toolbar mb-2 mb-md-0">
                 <div className="btn-group me-2">
                   <button
@@ -118,18 +105,6 @@ const DashboardScreen = () => {
                 </button>
               </div>
             </div>
-
-            <h1>
-              {timesheets &&
-                timesheets.map((timesheet) => (
-                  <ul key={timesheet.TimesheetID}>
-                    <li>{timesheet.fullName}</li>
-                    <li>{timesheet.startTime}</li>
-                    <li>{timesheet.endTime}</li>
-                    <li>{timesheet.hoursWorked}</li>
-                  </ul>
-                ))}
-            </h1>
           </main>
         </div>
       </div>
@@ -137,4 +112,4 @@ const DashboardScreen = () => {
   );
 };
 
-export default DashboardScreen;
+export default EmployeeDashboard;

@@ -11,7 +11,7 @@ const getTimesheets = asyncHandler(async (req, res) => {
     if (rows.length === 0) {
       return res.status(401).json({ message: "No Timesheets available" });
     }
-    res.status(200).json({ rows });
+    res.status(200).json(rows);
   } catch (error) {
     console.error("Error getting timesheets", error);
   }
