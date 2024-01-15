@@ -1,9 +1,61 @@
-import { Navbar, Nav, Container } from "react-bootstrap";
+import { Navbar, Nav, Container, Card } from "react-bootstrap";
 import { FaSignOutAlt } from "react-icons/fa";
-import {Link} from 'react-router-dom'
 import { LinkContainer } from "react-router-bootstrap";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import TimesheetForm from "../screens/TimesheetForm";
+import { toast } from "react-toastify";
 
 const EmployeeDashboard = () => {
+  const [timesheets, setTimesheets] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchTimesheets = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:8001/api/employee/timesheet"
+        );
+
+        setTimesheets(response.data);
+      } catch (error) {
+        console.error("Error fetching timesheets:", error);
+        toast.error("Error fetching timesheets. Please try again.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTimesheets();
+  }, []);
+
+  const renderTimesheetCard = (timesheet) => (
+    <div key={timesheet.TimesheetID}>
+      <Container className="d-flex justify-content-center mb-3">
+        <Card className="p-5 d-flex flex-column align-items-center hero-card bg-light w-75">
+          <p className="fs-4">Full Name: {timesheet.FullName}</p>
+          <p className="fs-4">Project Name: {timesheet.ProjectName}</p>
+          <p className="fs-4">Start Date: {formatDate(timesheet.StartTime)}</p>
+          <p className="fs-4">End Date: {formatDate(timesheet.EndTime)}</p>
+          <p className="fs-4">Hours Worked: {timesheet.HoursWorked} hours</p>
+          <p className="fs-4">Timesheet Status: {timesheet.Status}</p>
+          <p className="fs-4">Created At: {timesheet.SubmissionDate}</p>
+        </Card>
+      </Container>
+    </div>
+  );
+
+  const formatDate = (dateString) => {
+    const options = {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
+
   return (
     <>
       <header className="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow py-3">
@@ -24,7 +76,7 @@ const EmployeeDashboard = () => {
           </button>
           <div className="navbar-nav">
             <div className="nav-item text-nowrap">
-              <LinkContainer to="/">
+              <LinkContainer to="/logout">
                 <Nav.Link>
                   <FaSignOutAlt /> Sign Out
                 </Nav.Link>
@@ -36,74 +88,24 @@ const EmployeeDashboard = () => {
 
       <div className="container-fluid">
         <div className="row">
-          <nav
-            id="sidebarMenu"
-            className="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse"
-          >
-            <div className="position-sticky pt-3">
-              <ul className="nav flex-column">
-                <li className="nav-item">
-                  <a className="nav-link active" aria-current="page" href="#">
-                    Home
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to={"/employees"}>
-                    Manage Employees
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to={"/department"}>
-                    Manage Departments
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to={"/projects"}>
-                    Manage Projects
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to={"/timeperiods"}>
-                    Manage Time Periods
-                  </Link>
-                </li>
-              </ul>
+          <main className="col-md-9 col-lg-10 px-md-4">
+            <div className="d-flex justify-content-center flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
+              <h1 className="h2">
+                Welcome to the Employee Timesheet Dashboard!
+              </h1>
             </div>
-          </nav>
 
-          <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-            <div className="chartjs-size-monitor">
-              <div className="chartjs-size-monitor-expand">
-                <div className=""></div>
-              </div>
-              <div className="chartjs-size-monitor-shrink">
-                <div className=""></div>
-              </div>
-            </div>
-            <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-              <h1 className="h2">Welcome to the Employee Timesheet Dashboard!</h1>
-              <div className="btn-toolbar mb-2 mb-md-0">
-                <div className="btn-group me-2">
-                  <button
-                    type="button"
-                    className="btn btn-sm btn-outline-secondary"
-                  >
-                    Share
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-sm btn-outline-secondary"
-                  >
-                    Export
-                  </button>
-                </div>
-                <button
-                  type="button"
-                  className="btn btn-sm btn-outline-secondary dropdown-toggle"
-                >
-                  This week
-                </button>
-              </div>
+            <TimesheetForm />
+
+            {loading && <p>Loading timesheets...</p>}
+
+            <div className="timesheet">
+              <h2 className="h2">Your Timesheets</h2>
+              {timesheets.length === 0 ? (
+                <p className="p">No timesheets available.</p>
+              ) : (
+                timesheets.map(renderTimesheetCard)
+              )}
             </div>
           </main>
         </div>

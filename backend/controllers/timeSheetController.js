@@ -8,9 +8,9 @@ const getTimesheets = asyncHandler(async (req, res) => {
   try {
     const query = "SELECT * FROM Timesheets";
     const [rows] = await pool.query(query);
-    if (rows.length === 0) {
-      return res.status(401).json({ message: "No Timesheets available" });
-    }
+    // if (rows.length === 0) {
+    //   return res.status(401).json({ message: "No Timesheets available" });
+    // }
     res.status(200).json(rows);
   } catch (error) {
     console.error("Error getting timesheets", error);
@@ -27,20 +27,18 @@ const createTimesheet = asyncHandler(async (req, res) => {
     startTime,
     endTime,
     hoursWorked,
-    submissionDate,
   } = req.body;
 
 
   try {
     const query =
-      "INSERT INTO Timesheets (FullName,ProjectName, StartTime,EndTime,HoursWorked, SubmissionDate) VALUES (?,?,?,?,?,?)";
+      "INSERT INTO Timesheets (FullName,ProjectName, StartTime,EndTime,HoursWorked) VALUES (?,?,?,?,?)";
     const values = [
       fullName,
       projectName,
       startTime,
       endTime,
       hoursWorked,
-      submissionDate,
     ];
 
     await pool.query(query, values);

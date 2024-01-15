@@ -78,16 +78,6 @@ const RegisterScreen = () => {
           ></Form.Control>
         </Form.Group>
 
-        <Form.Group className="my-2" controlId="role">
-          <Form.Label>Role:</Form.Label>
-          <Form.Control
-            type="text"
-            name="role"
-            placeholder="What's your role?"
-            onChange={onChangeHandler}
-          ></Form.Control>
-        </Form.Group>
-
         <Button type="submit" variant="primary" className="mt-3">
           Register
         </Button>

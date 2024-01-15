@@ -22,7 +22,7 @@ const authUser = async (req, res) => {
     if (!isPasswordValid) {
       return res.status(401).json({ error: "Invalid credentials" });
     }
-    const token = generateToken(res, user.UserID, user.role);
+    const token = generateToken(res, user.UserID);
     return res.json({ token });
   } catch (error) {
     console.error("Error during login:", error);
@@ -46,8 +46,8 @@ const registerUser = async (req, res) => {
     const hashedPassword = await hashPassword(password);
 
     const insertQuery =
-      "INSERT INTO Users (Name, Email, Password, Role) VALUES (?,?,?,?)";
-    const insertValues = [name, email, hashedPassword, role];
+      "INSERT INTO Users (Name, Email, Password) VALUES (?,?,?)";
+    const insertValues = [name, email, hashedPassword];
 
     const response = await pool.query(insertQuery, insertValues);
 
@@ -62,11 +62,11 @@ const registerUser = async (req, res) => {
 // POST req api/users/logout
 // Public
 const logOutUser = async (req, res) => {
-  res.cookie("jwt gone", "", {
-    httpOnly: true,
-    expires: new Date(0),
-  });
-
+  // res.cookie("jwt gone", "", {
+  //   httpOnly: true,
+  //   expires: new Date(0),
+  // });
+  res.clearCookie("jwt")
   res.status(200).json({ message: "User Logged out!" });
 };
 

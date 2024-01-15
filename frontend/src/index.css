@@ -1,0 +1,29 @@
+
+.h2 {
+    margin-block-end: 3rem;
+    text-align: center;
+}
+.timesheet {
+    position: relative;
+    top: 5rem;
+}
+
+.form {
+    display: grid;
+    gap: 2rem;
+    width: 50%;
+    margin: auto;
+}
+
+.form button {
+    display: inline-block;
+    width: max-content;
+}
+
+
+.p {
+    text-align: center;
+    font-size: 4rem;
+    font-family: fantasy;
+    margin-block: 5rem;
+}
