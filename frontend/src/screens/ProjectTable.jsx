@@ -6,9 +6,9 @@ import {toast} from 'react-toastify'
 
 
 const ProjectTable = () => {
-  const [departments, setDepartments] = useState([])
+  const [projects, setProjects] = useState([])
   const [showModal, setShowModal] = useState(false);
-  const [newDepartment, setNewDepartment] = useState({ name: '', projects: 0 });
+  const [newProject, setNewProject] = useState({ name: '', projects: 0 });
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -16,7 +16,8 @@ const ProjectTable = () => {
         const response = await axios.get(
           "http://localhost:8001/api/admin/project"
         );
-        setDepartments(response.data.rows);
+        console.log(response.data.rows)
+        setProjects(response.data.rows);
       } catch (error) {
         console.error("Error fetching users:", error);
         toast.error("Forbidden: Admin access required!");
@@ -37,14 +38,14 @@ const ProjectTable = () => {
 
   const handleAddDepartment = () => {
     // Add logic to handle adding a new department (e.g., API call)
-    console.log('Adding department:', newDepartment);
+    console.log('Adding department:', newProject);
     // Close the modal after adding
     handleCloseModal();
   };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setNewDepartment((prev) => ({ ...prev, [name]: value }));
+    setNewProject((prev) => ({ ...prev, [name]: value }));
   };
 
   return (
@@ -52,47 +53,35 @@ const ProjectTable = () => {
       <Table striped bordered hover>
         <thead>
           <tr>
-            <th>Department Name</th>
-            <th>Number of Projects</th>
+            <th>Projects</th>
           </tr>
         </thead>
         <tbody>
-          {departments.map((department) => (
-            <tr key={department.DepartmentID}>
-              <td>{department.DepartmentName}</td>
-              <td>{department.projects}</td>
+          {projects.map((project) => (
+            <tr key={project.ProjectID}>
+              <td>{project.ProjectName}</td>
             </tr>
           ))}
         </tbody>
       </Table>
 
       <Button variant="primary" onClick={handleShowModal}>
-        Add Department
+        Add Project
       </Button>
 
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
-          <Modal.Title>Add Department</Modal.Title>
+          <Modal.Title>Add Project</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
-            <Form.Group controlId="departmentName">
-              <Form.Label>Department Name</Form.Label>
+            <Form.Group controlId="projectName">
+              <Form.Label>Project Name</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Enter department name"
                 name="name"
-                value={newDepartment.name}
-                onChange={handleInputChange}
-              />
-            </Form.Group>
-            <Form.Group controlId="numberOfProjects">
-              <Form.Label>Number of Projects</Form.Label>
-              <Form.Control
-                type="number"
-                placeholder="Enter number of projects"
-                name="projects"
-                value={newDepartment.projects}
+                value={newProject.name}
                 onChange={handleInputChange}
               />
             </Form.Group>
@@ -103,7 +92,7 @@ const ProjectTable = () => {
             Close
           </Button>
           <Button variant="primary" onClick={handleAddDepartment}>
-            Add Department
+            Add Project
           </Button>
         </Modal.Footer>
       </Modal>

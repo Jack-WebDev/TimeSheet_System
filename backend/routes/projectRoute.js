@@ -11,11 +11,11 @@ import {
 import { verifyToken, isAdmin } from "../middleware/protectRoute.js";
 
 projectRouter
-  .route("/Project")
+  .route("/project")
   .get(verifyToken, isAdmin, getProjects)
   .post(verifyToken, isAdmin, createProject);
 projectRouter
-  .route("/Project/:id")
+  .route("/project/:id")
   .delete(verifyToken, isAdmin, deleteProject)
   .put(verifyToken, isAdmin, updateProject)
   .get(verifyToken, isAdmin, getProject);
