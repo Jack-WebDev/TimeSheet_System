@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 const ManageTimesheets = () => {
   const [timesheets, setTimesheets] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
   const handleToggle = () => {
