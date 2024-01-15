@@ -34,7 +34,6 @@ CREATE TABLE Timesheets (
     EndTime DATETIME NOT NULL,
     HoursWorked DECIMAL(5, 2) NOT NULL,
     Status ENUM('Pending', 'Approved', 'Rejected') DEFAULT 'Pending',
-    CREATED_AT DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (ProjectName) REFERENCES Projects(ProjectName)
+    CREATED_AT DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 

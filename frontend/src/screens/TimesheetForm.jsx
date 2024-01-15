@@ -91,7 +91,7 @@ const TimesheetForm = () => {
       {hoursWorked && (
         <div>
           <Container className="d-flex justify-content-center mb-3">
-            <Card className="p-5 d-flex flex-column align-items-start hero-card bg-light w-75">
+            <Card className="p-5 d-flex flex-column align-items-start hero-card bg-light">
               <p className="fs-4">Full Name: {fullName}</p>
               <p className="fs-4">Project Name: {projectName}</p>
               <p className="fs-4">Start Date: {startTime}</p>

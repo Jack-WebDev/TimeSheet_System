@@ -32,14 +32,32 @@ const EmployeeDashboard = () => {
   const renderTimesheetCard = (timesheet) => (
     <div key={timesheet.TimesheetID}>
       <Container className="d-flex justify-content-center mb-3">
-        <Card className="p-5 d-flex flex-column align-items-center hero-card bg-light w-75">
+        <Card className="p-5 d-flex flex-column align-items-center hero-card bg-light">
           <p className="fs-4">Full Name: {timesheet.FullName}</p>
           <p className="fs-4">Project Name: {timesheet.ProjectName}</p>
           <p className="fs-4">Start Date: {formatDate(timesheet.StartTime)}</p>
           <p className="fs-4">End Date: {formatDate(timesheet.EndTime)}</p>
           <p className="fs-4">Hours Worked: {timesheet.HoursWorked} hours</p>
-          <p className="fs-4">Timesheet Status: {timesheet.Status}</p>
-          <p className="fs-4">Created At: {timesheet.SubmissionDate}</p>
+          {timesheet.Status === "Pending" && (
+            <p className="fs-4">
+              Timesheet Status:{" "}
+              <span className="text-warning">{timesheet.Status}</span>
+            </p>
+          )}
+
+          {timesheet.Status === "Approved" && (
+            <p className="fs-4">
+              Timesheet Status:{" "}
+              <span className="text-success">{timesheet.Status}</span>
+            </p>
+          )}
+
+          {timesheet.Status === "Rejected" && (
+            <p className="fs-4">
+              Timesheet Status:{" "}
+              <span className="text-danger">{timesheet.Status}</span>
+            </p>
+          )}
         </Card>
       </Container>
     </div>
