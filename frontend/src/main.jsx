@@ -22,7 +22,7 @@ import AdminDashboard from "./pages/AdminDashboard.jsx";
 import ManagerDashboard from "./pages/ManagerDashboard.jsx";
 import EmployeeDashboard from "./pages/EmployeeDashboard.jsx";
 import Logout from "./components/Logout.jsx"
-
+import ManageTimesheets from "./screens/ManageTimesheets.jsx"
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -35,6 +35,8 @@ const router = createBrowserRouter(
 
       <Route path="/managerLogin" element={<ManagerLogin />} />
       <Route path="/manager" element={<ManagerDashboard />} />
+      <Route path="/manageTimesheets" element={<ManageTimesheets />} />
+
       <Route path="/register" element={<RegisterScreen />} />
       <Route path="/employees" element={<EmployeesScreen />} />
       <Route path="/department" element={<DepartmentScreen />} />

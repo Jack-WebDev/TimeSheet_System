@@ -1,9 +1,10 @@
-import { Navbar, Nav, Container } from "react-bootstrap";
+import { Navbar, Nav, Container} from "react-bootstrap";
 import { FaSignOutAlt } from "react-icons/fa";
-import {Link} from 'react-router-dom'
+import { Link } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 
 const ManagerDashboard = () => {
+ 
   return (
     <>
       <header className="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow py-3">
@@ -42,44 +43,26 @@ const ManagerDashboard = () => {
           >
             <div className="position-sticky pt-3">
               <ul className="nav flex-column">
-                <li className="nav-item">
-                  <a className="nav-link active" aria-current="page" href="#">
+              <li className="nav-item">
+                  <Link className="nav-link" to={"/manager"}>
                     Home
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to={"/employees"}>
-                    Manage Employees
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to={"/department"}>
-                    Manage Departments
+                  <Link className="nav-link" to={"/manageTimesheets"}>
+                    Manage Timesheets
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to={"/projects"}>
-                    Manage Projects
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to={"/timeperiods"}>
-                    Manage Time Periods
+                  <Link className="nav-link" to={"#"}>
+                    Generate Reports
                   </Link>
                 </li>
               </ul>
             </div>
           </nav>
 
-          <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-            <div className="chartjs-size-monitor">
-              <div className="chartjs-size-monitor-expand">
-                <div className=""></div>
-              </div>
-              <div className="chartjs-size-monitor-shrink">
-                <div className=""></div>
-              </div>
-            </div>
+          <main className="col-md-9 col-lg-10 px-md-4">
             <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
               <h1 className="h2">Goodday Manager!</h1>
               <div className="btn-toolbar mb-2 mb-md-0">
@@ -97,13 +80,8 @@ const ManagerDashboard = () => {
                     Export
                   </button>
                 </div>
-                <button
-                  type="button"
-                  className="btn btn-sm btn-outline-secondary dropdown-toggle"
-                >
-                  This week
-                </button>
               </div>
+
             </div>
           </main>
         </div>

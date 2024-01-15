@@ -1,55 +1,49 @@
-// Import statements...
+<div key={timesheet.TimesheetID}>
+      <Container className="d-flex justify-content-center mb-3">
+        <Card className="p-5 d-flex flex-column align-items-center hero-card bg-light">
+          {!isExpanded ? (
+            <>
+              <p>Name: {timesheet.FullName}</p>
+              <p>Project Name: {timesheet.ProjectName}</p>
+            </>
+          ) : null}
 
-const EmployeeDashboard = () => {
-    const [timesheets, setTimesheets] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-  
-    useEffect(() => {
-      const fetchTimesheets = async () => {
-        try {
-          const response = await axios.get(process.env.REACT_APP_API_ENDPOINT);
-          setTimesheets(response.data);
-        } catch (error) {
-          console.error("Error fetching timesheets:", error);
-          setError("Error fetching timesheets. Please try again.");
-        } finally {
-          setLoading(false);
-        }
-      };
-  
-      fetchTimesheets();
-    }, []);
-  
-    const renderTimesheetCard = (timesheet) => (
-      <div key={timesheet.TimesheetID}>
-        {/* Card rendering logic... */}
-      </div>
-    );
-  
-    return (
-      <>
-        {/* Header code... */}
-  
-        <div className="container-fluid">
-          <div className="row">
-            <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-              {/* Page title... */}
-              
-              <TimesheetForm/>
-  
-              {loading && <p>Loading timesheets...</p>}
-              {error && <p>{error}</p>}
-  
-              <div>
-                {timesheets.map(renderTimesheetCard)}
+          <Button variant="primary" onClick={handleToggle}>
+            {isExpanded ? "Hide" : "View"}
+          </Button>
+
+          {isExpanded && (
+            <div className="mt-3">
+              <p className="fs-4">Full Name: {timesheet.FullName}</p>
+              <p className="fs-4">Project Name: {timesheet.ProjectName}</p>
+              <p className="fs-4">
+                Start Date: {formatDate(timesheet.StartTime)}
+              </p>
+              <p className="fs-4">End Date: {formatDate(timesheet.EndTime)}</p>
+              <p className="fs-4">
+                Hours Worked: {timesheet.HoursWorked} hours
+              </p>
+
+              {/* Approve and Reject Buttons */}
+              <div className="d-flex justify-content-between mt-3">
+                <Button
+                  variant="success"
+                  onClick={() =>
+                    handleTimesheet(timesheet.TimesheetID, "Approved")
+                  }
+                >
+                  Approve
+                </Button>
+                <Button
+                  variant="danger"
+                  onClick={() =>
+                    handleTimesheet(timesheet.TimesheetID, "Rejected")
+                  }
+                >
+                  Reject
+                </Button>
               </div>
-            </main>
-          </div>
-        </div>
-      </>
-    );
-  };
-  
-  export default EmployeeDashboard;
-  
+            </div>
+          )}
+        </Card>
+      </Container>

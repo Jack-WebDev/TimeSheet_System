@@ -21,25 +21,12 @@ const getTimesheets = asyncHandler(async (req, res) => {
 // Post req
 // Public
 const createTimesheet = asyncHandler(async (req, res) => {
-  const {
-    fullName,
-    projectName,
-    startTime,
-    endTime,
-    hoursWorked,
-  } = req.body;
-
+  const { fullName, projectName, startTime, endTime, hoursWorked } = req.body;
 
   try {
     const query =
       "INSERT INTO Timesheets (FullName,ProjectName, StartTime,EndTime,HoursWorked) VALUES (?,?,?,?,?)";
-    const values = [
-      fullName,
-      projectName,
-      startTime,
-      endTime,
-      hoursWorked,
-    ];
+    const values = [fullName, projectName, startTime, endTime, hoursWorked];
 
     await pool.query(query, values);
 
@@ -91,7 +78,23 @@ const deleteTimesheet = asyncHandler(async (req, res) => {
 // Update Timesheet by ID
 // Put req
 // Public
-const updateTimesheet = asyncHandler(async (req, res) => {});
+const updateTimesheet = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const status = req.body.status;
+  try {
+    const timesheetID = parseInt(id, 10);
+
+    const query = "UPDATE Timesheets SET Status = ? WHERE TimesheetID = ?";
+    const values = [status, timesheetID];
+
+    await pool.query(query, values);
+
+    res.status(200).json({ message: "Timesheet Updated" });
+  } catch (error) {
+    console.error("Error updating timesheet", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 
 export {
   getTimesheets,
