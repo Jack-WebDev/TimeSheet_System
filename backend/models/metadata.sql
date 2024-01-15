@@ -5,27 +5,26 @@ CREATE TABLE Users (
     Name VARCHAR(50) NOT NULL,
     Email VARCHAR(100) NOT NULL,
     Password VARCHAR(100) NOT NULL,
-    Role ENUM('Employee', 'Manager', 'Administrator') DEFAULT 'Employee',
+    Role ENUM('Employee', 'Manager', 'Administrator') DEFAULT 'Administrator',
     CREATED_AT DATETIME DEFAULT CURRENT_TIMESTAMP
 
 );
 
--- Create Department Table
 CREATE TABLE Departments (
-    DepartmentName VARCHAR(50) NOT NULL PRIMARY KEY,
+    DepartmentID INT PRIMARY KEY AUTO_INCREMENT,
+    DepartmentName VARCHAR(50) NOT NULL,
     CREATED_AT DATETIME DEFAULT CURRENT_TIMESTAMP
-
 );
 
--- Create Project Table
 CREATE TABLE Projects (
-    ProjectName VARCHAR(50) NOT NULL UNIQUE,
-    DepartmentName VARCHAR(50),
+    ProjectID INT PRIMARY KEY AUTO_INCREMENT,
+    ProjectName VARCHAR(50) NOT NULL,
+    DepartmentID INT,
     CREATED_AT DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (DepartmentName) REFERENCES Departments(DepartmentName)
+    FOREIGN KEY (DepartmentID) REFERENCES Departments(DepartmentID)
 );
 
--- Create Timesheets Table
+
 CREATE TABLE Timesheets (
     TimesheetID INT PRIMARY KEY AUTO_INCREMENT,
     FullName VARCHAR(255),

@@ -54,7 +54,7 @@ const EmployeesScreen = () => {
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to={"/departments"}>
+                  <Link className="nav-link" to={"/department"}>
                     Manage Departments
                   </Link>
                 </li>
