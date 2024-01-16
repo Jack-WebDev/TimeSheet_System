@@ -66,13 +66,23 @@ const logOutUser = async (req, res) => {
   //   httpOnly: true,
   //   expires: new Date(0),
   // });
-  res.clearCookie("jwt")
+  res.clearCookie("jwt");
   res.status(200).json({ message: "User Logged out!" });
 };
 
 const getAllUsers = async (req, res) => {
   const query = "SELECT * FROM USERS";
   const response = await pool.query(query);
+
+  res.status(201).json({ response });
+};
+
+const getUser = async (req, res) => {
+  const { id } = req.params;
+
+  const query = "SELECT * FROM USERS WHERE UserID = ?";
+  const value = [id];
+  const response = await pool.query(query, value);
 
   res.status(201).json({ response });
 };
@@ -90,20 +100,21 @@ const getUserProfile = async (req, res) => {
 // PUT req api/users
 // Private
 const updateUserProfile = async (req, res) => {
-  const { userID, newName, password } = req.body;
+  const { name, email, role } = req.body;
+  const { id } = req.params;
 
   try {
-    const hashedPassword = await hashPassword(password);
+    const userID = parseInt(id, 10);
 
     const updateQuery =
-      "UPDATE Users SET Name = ?, Password = ?  WHERE UserID = ?";
-    const updateValues = [newName, hashedPassword, userID];
+      "UPDATE Users SET Name = ?, Email = ?, Role = ?  WHERE UserID = ?";
+    const updateValues = [name, email, role, userID];
 
     await pool.query(updateQuery, updateValues);
 
     return res.json({ message: "User Profile Updated!" });
   } catch (error) {
-    console.error("Error updating username:", error);
+    console.error("Error updating profile:", error);
     return res.status(500).json({ error: "Internal Server Error" });
   }
 };
@@ -114,5 +125,6 @@ export {
   logOutUser,
   getAllUsers,
   getUserProfile,
+  getUser,
   updateUserProfile,
 };

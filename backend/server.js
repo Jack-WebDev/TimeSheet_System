@@ -25,7 +25,7 @@ app.use("/api/auth", userRoutes);
 app.use("/api/admin", departmentRouter, projectRouter);
 app.use("/api/employee", timesheetRouter);
 // app.use("/api/departments", departmentRouter);
-app.use("/api/projects", projectRouter);
+// app.use("/api/projects", projectRouter);
 // app.use("/api/timeperiods");
 // app.use("/api/reports");
 
