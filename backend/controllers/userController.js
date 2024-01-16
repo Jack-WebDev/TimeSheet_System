@@ -87,15 +87,6 @@ const getUser = async (req, res) => {
   res.status(201).json({ response });
 };
 
-// User Profile
-// GET req api/users/profile
-// Private
-const getUserProfile = async (req, res) => {
-  console.log(req.user);
-
-  res.status(200).json({ message: "User Profile" });
-};
-
 // Update User Profile
 // PUT req api/users
 // Private
@@ -119,7 +110,6 @@ const updateUserProfile = async (req, res) => {
   }
 };
 
-
 const deleteUserProfile = async (req, res) => {
   const { id } = req.params;
 
@@ -141,8 +131,7 @@ export {
   registerUser,
   logOutUser,
   getAllUsers,
-  getUserProfile,
   getUser,
   updateUserProfile,
-  deleteUserProfile
+  deleteUserProfile,
 };

@@ -6,24 +6,20 @@ import {
   registerUser,
   logOutUser,
   getAllUsers,
-  getUserProfile,
   getUser,
   updateUserProfile,
   deleteUserProfile,
 } from "../controllers/userController.js";
-import { isAdmin, isManager, verifyToken } from "../middleware/protectRoute.js";
+import { isAdmin, verifyToken } from "../middleware/protectRoute.js";
 
 userRouter.post("/login", authUser, verifyToken);
-userRouter.post("/admin/login", authUser, verifyToken, isAdmin);
-userRouter.post("/manager/login", authUser, verifyToken, isManager);
 userRouter.post("/register", registerUser);
 userRouter.post("/logout", logOutUser);
-userRouter.get("/users", getAllUsers);
-userRouter.get("/users/:id", getUser);
+userRouter.get("/users", verifyToken,isAdmin,getAllUsers);
 userRouter
   .route("/users/:id")
-  .get(isAdmin, getUser)
-  .put(isAdmin, updateUserProfile)
-  .delete(isAdmin, deleteUserProfile);
+  .get(verifyToken,isAdmin, getUser)
+  .put(verifyToken,isAdmin, updateUserProfile)
+  .delete(verifyToken,isAdmin, deleteUserProfile);
 
 export default userRouter;

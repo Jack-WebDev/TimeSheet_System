@@ -10,7 +10,7 @@ const HomeScreen = () => {
           <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
             <Container>
               <LinkContainer to="/">
-                <Navbar.Brand className="text-warning">NDT Timesheet System</Navbar.Brand>
+                <Navbar.Brand className="text-warning logo">NDT Timesheet System</Navbar.Brand>
               </LinkContainer>
             </Container>
           </Navbar>
@@ -20,22 +20,22 @@ const HomeScreen = () => {
         <Container className="d-flex justify-content-center">
           <Card className="p-5 d-flex flex-column align-items-center hero-card bg-light w-75">
             <h1 className="text-center mb-4">Welcome to the NDT Timesheet System</h1>
-            <p className="text-center mb-4">
+            <p className="text-center mb-4 leading_text">
               I would like to sign in as:
             </p>
             <div className="d-flex">
               <LinkContainer to="/employeeLogin">
-                <Button variant="primary" className="me-3">
+                <Button variant="primary" className="me-3 employeeBtn">
                   Employee
                 </Button>
               </LinkContainer>
 
               <LinkContainer to="/managerLogin">
-                <Button variant="secondary">Manager</Button>
+                <Button variant="secondary" className="managerBtn">Manager</Button>
               </LinkContainer>
 
               <LinkContainer to="/adminLogin">
-                <Button variant="success" className="ms-3">Admin</Button>
+                <Button variant="success" className="ms-3 adminBtn">Admin</Button>
               </LinkContainer>
             </div>
           </Card>

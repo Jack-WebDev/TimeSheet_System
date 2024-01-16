@@ -1,3 +1,17 @@
+
+.logo {
+  font-size: 2rem;
+}
+
+.leading_text {
+  font-weight: 600;
+  font-size: 1.5rem;
+}
+
+.adminBtn,.employeeBtn,.managerBtn {
+  font-size: 1.3rem;
+}
+
 .h2 {
   margin-block-end: 3rem;
   text-align: center;
