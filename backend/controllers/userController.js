@@ -119,6 +119,23 @@ const updateUserProfile = async (req, res) => {
   }
 };
 
+
+const deleteUserProfile = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const query = "DELETE FROM Users WHERE UserID = ?";
+    const values = [id];
+
+    await pool.query(query, values);
+
+    res.status(200).json({ message: "User deleted!" });
+  } catch (error) {
+    console.error("Error deleting user", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 export {
   authUser,
   registerUser,
@@ -127,4 +144,5 @@ export {
   getUserProfile,
   getUser,
   updateUserProfile,
+  deleteUserProfile
 };

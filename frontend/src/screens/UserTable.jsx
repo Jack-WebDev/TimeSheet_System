@@ -85,28 +85,17 @@ const UserTable = () => {
   );
 };
 
-// const handleEdit = (UserID) => {
-//   axios
-//     .put(`http://localhost:8001/api/auth/users/${UserID}`, {})
-//     .then((response) => {
-//       console.log(response);
-//       toast.success("Timesheet status updated successfully");
-//     })
-//     .catch((error) => {
-//       console.error("Error updating timesheet status:", error);
-//     });
-// };
-
 const handleDelete = (UserID) => {
   axios
-    .delete(`http://localhost:8001/api/auth/users/${UserID}`, {})
+    .delete(`http://localhost:8001/api/auth/users/${UserID}`)
+    // eslint-disable-next-line no-unused-vars
     .then((response) => {
-      console.log(response);
-      toast.success("Timesheet status updated successfully");
+      toast.success("User has been deleted");
     })
     .catch((error) => {
-      console.error("Error updating timesheet status:", error);
+      console.error("Error deleting status:", error);
     });
+
 };
 
 export default UserTable;

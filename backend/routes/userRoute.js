@@ -9,6 +9,7 @@ import {
   getUserProfile,
   getUser,
   updateUserProfile,
+  deleteUserProfile,
 } from "../controllers/userController.js";
 import { isAdmin, isManager, verifyToken } from "../middleware/protectRoute.js";
 
@@ -22,6 +23,7 @@ userRouter.get("/users/:id", getUser);
 userRouter
   .route("/users/:id")
   .get(isAdmin, getUser)
-  .put(isAdmin, updateUserProfile);
+  .put(isAdmin, updateUserProfile)
+  .delete(isAdmin, deleteUserProfile);
 
 export default userRouter;
