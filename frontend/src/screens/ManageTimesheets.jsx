@@ -11,6 +11,7 @@ const ManageTimesheets = () => {
   const [loading, setLoading] = useState(true);
   const [isExpanded] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [disabledCards, setDisabledCards] = useState([]);
 
   const handleToggle = () => {
     setShowModal(!showModal);
@@ -40,15 +41,18 @@ const ManageTimesheets = () => {
   }, []);
 
   const handleTimesheet = (timesheetID, status) => {
-    // Assuming you have an API endpoint to handle the approval/rejection
     axios
       .put(`http://localhost:8001/api/employee/timesheet/${timesheetID}`, {
         status,
       })
       .then((response) => {
-        // Update the UI or perform other actions if needed
         console.log(response);
         toast.success("Timesheet status updated successfully");
+
+        setDisabledCards((prevDisabledCards) => [
+          ...prevDisabledCards,
+          timesheetID,
+        ]);
       })
       .catch((error) => {
         console.error("Error updating timesheet status:", error);
@@ -57,50 +61,61 @@ const ManageTimesheets = () => {
 
   const renderTimesheetCard = (timesheet) => (
     <div key={timesheet.TimesheetID}>
-            <Container className="d-flex justify-content-center mb-3">
-        <Card className="p-5 d-flex flex-column align-items-center hero-card bg-light">
+      <Container className="d-flex justify-content-center mb-3">
+        <Card
+          className={`p-5 d-flex flex-column align-items-center hero-card bg-light" ${
+            disabledCards.includes(timesheet.TimesheetID) && "disabled-card"
+          }`}
+        >
+          {!isExpanded ? (
+            <>
+              <p>Name: {timesheet.FullName}</p>
+              <p>Project Name: {timesheet.ProjectName}</p>
+            </>
+          ) : null}
 
-      {!isExpanded ? (
-        <>
-          <p>Name: {timesheet.FullName}</p>
-          <p>Project Name: {timesheet.ProjectName}</p>
-        </>
-      ) : null}
+          <Button variant="primary" onClick={handleToggle}>
+            {isExpanded ? "Hide" : "View"}
+          </Button>
 
-      <Button variant="primary" onClick={handleToggle}>
-        {isExpanded ? "Hide" : "View"}
-      </Button>
-
-      <Modal show={showModal} onHide={handleToggle}>
-        <Modal.Header closeButton>
-          <Modal.Title>Timesheet Details</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <p className="fs-4">Full Name: {timesheet.FullName}</p>
-          <p className="fs-4">Project Name: {timesheet.ProjectName}</p>
-          <p className="fs-4">Start Date: {formatDate(timesheet.StartTime)}</p>
-          <p className="fs-4">End Date: {formatDate(timesheet.EndTime)}</p>
-          <p className="fs-4">Hours Worked: {timesheet.HoursWorked} hours</p>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button
-            variant="success"
-            onClick={() => handleTimesheet(timesheet.TimesheetID, "Approved")}
-          >
-            Approve
-          </Button>
-          <Button
-            variant="danger"
-            onClick={() => handleTimesheet(timesheet.TimesheetID, "Rejected")}
-          >
-            Reject
-          </Button>
-          <Button variant="secondary" onClick={handleToggle}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
-      </Card>
+          <Modal show={showModal} onHide={handleToggle}>
+            <Modal.Header closeButton>
+              <Modal.Title>Timesheet Details</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <p className="fs-4">Full Name: {timesheet.FullName}</p>
+              <p className="fs-4">Project Name: {timesheet.ProjectName}</p>
+              <p className="fs-4">
+                Start Date: {formatDate(timesheet.StartTime)}
+              </p>
+              <p className="fs-4">End Date: {formatDate(timesheet.EndTime)}</p>
+              <p className="fs-4">
+                Hours Worked: {timesheet.HoursWorked} hours
+              </p>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button
+                variant="success"
+                onClick={() =>
+                  handleTimesheet(timesheet.TimesheetID, "Approved")
+                }
+              >
+                Approve
+              </Button>
+              <Button
+                variant="danger"
+                onClick={() =>
+                  handleTimesheet(timesheet.TimesheetID, "Rejected")
+                }
+              >
+                Reject
+              </Button>
+              <Button variant="secondary" onClick={handleToggle}>
+                Close
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </Card>
       </Container>
     </div>
   );
@@ -195,7 +210,7 @@ const ManageTimesheets = () => {
             {loading && <p>Loading timesheets...</p>}
 
             <div className="timesheet">
-              <h2 className="h2">Your Timesheets</h2>
+              <h2 className="h2">Employee Timesheets</h2>
               {timesheets.length === 0 ? (
                 <p className="p">No timesheets available.</p>
               ) : (

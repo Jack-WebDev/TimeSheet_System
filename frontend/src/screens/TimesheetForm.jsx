@@ -1,14 +1,23 @@
 import { useState } from "react";
-import { Form, Button, Container, Card } from "react-bootstrap";
+import { Form, Button, Container, Card, Modal } from "react-bootstrap";
 import axios from "axios";
 import { toast } from "react-toastify";
 
 const TimesheetForm = () => {
-  const [fullName, setfullName] = useState("");
+  // const [fullName, setfullName] = useState("");
+  // const [projectName, setProjectName] = useState("");
+  // const [startTime, setStartTime] = useState("");
+  // const [endTime, setEndTime] = useState("");
+  // const [hoursWorked, setHoursWorked] = useState(0.00);
+  const [showModal, setShowModal] = useState(false);
+  const [fullName, setFullName] = useState("");
   const [projectName, setProjectName] = useState("");
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
-  const [hoursWorked, setHoursWorked] = useState(0.00);
+  const [hoursWorked, setHoursWorked] = useState(0.0);
+
+  const handleShowModal = () => setShowModal(true);
+  const handleCloseModal = () => setShowModal(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -40,53 +49,69 @@ const TimesheetForm = () => {
   };
 
   return (
-    <div>
-      <h2 className="text-center">Timesheet Form</h2>
-      <Form onSubmit={handleSubmit} className="form">
-        <Form.Group controlId="formName">
-          <Form.Label>Name:</Form.Label>
-          <Form.Control
-            type="text"
-            value={fullName}
-            onChange={(e) => setfullName(e.target.value)}
-            required
-          />
-        </Form.Group>
+    <div className="addTimesheet">
+      <Button variant="primary" onClick={handleShowModal}>
+        Add Timesheet
+      </Button>
 
-        <Form.Group controlId="formProjectName">
-          <Form.Label>Project Name:</Form.Label>
-          <Form.Control
-            type="text"
-            value={projectName}
-            onChange={(e) => setProjectName(e.target.value)}
-            required
-          />
-        </Form.Group>
+      <Modal show={showModal} onHide={handleCloseModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Timesheet Form</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <h2 className="text-center">Timesheet Form</h2>
+          <Form onSubmit={handleSubmit} className="form">
+            <Form.Group controlId="formName">
+              <Form.Label>Name:</Form.Label>
+              <Form.Control
+                type="text"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                required
+              />
+            </Form.Group>
 
-        <Form.Group controlId="formStartTime">
-          <Form.Label>Start Time:</Form.Label>
-          <Form.Control
-            type="datetime-local"
-            value={startTime}
-            onChange={(e) => setStartTime(e.target.value)}
-            required
-          />
-        </Form.Group>
+            <Form.Group controlId="formProjectName">
+              <Form.Label>Project Name:</Form.Label>
+              <Form.Control
+                type="text"
+                value={projectName}
+                onChange={(e) => setProjectName(e.target.value)}
+                required
+              />
+            </Form.Group>
 
-        <Form.Group controlId="formEndTime">
-          <Form.Label>End Time:</Form.Label>
-          <Form.Control
-            type="datetime-local"
-            value={endTime}
-            onChange={(e) => setEndTime(e.target.value)}
-            required
-          />
-        </Form.Group>
+            <Form.Group controlId="formStartTime">
+              <Form.Label>Start Time:</Form.Label>
+              <Form.Control
+                type="datetime-local"
+                value={startTime}
+                onChange={(e) => setStartTime(e.target.value)}
+                required
+              />
+            </Form.Group>
 
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
-      </Form>
+            <Form.Group controlId="formEndTime">
+              <Form.Label>End Time:</Form.Label>
+              <Form.Control
+                type="datetime-local"
+                value={endTime}
+                onChange={(e) => setEndTime(e.target.value)}
+                required
+              />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Close
+          </Button>
+          <Button variant="primary" type="submit" onClick={handleSubmit}>
+            Submit
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
 
       {hoursWorked && (
         <div>

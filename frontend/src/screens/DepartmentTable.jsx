@@ -2,40 +2,44 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Table, Button, Modal, Form } from "react-bootstrap";
 import { toast } from "react-toastify";
+import EditDepartment from "../components/EditDepartment";
 
 const DepartmentTable = () => {
   const [departments, setDepartments] = useState([]);
-  // const [departmentName, setDepartmentName] = useState('');
   const [showModal, setShowModal] = useState(false);
-  const [newDepartment, setNewDepartment] = useState({ name: "", projects: 0 });
-  // const [showEditModal, setShowEditModal] = useState(false);
-  // const [selectedUserID, setSelectedUserID] = useState(null);
+  const [departmentName, setDepartmentName] = useState("");
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [selectedUserID, setSelectedUserID] = useState(null);
 
-  // const handleEdit = (userID) => {
-  //   setShowEditModal(true);
-  //   setSelectedUserID(userID);
-  // };
+  const handleEdit = (DepartmentID) => {
+    setShowEditModal(true);
+    setSelectedUserID(DepartmentID);
+  };
 
-  // const handleEditModalClose = () => {
-  //   setShowEditModal(false);
-  //   setSelectedUserID(null);
-  // };
+  const handleEditModalClose = () => {
+    setShowEditModal(false);
+    setSelectedUserID(null);
+  };
+
+  const fetchDepartments = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:8001/api/admin/department"
+      );
+      setDepartments(response.data.rows);
+    } catch (error) {
+      console.error("Error fetching department:", error);
+      toast.error("Forbidden: Admin access required!");
+    }
+  };
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:8001/api/admin/department"
-        );
-        setDepartments(response.data.rows);
-      } catch (error) {
-        console.error("Error fetching users:", error);
-        toast.error("Forbidden: Admin access required!");
-      }
-    };
-
-    fetchUsers();
+    fetchDepartments();
   }, []);
+
+  const handleSuccess = () => {
+    fetchDepartments();
+  };
 
   const handleShowModal = () => {
     setShowModal(true);
@@ -48,22 +52,17 @@ const DepartmentTable = () => {
   const handleAddDepartment = () => {
     axios
       .post(`http://localhost:8001/api/admin/department`, {
-        newDepartment,
+        departmentName,
       })
       .then((response) => {
         console.log(response);
-        toast.success("User details updated successfully");
+        toast.success("Department details updated successfully");
       })
       .catch((error) => {
-        console.error("Error updating user details:", error);
+        console.error("Error updating department details:", error);
       });
 
     handleCloseModal();
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNewDepartment((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleDelete = (DepartmentID) => {
@@ -77,21 +76,6 @@ const DepartmentTable = () => {
         console.error("Error deleting status:", error);
       });
   };
-
-  // const handleSave = () => {
-  //   // Perform the update using axios.put as you did before
-  //   axios
-  //     .put(`http://localhost:8001/api/auth/users/${userID}`, {
-  //       departmentName,
-  //     })
-  //     .then((response) => {
-  //       console.log(response);
-  //       toast.success("User details updated successfully");
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error updating user details:", error);
-  //     });
-  // };
 
   return (
     <>
@@ -110,9 +94,13 @@ const DepartmentTable = () => {
               <td>{department.projects}</td>
               <td>
                 {" "}
-                {/* <Button className="me-3" variant="secondary" onClick={handleEdit(department.DepartmentID)}>
+                <Button
+                  className="me-3"
+                  variant="secondary"
+                  onClick={() => handleEdit(department.DepartmentID)}
+                >
                   Edit
-                </Button> */}
+                </Button>
                 <Button
                   variant="danger"
                   onClick={() => handleDelete(department.DepartmentID)}
@@ -123,7 +111,7 @@ const DepartmentTable = () => {
             </tr>
           ))}
         </tbody>
-        <Button className="me-3" variant="primary" onClick={handleShowModal}>
+        <Button className="mt-3" variant="primary" onClick={handleShowModal}>
           Add
         </Button>
       </Table>
@@ -139,19 +127,8 @@ const DepartmentTable = () => {
               <Form.Control
                 type="text"
                 placeholder="Enter department name"
-                name="name"
-                value={newDepartment.departmentName}
-                onChange={handleInputChange}
-              />
-            </Form.Group>
-            <Form.Group controlId="numberOfProjects">
-              <Form.Label>Number of Projects</Form.Label>
-              <Form.Control
-                type="number"
-                placeholder="Enter number of projects"
-                name="projects"
-                value={newDepartment.projects}
-                onChange={handleInputChange}
+                value={departmentName}
+                onChange={(e) => setDepartmentName(e.target.value)}
               />
             </Form.Group>
           </Form>
@@ -165,6 +142,13 @@ const DepartmentTable = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+
+      <EditDepartment
+        show={showEditModal}
+        onHide={handleEditModalClose}
+        DepartmentID={selectedUserID}
+        onEdit={handleSuccess}
+      />
     </>
   );
 };

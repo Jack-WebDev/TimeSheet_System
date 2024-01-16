@@ -1,49 +1,63 @@
-<div key={timesheet.TimesheetID}>
-      <Container className="d-flex justify-content-center mb-3">
-        <Card className="p-5 d-flex flex-column align-items-center hero-card bg-light">
-          {!isExpanded ? (
-            <>
-              <p>Name: {timesheet.FullName}</p>
-              <p>Project Name: {timesheet.ProjectName}</p>
-            </>
-          ) : null}
+import { useState } from "react";
+import { Form, Button, Modal, Container, Card } from "react-bootstrap";
+import axios from "axios";
+import { toast } from "react-toastify";
 
-          <Button variant="primary" onClick={handleToggle}>
-            {isExpanded ? "Hide" : "View"}
+const TimesheetForm = () => {
+  const [showModal, setShowModal] = useState(false);
+  const [fullName, setFullName] = useState("");
+  const [projectName, setProjectName] = useState("");
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
+  const [hoursWorked, setHoursWorked] = useState(0.00);
+
+  const handleShowModal = () => setShowModal(true);
+  const handleCloseModal = () => setShowModal(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // ... (Same as your existing handleSubmit logic)
+
+    try {
+      // ... (Same as your existing try block)
+
+      toast.success("Timesheet submitted");
+    } catch (error) {
+      // ... (Same as your existing catch block)
+    }
+  };
+
+  return (
+    <div>
+      <Button variant="primary" onClick={handleShowModal}>
+        Add Timesheet
+      </Button>
+
+      <Modal show={showModal} onHide={handleCloseModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Timesheet Form</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={handleSubmit} className="form">
+            {/* ... (Your existing form code) */}
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Close
           </Button>
+          <Button variant="primary" type="submit" onClick={handleSubmit}>
+            Submit
+          </Button>
+        </Modal.Footer>
+      </Modal>
 
-          {isExpanded && (
-            <div className="mt-3">
-              <p className="fs-4">Full Name: {timesheet.FullName}</p>
-              <p className="fs-4">Project Name: {timesheet.ProjectName}</p>
-              <p className="fs-4">
-                Start Date: {formatDate(timesheet.StartTime)}
-              </p>
-              <p className="fs-4">End Date: {formatDate(timesheet.EndTime)}</p>
-              <p className="fs-4">
-                Hours Worked: {timesheet.HoursWorked} hours
-              </p>
+      {hoursWorked && (
+        // ... (Your existing result display code)
+      )}
+    </div>
+  );
+};
 
-              {/* Approve and Reject Buttons */}
-              <div className="d-flex justify-content-between mt-3">
-                <Button
-                  variant="success"
-                  onClick={() =>
-                    handleTimesheet(timesheet.TimesheetID, "Approved")
-                  }
-                >
-                  Approve
-                </Button>
-                <Button
-                  variant="danger"
-                  onClick={() =>
-                    handleTimesheet(timesheet.TimesheetID, "Rejected")
-                  }
-                >
-                  Reject
-                </Button>
-              </div>
-            </div>
-          )}
-        </Card>
-      </Container>
+export default TimesheetForm;
