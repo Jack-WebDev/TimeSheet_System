@@ -11,15 +11,11 @@ const ManageTimesheets = () => {
   const [loading, setLoading] = useState(true);
   const [isExpanded] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [disabledCards, setDisabledCards] = useState([]);
 
   const handleToggle = () => {
     setShowModal(!showModal);
   };
 
-  // const handleToggle = () => {
-  //   setIsExpanded(!isExpanded);
-  // };
 
   useEffect(() => {
     const fetchTimesheets = async () => {
@@ -49,10 +45,7 @@ const ManageTimesheets = () => {
         console.log(response);
         toast.success("Timesheet status updated successfully");
 
-        setDisabledCards((prevDisabledCards) => [
-          ...prevDisabledCards,
-          timesheetID,
-        ]);
+
       })
       .catch((error) => {
         console.error("Error updating timesheet status:", error);
@@ -60,13 +53,11 @@ const ManageTimesheets = () => {
   };
 
   const renderTimesheetCard = (timesheet) => (
-    <div key={timesheet.TimesheetID}>
-      <Container className="d-flex justify-content-center mb-3">
-        <Card
-          className={`p-5 d-flex flex-column align-items-center hero-card bg-light" ${
-            disabledCards.includes(timesheet.TimesheetID) && "disabled-card"
-          }`}
-        >
+    <div>
+      <Container key={timesheet.TimesheetID} className="d-flex justify-content-center mb-3">
+        <Card 
+          className="p-5 d-flex flex-column align-items-center hero-card bg-light">
+
           {!isExpanded ? (
             <>
               <p>Name: {timesheet.FullName}</p>
@@ -189,7 +180,7 @@ const ManageTimesheets = () => {
 
           <main className="col-md-9 col-lg-10 px-md-4">
             <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-              <h1 className="h2">Goodday Manager!</h1>
+              <h1>Goodday Manager!</h1>
               <div className="btn-toolbar mb-2 mb-md-0">
                 <div className="btn-group me-2">
                   <button

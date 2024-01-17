@@ -1,32 +1,45 @@
-
-import {useEffect, useState} from 'react'
-import axios from 'axios';
-import { Table, Button, Modal, Form } from 'react-bootstrap';
-import {toast} from 'react-toastify'
-
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { Table, Button, Modal, Form } from "react-bootstrap";
+import { toast } from "react-toastify";
+import EditProject from "../components/EditProject";
 
 const ProjectTable = () => {
-  const [projects, setProjects] = useState([])
+  const [projects, setProjects] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [newProject, setNewProject] = useState({ name: '', projects: 0 });
+  const [projectName, setProjectName] = useState("");
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [selectedUserID, setSelectedUserID] = useState(null);
+
+  const handleEdit = (ProjectID) => {
+    setShowEditModal(true);
+    setSelectedUserID(ProjectID);
+  };
+
+  const handleEditModalClose = () => {
+    setShowEditModal(false);
+    setSelectedUserID(null);
+  };
+
+  const fetchProjects = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:8001/api/admin/project"
+      );
+      setProjects(response.data.rows);
+    } catch (error) {
+      console.error("Error fetching Project:", error);
+      toast.error("Forbidden: Admin access required!");
+    }
+  };
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:8001/api/admin/project"
-        );
-        console.log(response.data.rows)
-        setProjects(response.data.rows);
-      } catch (error) {
-        console.error("Error fetching users:", error);
-        toast.error("Forbidden: Admin access required!");
-      }
-    };
-
-    fetchUsers();
+    fetchProjects();
   }, []);
 
+  const handleSuccess = () => {
+    fetchProjects();
+  };
 
   const handleShowModal = () => {
     setShowModal(true);
@@ -36,16 +49,32 @@ const ProjectTable = () => {
     setShowModal(false);
   };
 
-  const handleAddDepartment = () => {
-    // Add logic to handle adding a new department (e.g., API call)
-    console.log('Adding department:', newProject);
-    // Close the modal after adding
+  const handleAddProject = () => {
+    axios
+      .post(`http://localhost:8001/api/admin/project`, {
+        projectName,
+      })
+      .then((response) => {
+        console.log(response);
+        toast.success("Project details updated successfully");
+      })
+      .catch((error) => {
+        console.error("Error updating Project details:", error);
+      });
+
     handleCloseModal();
   };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNewProject((prev) => ({ ...prev, [name]: value }));
+  const handleDelete = (ProjectID) => {
+    axios
+      .delete(`http://localhost:8001/api/admin/project/${ProjectID}`)
+      // eslint-disable-next-line no-unused-vars
+      .then((response) => {
+        toast.success("Project has been deleted");
+      })
+      .catch((error) => {
+        console.error("Error deleting status:", error);
+      });
   };
 
   return (
@@ -53,21 +82,37 @@ const ProjectTable = () => {
       <Table striped bordered hover>
         <thead>
           <tr>
-            <th>Projects</th>
+            <th>Project Name</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {projects.map((project) => (
-            <tr key={project.ProjectID}>
-              <td>{project.ProjectName}</td>
+          {projects.map((Project) => (
+            <tr key={Project.ProjectID}>
+              <td>{Project.ProjectName}</td>
+              <td>
+                {" "}
+                <Button
+                  className="me-3"
+                  variant="secondary"
+                  onClick={() => handleEdit(Project.ProjectID)}
+                >
+                  Edit
+                </Button>
+                <Button
+                  variant="danger"
+                  onClick={() => handleDelete(Project.ProjectID)}
+                >
+                  Delete
+                </Button>
+              </td>
             </tr>
           ))}
         </tbody>
+        <Button className="mt-3" variant="primary" onClick={handleShowModal}>
+          Add
+        </Button>
       </Table>
-
-      <Button variant="primary" onClick={handleShowModal}>
-        Add Project
-      </Button>
 
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
@@ -75,14 +120,13 @@ const ProjectTable = () => {
         </Modal.Header>
         <Modal.Body>
           <Form>
-            <Form.Group controlId="projectName">
+            <Form.Group controlId="ProjectName">
               <Form.Label>Project Name</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Enter department name"
-                name="name"
-                value={newProject.name}
-                onChange={handleInputChange}
+                placeholder="Enter Project name"
+                value={projectName}
+                onChange={(e) => setProjectName(e.target.value)}
               />
             </Form.Group>
           </Form>
@@ -91,11 +135,18 @@ const ProjectTable = () => {
           <Button variant="secondary" onClick={handleCloseModal}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleAddDepartment}>
+          <Button variant="primary" onClick={handleAddProject}>
             Add Project
           </Button>
         </Modal.Footer>
       </Modal>
+
+      <EditProject
+        show={showEditModal}
+        onHide={handleEditModalClose}
+        ProjectID={selectedUserID}
+        onEdit={handleSuccess}
+      />
     </>
   );
 };

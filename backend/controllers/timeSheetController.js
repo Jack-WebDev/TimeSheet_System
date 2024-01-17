@@ -6,7 +6,7 @@ import { pool } from "../models/database.js";
 // Public
 const getTimesheets = asyncHandler(async (req, res) => {
   try {
-    const query = "SELECT * FROM Timesheets";
+    const query = "SELECT * FROM Timesheets ORDER BY CREATED_AT DESC";
     const [rows] = await pool.query(query);
     // if (rows.length === 0) {
     //   return res.status(401).json({ message: "No Timesheets available" });
