@@ -17,19 +17,47 @@ const getProjects = asyncHandler(async (req, res) => {
   }
 });
 
+
+// Get projects by department
+// Get req
+// Private
+
+const getProjectByDepart = asyncHandler(async (req,res) => {
+  const {id} = req.params;
+
+  try {
+
+    const query = "SELECT * FROM Projects WHERE DepartmentID = ?"
+    const value = [id]
+
+    await pool.query(query, value)
+    res.status(200).json({message: "Project by Department retrieved"})
+  } catch (error) {
+    console.error(error)
+  }
+})
+
+
+// app.get('/api/projects/:departmentId', (req, res) => {
+//   const departmentId = parseInt(req.params.departmentId);
+//   const departmentProjects = projects.filter(project => project.department_id === departmentId);
+//   res.json({ projects: departmentProjects });
+// });
+
 // Create Projects
 // Post req
 // Public
 const createProject = asyncHandler(async (req, res) => {
-  const { projectName } = req.body;
+  const { projectName, departmentID } = req.body;
 
   try {
-    const query = "INSERT INTO Projects (ProjectName) VALUES (?)";
-    const value = [projectName];
+    const query = "INSERT INTO Projects (ProjectName, DepartmentID) VALUES (?,?)";
+    const value = [projectName, departmentID];
 
+    console.log(departmentID)
     await pool.query(query, value);
 
-    res.status(200).json({ message: "Project created!" });
+    res.status(201).json({ message: "Project and department link created!" });
   } catch (error) {
     console.error("Error creating project", error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -93,4 +121,4 @@ const updateProject = asyncHandler(async (req, res) => {
   }
 });
 
-export { getProjects, getProject, deleteProject, createProject, updateProject };
+export { getProjects, getProject,getProjectByDepart, deleteProject, createProject, updateProject };

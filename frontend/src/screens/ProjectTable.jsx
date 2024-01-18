@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Table, Button, Modal, Form } from "react-bootstrap";
+import { Table, Button, Modal, Form, Container } from "react-bootstrap";
 import { toast } from "react-toastify";
 import EditProject from "../components/EditProject";
 
 const ProjectTable = () => {
-  const [projects, setProjects] = useState([]);
-  const [showModal, setShowModal] = useState(false);
   const [projectName, setProjectName] = useState("");
+  const [departmentID, setDepartmentID] = useState("");
+  const [projects, setProjects] = useState([]);
+  const [departments, setDepartments] = useState([]);
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedUserID, setSelectedUserID] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   const handleEdit = (ProjectID) => {
     setShowEditModal(true);
@@ -33,12 +35,26 @@ const ProjectTable = () => {
     }
   };
 
+  const fetchDepartments = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:8001/api/admin/department"
+      );
+      setDepartments(response.data.rows);
+    } catch (error) {
+      console.error("Error fetching departments:", error);
+      toast.error("Forbidden: Admin access required!");
+    }
+  };
+
   useEffect(() => {
     fetchProjects();
+    fetchDepartments();
   }, []);
 
   const handleSuccess = () => {
     fetchProjects();
+    fetchDepartments();
   };
 
   const handleShowModal = () => {
@@ -53,6 +69,7 @@ const ProjectTable = () => {
     axios
       .post(`http://localhost:8001/api/admin/project`, {
         projectName,
+        departmentID,
       })
       .then((response) => {
         console.log(response);
@@ -78,7 +95,7 @@ const ProjectTable = () => {
   };
 
   return (
-    <>
+    <Container>
       <Table striped bordered hover>
         <thead>
           <tr>
@@ -127,7 +144,28 @@ const ProjectTable = () => {
                 placeholder="Enter Project name"
                 value={projectName}
                 onChange={(e) => setProjectName(e.target.value)}
+                required
               />
+            </Form.Group>
+
+            <Form.Group controlId="formDepartmentId">
+              <Form.Label>Department</Form.Label>
+              <Form.Control
+                as="select"
+                value={departmentID}
+                onChange={(e) => setDepartmentID(e.target.value)}
+                required
+              >
+                <option value="">Select department</option>
+                {departments.map((department) => (
+                  <option
+                    key={department.DepartmentID}
+                    value={department.DepartmentID}
+                  >
+                    {department.DepartmentName}
+                  </option>
+                ))}
+              </Form.Control>
             </Form.Group>
           </Form>
         </Modal.Body>
@@ -147,7 +185,7 @@ const ProjectTable = () => {
         ProjectID={selectedUserID}
         onEdit={handleSuccess}
       />
-    </>
+    </Container>
   );
 };
 

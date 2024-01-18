@@ -21,8 +21,8 @@ import TimePeriodScreen from "./screens/TimePeriodScreen.jsx";
 import AdminDashboard from "./pages/AdminDashboard.jsx";
 import ManagerDashboard from "./pages/ManagerDashboard.jsx";
 import EmployeeDashboard from "./pages/EmployeeDashboard.jsx";
-import Logout from "./components/Logout.jsx"
-import ManageTimesheets from "./screens/ManageTimesheets.jsx"
+import Logout from "./components/Logout.jsx";
+import ManageTimesheets from "./screens/ManageTimesheets.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -43,7 +43,6 @@ const router = createBrowserRouter(
       <Route path="/projects" element={<ProjectScreen />} />
       <Route path="/timeperiods" element={<TimePeriodScreen />} />
       <Route path="/logout" element={<Logout />} />
-
     </Route>
   )
 );
