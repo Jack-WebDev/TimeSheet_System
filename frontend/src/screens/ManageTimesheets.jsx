@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Navbar, Nav, Container, Button, Modal, Card } from "react-bootstrap";
+import { Navbar, Nav, Container, Button, Card } from "react-bootstrap";
 import { FaSignOutAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
@@ -9,13 +9,6 @@ import { toast } from "react-toastify";
 const ManageTimesheets = () => {
   const [timesheets, setTimesheets] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [isExpanded] = useState(false);
-  const [showModal, setShowModal] = useState(false);
-
-  const handleToggle = () => {
-    setShowModal(!showModal);
-  };
-
 
   useEffect(() => {
     const fetchTimesheets = async () => {
@@ -37,54 +30,32 @@ const ManageTimesheets = () => {
   }, []);
 
   const handleTimesheet = (timesheetID, status) => {
-    axios
-      .put(`http://localhost:8001/api/employee/timesheet/${timesheetID}`, {
+    try {
+      axios.put(`http://localhost:8001/api/employee/timesheet/${timesheetID}`, {
         status,
-      })
-      .then((response) => {
-        console.log(response);
-        toast.success("Timesheet status updated successfully");
-
-
-      })
-      .catch((error) => {
-        console.error("Error updating timesheet status:", error);
       });
+      toast.success("Timesheet status updated successfully");
+    } catch (error) {
+      console.errxor("Error updating timesheet status:", error);
+    }
   };
 
   const renderTimesheetCard = (timesheet) => (
     <div>
-      <Container key={timesheet.TimesheetID} className="d-flex justify-content-center mb-3">
-        <Card 
-          className="p-5 d-flex flex-column align-items-center hero-card bg-light">
+      <Container className="d-flex justify-content-center mb-3">
+        <Card
+          key={timesheet.TimesheetID}
+          className="p-5 d-flex flex-column align-items-center hero-card bg-light"
+        >
+          <>
+            <p>Name: {timesheet.FullName}</p>
+            <p>Project Name: {timesheet.ProjectName}</p>
+            <p>Start Date: {formatDate(timesheet.StartTime)}</p>
+            <p>End Date: {formatDate(timesheet.EndTime)}</p>
+            <p>Hours Worked: {timesheet.HoursWorked} hours</p>
 
-          {!isExpanded ? (
-            <>
-              <p>Name: {timesheet.FullName}</p>
-              <p>Project Name: {timesheet.ProjectName}</p>
-            </>
-          ) : null}
-
-          <Button variant="primary" onClick={handleToggle}>
-            {isExpanded ? "Hide" : "View"}
-          </Button>
-
-          <Modal show={showModal} onHide={handleToggle}>
-            <Modal.Header closeButton>
-              <Modal.Title>Timesheet Details</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <p className="fs-4">Full Name: {timesheet.FullName}</p>
-              <p className="fs-4">Project Name: {timesheet.ProjectName}</p>
-              <p className="fs-4">
-                Start Date: {formatDate(timesheet.StartTime)}
-              </p>
-              <p className="fs-4">End Date: {formatDate(timesheet.EndTime)}</p>
-              <p className="fs-4">
-                Hours Worked: {timesheet.HoursWorked} hours
-              </p>
-            </Modal.Body>
-            <Modal.Footer>
+            <div className="d-flex justify-content-between align-items-center gap-5 mt-3">
+              {" "}
               <Button
                 variant="success"
                 onClick={() =>
@@ -101,11 +72,8 @@ const ManageTimesheets = () => {
               >
                 Reject
               </Button>
-              <Button variant="secondary" onClick={handleToggle}>
-                Close
-              </Button>
-            </Modal.Footer>
-          </Modal>
+            </div>
+          </>
         </Card>
       </Container>
     </div>
