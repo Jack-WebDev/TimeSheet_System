@@ -91,7 +91,7 @@ const DepartmentTable = () => {
           {departments.map((department) => (
             <tr key={department.DepartmentID}>
               <td>{department.DepartmentName}</td>
-              <td>{department.projects}</td>
+              <td>{department.projectCount}</td>
               <td>
                 {" "}
                 <Button

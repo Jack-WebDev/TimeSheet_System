@@ -6,7 +6,7 @@ import { pool } from "../models/database.js";
 // Public
 const getDepartments = asyncHandler(async (req, res) => {
   try {
-    const query = "SELECT * FROM Departments";
+    const query = "SELECT departments.DepartmentID, departments.DepartmentName, COUNT(projects.ProjectID) AS projectCount FROM departments LEFT JOIN projects ON departments.DepartmentID = projects.DepartmentID GROUP BY departments.DepartmentID, departments.DepartmentName";
     const [rows] = await pool.query(query);
     if (rows.length === 0) {
       return res.status(401).json({ message: "No departments available" });
@@ -16,6 +16,9 @@ const getDepartments = asyncHandler(async (req, res) => {
     console.error("Error getting departments", error);
   }
 });
+
+
+
 
 // Create Departments
 // Post req

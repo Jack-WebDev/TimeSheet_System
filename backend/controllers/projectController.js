@@ -55,7 +55,7 @@ const createProject = asyncHandler(async (req, res) => {
     const value = [projectName, departmentID];
 
     console.log(departmentID)
-    await pool.query(query, value);
+    const response = await pool.query(query, value);
 
     res.status(201).json({ message: "Project and department link created!" });
   } catch (error) {
