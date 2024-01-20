@@ -36,15 +36,15 @@ const comparePassword = async (password, hashedPassword) => {
   }
 };
 
-const generateToken = (res, userID) => {
-  const token = jwt.sign({ userID}, process.env.JWT_KEY, { expiresIn: "1h" });
+const generateToken = (res, userID, userRole) => {
+  const token = jwt.sign({ iserID: userID, userRole : userRole}, process.env.JWT_KEY, { expiresIn: "1h" });
 
   res.cookie("jwt", token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV !== "development",
-    sameSite: "Strict",
     maxAge: 1 * 60 * 60 * 1000,
   });
+
 };
+
 
 export { generateToken, comparePassword, doesUserExist, hashPassword };

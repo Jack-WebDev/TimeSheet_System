@@ -2,9 +2,10 @@ import { Navbar, Nav, Container } from "react-bootstrap";
 import { FaSignOutAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
-import UserTable from "./UserTable";
+import GenerateReport from "./GenerateReport";
 
-const EmployeesScreen = () => {
+const ReportScreen = () => {
+
   return (
     <>
       <header className="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow py-3">
@@ -64,7 +65,7 @@ const EmployeesScreen = () => {
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to={"/#"}>
+                  <Link className="nav-link" to={"/timeperiods"}>
                     Manage Time Periods
                   </Link>
                 </li>
@@ -77,16 +78,15 @@ const EmployeesScreen = () => {
             </div>
           </nav>
 
-          <main className="col-md-9 col-lg-10 px-md-4">
+          <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-              <h1 className="h2">Hello Admin!</h1>
+              <h1>Hello Admin!</h1>
+              
             </div>
 
-            <div className="timesheet">
-              <Container>
-                <UserTable />
-              </Container>
-            </div>
+            <>
+            <GenerateReport/>
+            </>
           </main>
         </div>
       </div>
@@ -94,4 +94,4 @@ const EmployeesScreen = () => {
   );
 };
 
-export default EmployeesScreen;
+export default ReportScreen;

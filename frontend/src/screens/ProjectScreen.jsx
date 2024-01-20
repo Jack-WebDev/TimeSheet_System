@@ -68,6 +68,12 @@ const ProjectScreen = () => {
                     Manage Time Periods
                   </Link>
                 </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to={"/report"}>
+                    Generate Reports
+                  </Link>
+                </li>
+
               </ul>
             </div>
           </nav>

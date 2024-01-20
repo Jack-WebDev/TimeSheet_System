@@ -1,7 +1,8 @@
 import { pool } from "../models/database.js";
+import jwt from "jsonwebtoken";
+
 import {
   doesUserExist,
-  generateToken,
   hashPassword,
   comparePassword,
 } from "../middleware/authHandler.js";
@@ -22,8 +23,19 @@ const authUser = async (req, res) => {
     if (!isPasswordValid) {
       return res.status(401).json({ error: "Invalid credentials" });
     }
-    const token = generateToken(res, user.UserID);
-    return res.json({ token });
+
+    const token = jwt.sign(
+      { id: user.UserID, role: user.Role },
+      process.env.JWT_KEY,
+      { expiresIn: "1h" }
+    );
+
+    res.cookie("jwt", token, {
+      httpOnly: true,
+      maxAge: 1 * 60 * 60 * 1000,
+    });
+
+    res.json({ success: true, role: user.Role });
   } catch (error) {
     console.error("Error during login:", error);
     return res.status(500).json({ error: "Internal Server Error" });

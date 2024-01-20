@@ -8,6 +8,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import departmentRouter from "./routes/departmentRoute.js";
 import projectRouter from "./routes/projectRoute.js";
+import reportRouter from "./routes/reportRoute.js";
 const app = express();
 
 app.use(
@@ -26,9 +27,12 @@ app.use("/api/admin", departmentRouter, projectRouter);
 app.use("/api/employee", timesheetRouter);
 // app.use("/api/departments", departmentRouter);
 // app.use("/api/projects", projectRouter);
-// app.use("/api/timeperiods");
-// app.use("/api/reports");
+// app.use("/api/timesheets");
+app.use("/api/reports", reportRouter);
 
 app.listen(port, () => {
   console.log(`Server running.... on port ${port}`);
 });
+
+
+

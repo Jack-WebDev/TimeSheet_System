@@ -2,6 +2,7 @@ import { Navbar, Nav, Container} from "react-bootstrap";
 import { FaSignOutAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
+import Test from '../screens/Test'
 
 const ManagerDashboard = () => {
  
@@ -82,6 +83,7 @@ const ManagerDashboard = () => {
                 </div>
               </div>
 
+                <Test/>
             </div>
           </main>
         </div>
