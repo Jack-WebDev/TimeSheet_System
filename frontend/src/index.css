@@ -47,3 +47,17 @@
   font-family: fantasy;
   margin-block: 5rem;
 }
+
+.login_img {
+  width: 40%;
+  position: relative;
+  top: 5rem;
+  left: 5rem;
+}
+
+.register_img {
+  width: 40%;
+  position: relative;
+  top: 5rem;
+  left: 5rem;
+}

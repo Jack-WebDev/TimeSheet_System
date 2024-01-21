@@ -10,7 +10,7 @@ const RegisterScreen = () => {
     name: "",
     email: "",
     password: "",
-    role:"",
+    role: "",
   });
 
   const navigate = useNavigate();
@@ -27,7 +27,6 @@ const RegisterScreen = () => {
       toast.success(response.data.message);
     } catch (error) {
       const res = error.response.data;
-      // Handle errors
       toast.error(res.error);
     }
   };
@@ -41,54 +40,62 @@ const RegisterScreen = () => {
   };
 
   return (
-    <FormContainer>
-      <h1>Register</h1>
+    <div className="d-flex">
+      <img
+        src="/illustration-your-users.svg"
+        alt=""
+        className="register_img"
+      />
 
-      <Form onSubmit={submitHandler}>
-        <Form.Group className="my-2" controlId="name">
-          <Form.Label>Name:</Form.Label>
-          <Form.Control
-            type="text"
-            name="name"
-            placeholder="Enter your full name..."
-            onChange={onChangeHandler}
-            required
-          ></Form.Control>
-        </Form.Group>
+      <FormContainer>
+        <h1>Register</h1>
 
-        <Form.Group className="my-2" controlId="email">
-          <Form.Label>Email:</Form.Label>
-          <Form.Control
-            type="email"
-            name="email"
-            placeholder="Enter your email..."
-            onChange={onChangeHandler}
-            required
-          ></Form.Control>
-        </Form.Group>
+        <Form onSubmit={submitHandler}>
+          <Form.Group className="my-2" controlId="name">
+            <Form.Label>Name:</Form.Label>
+            <Form.Control
+              type="text"
+              name="name"
+              placeholder="Enter your full name..."
+              onChange={onChangeHandler}
+              required
+            ></Form.Control>
+          </Form.Group>
 
-        <Form.Group className="my-2" controlId="password">
-          <Form.Label>Password:</Form.Label>
-          <Form.Control
-            type="password"
-            name="password"
-            placeholder="Enter your password..."
-            onChange={onChangeHandler}
-            required
-          ></Form.Control>
-        </Form.Group>
+          <Form.Group className="my-2" controlId="email">
+            <Form.Label>Email:</Form.Label>
+            <Form.Control
+              type="email"
+              name="email"
+              placeholder="Enter your email..."
+              onChange={onChangeHandler}
+              required
+            ></Form.Control>
+          </Form.Group>
 
-        <Button type="submit" variant="primary" className="mt-3">
-          Register
-        </Button>
+          <Form.Group className="my-2" controlId="password">
+            <Form.Label>Password:</Form.Label>
+            <Form.Control
+              type="password"
+              name="password"
+              placeholder="Enter your password..."
+              onChange={onChangeHandler}
+              required
+            ></Form.Control>
+          </Form.Group>
 
-        <Row className="py-3">
-          <Col>
-            Already Have An Account? <Link to="/login">Sign In</Link>
-          </Col>
-        </Row>
-      </Form>
-    </FormContainer>
+          <Button type="submit" variant="primary" className="mt-3">
+            Register
+          </Button>
+
+          <Row className="py-3">
+            <Col>
+              Already Have An Account? <Link to="/login">Sign In</Link>
+            </Col>
+          </Row>
+        </Form>
+      </FormContainer>
+    </div>
   );
 };
 
