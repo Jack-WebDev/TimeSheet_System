@@ -11,9 +11,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.css";
 
 import HomeScreen from "./screens/HomeScreen.jsx";
-// import EmployeeLogin from "./screens/EmployeeLogin.jsx";
-import AdminLogin from "./screens/AdminLogin.jsx";
-import ManagerLogin from "./screens/ManagerLogin.jsx";
 import RegisterScreen from "./screens/RegisterScreen.jsx";
 import EmployeesScreen from "./screens/EmployeesScreen.jsx";
 import DepartmentScreen from "./screens/DepartmentScreen.jsx";
@@ -27,18 +24,14 @@ import Login from "./screens/Login.jsx";
 import ManageTimesheets from "./screens/ManageTimesheets.jsx";
 import ReportScreen from "./screens/ReportScreen.jsx";
 
-
-
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
       <Route index={true} path="/" element={<HomeScreen />} />
       <Route path="/login" element={<Login />} />
       <Route path="/employee" element={<EmployeeDashboard />} />
-      <Route path="/adminLogin" element={<AdminLogin />} />P
       <Route path="/admin" element={<AdminDashboard />} />
 
-      <Route path="/managerLogin" element={<ManagerLogin />} />
       <Route path="/manager" element={<ManagerDashboard />} />
       <Route path="/manageTimesheets" element={<ManageTimesheets />} />
 
@@ -47,9 +40,8 @@ const router = createBrowserRouter(
       <Route path="/department" element={<DepartmentScreen />} />
       <Route path="/projects" element={<ProjectScreen />} />
       <Route path="/timeperiods" element={<TimePeriodScreen />} />
-      <Route path="/report" element={<ReportScreen/>}/>
+      <Route path="/report" element={<ReportScreen />} />
       <Route path="/logout" element={<Logout />} />
-      {/* <Route index={true} path="/" element={<Login />} /> */}
     </Route>
   )
 );

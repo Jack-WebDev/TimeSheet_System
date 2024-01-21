@@ -24,18 +24,14 @@ const HomeScreen = () => {
               I would like to sign in as:
             </p>
             <div className="d-flex">
-              <LinkContainer to="/employeeLogin">
-                <Button variant="primary" className="me-3 employeeBtn">
-                  Employee
-                </Button>
+              
+
+              <LinkContainer to="/login">
+                <Button variant="primary" className="managerBtn">Login</Button>
               </LinkContainer>
 
-              <LinkContainer to="/managerLogin">
-                <Button variant="secondary" className="managerBtn">Manager</Button>
-              </LinkContainer>
-
-              <LinkContainer to="/adminLogin">
-                <Button variant="success" className="ms-3 adminBtn">Admin</Button>
+              <LinkContainer to="/register">
+                <Button variant="success" className="ms-3 adminBtn">Register</Button>
               </LinkContainer>
             </div>
           </Card>

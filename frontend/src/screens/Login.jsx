@@ -10,6 +10,7 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
+      axios.defaults.withCredentials = true;
       const response = await axios.post('http://localhost:8001/api/auth/login', { email, password });
       const { success, role } = response.data;
 
