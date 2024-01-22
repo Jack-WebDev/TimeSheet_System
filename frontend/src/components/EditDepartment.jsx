@@ -4,7 +4,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 // eslint-disable-next-line react/prop-types
-const EditDepartment = ({ show, onHide, DepartmentID, onEdit }) => {
+const EditDepartment = ({ show, onHide, DepartmentID, onEdit}) => {
   const [departmentName, setDepartmentName] = useState("");
 
 
@@ -28,8 +28,8 @@ const EditDepartment = ({ show, onHide, DepartmentID, onEdit }) => {
       .then((response) => {
         console.log(response);
         toast.success("Department details updated successfully");
-        onEdit(); // Call the onEdit callback to notify the parent component about the update
-        onHide(); // Hide the modal
+        onEdit();
+        onHide();
       })
       .catch((error) => {
         console.error("Error updating department details:", error);

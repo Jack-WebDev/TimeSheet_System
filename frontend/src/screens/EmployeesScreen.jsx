@@ -1,5 +1,11 @@
-import { Navbar, Nav, Container } from "react-bootstrap";
-import { FaSignOutAlt } from "react-icons/fa";
+import { Nav, Container } from "react-bootstrap";
+import {
+  FaSignOutAlt,
+  FaHome,
+  FaBookOpen,
+  FaBuilding,
+  FaPeopleArrows,
+} from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import UserTable from "./UserTable";
@@ -7,86 +13,54 @@ import UserTable from "./UserTable";
 const EmployeesScreen = () => {
   return (
     <>
-      <header className="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow py-3">
-        <Container>
-          <LinkContainer to="/">
-            <Navbar.Brand>NDT Timesheet System</Navbar.Brand>
-          </LinkContainer>{" "}
-          <button
-            className="navbar-toggler position-absolute d-md-none collapsed"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#sidebarMenu"
-            aria-controls="sidebarMenu"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="navbar-nav">
-            <div className="nav-item text-nowrap">
-              <LinkContainer to="/">
-                <Nav.Link>
-                  <FaSignOutAlt /> Sign Out
-                </Nav.Link>
-              </LinkContainer>
-            </div>
-          </div>
-        </Container>
-      </header>
-
       <div className="container-fluid">
         <div className="row">
           <nav
             id="sidebarMenu"
             className="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse"
           >
-            <div className="position-sticky pt-3">
+            <div className="position-sticky pt-3 sideBar_menu">
               <ul className="nav flex-column">
                 <li className="nav-item">
                   <Link className="nav-link" to={"/admin"}>
-                    Home
+                    <FaHome /> Home
                   </Link>
                 </li>
                 <li className="nav-item">
                   <Link className="nav-link" to={"/employees"}>
-                    Manage Employees
+                    <FaPeopleArrows /> Manage Employees
                   </Link>
                 </li>
                 <li className="nav-item">
                   <Link className="nav-link" to={"/department"}>
-                    Manage Departments
+                    <FaBuilding /> Manage Departments
                   </Link>
                 </li>
                 <li className="nav-item">
                   <Link className="nav-link" to={"/projects"}>
-                    Manage Projects
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to={"/#"}>
-                    Manage Time Periods
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to={"/report"}>
-                    Generate Reports
+                    <FaBookOpen /> Manage Projects
                   </Link>
                 </li>
               </ul>
+
+              <div className="nav-item text-nowrap logout">
+                <LinkContainer to="/">
+                  <Nav.Link>
+                    <FaSignOutAlt /> Sign Out
+                  </Nav.Link>
+                </LinkContainer>
+              </div>
             </div>
           </nav>
 
           <main className="col-md-9 col-lg-10 px-md-4">
             <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-              <h1 className="h2">Hello Admin!</h1>
+              <h1>Hello Admin!</h1>
             </div>
 
-            <div className="timesheet">
-              <Container>
-                <UserTable />
-              </Container>
-            </div>
+            <Container>
+              <UserTable />
+            </Container>
           </main>
         </div>
       </div>

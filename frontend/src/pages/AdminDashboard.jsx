@@ -1,5 +1,5 @@
 import { Nav } from "react-bootstrap";
-import { FaSignOutAlt, FaHome, FaPeopleArrows, FaBuilding, FaBookOpen, FaBusinessTime } from "react-icons/fa";
+import { FaSignOutAlt, FaHome, FaPeopleArrows, FaBuilding, FaBookOpen } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 
@@ -32,11 +32,6 @@ const AdminDashboard = () => {
                 <li className="nav-item">
                   <Link className="nav-link" to={"/projects"}>
                     <FaBookOpen/> Manage Projects
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to={"/timeperiods"}>
-                    <FaBusinessTime/> Manage Time Periods
                   </Link>
                 </li>
               </ul>

@@ -35,8 +35,8 @@ const EditUser = ({ show, onHide, userID, onEdit }) => {
       .then((response) => {
         console.log(response);
         toast.success("User details updated successfully");
-        onEdit(); // Call the onEdit callback to notify the parent component about the update
-        onHide(); // Hide the modal
+        onEdit();
+        onHide();
       })
       .catch((error) => {
         console.error("Error updating user details:", error);
