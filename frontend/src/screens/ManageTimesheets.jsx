@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { Navbar, Nav, Container, Button, Card } from "react-bootstrap";
-import { FaSignOutAlt } from "react-icons/fa";
+import { Nav, Button, Card } from "react-bootstrap";
+import { FaSignOutAlt, FaHome } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import axios from "axios";
@@ -17,6 +17,7 @@ const ManageTimesheets = () => {
           "http://localhost:8001/api/employee/timesheet"
         );
 
+        console.log(response);
         setTimesheets(response.data);
       } catch (error) {
         console.error("Error fetching timesheets:", error);
@@ -41,41 +42,40 @@ const ManageTimesheets = () => {
   };
 
   const renderTimesheetCard = (timesheet) => (
-    <div>
-      <Container className="d-flex justify-content-center mb-3">
-        <Card
-          key={timesheet.TimesheetID}
-          className="p-5 d-flex flex-column align-items-center hero-card bg-light"
-        >
-          <>
-            <p>Name: {timesheet.FullName}</p>
-            <p>Project Name: {timesheet.ProjectName}</p>
-            <p>Start Date: {formatDate(timesheet.StartTime)}</p>
-            <p>End Date: {formatDate(timesheet.EndTime)}</p>
-            <p>Hours Worked: {timesheet.HoursWorked} hours</p>
+    <div className="col-md-4 mb-4">
+      <Card
+        key={timesheet.TimesheetID}
+        className="p-3 d-flex flex-column align-items-center hero-card bg-gradient shadow"
+      >
+        <>
+          <p className="card-text">Name: {timesheet.FullName}</p>
+          <p className="card-text">Project Name: {timesheet.ProjectName}</p>
+          <p className="card-text">
+            Start Date: {formatDate(timesheet.StartTime)}
+          </p>
+          <p className="card-text">End Date: {formatDate(timesheet.EndTime)}</p>
+          <p className="card-text">
+            Hours Worked: {timesheet.HoursWorked} hours
+          </p>
 
-            <div className="d-flex justify-content-between align-items-center gap-5 mt-3">
-              {" "}
-              <Button
-                variant="success"
-                onClick={() =>
-                  handleTimesheet(timesheet.TimesheetID, "Approved")
-                }
-              >
-                Approve
-              </Button>
-              <Button
-                variant="danger"
-                onClick={() =>
-                  handleTimesheet(timesheet.TimesheetID, "Rejected")
-                }
-              >
-                Reject
-              </Button>
-            </div>
-          </>
-        </Card>
-      </Container>
+          <div className="d-flex justify-content-between gap-5 align-items-center mt-3">
+            <Button
+              variant="success"
+              className="btn-approve"
+              onClick={() => handleTimesheet(timesheet.TimesheetID, "Approved")}
+            >
+              Approve
+            </Button>
+            <Button
+              variant="danger"
+              className="btn-reject"
+              onClick={() => handleTimesheet(timesheet.TimesheetID, "Rejected")}
+            >
+              Reject
+            </Button>
+          </div>
+        </>
+      </Card>
     </div>
   );
 
@@ -91,45 +91,17 @@ const ManageTimesheets = () => {
   };
   return (
     <>
-      <header className="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow py-3">
-        <Container>
-          <LinkContainer to="/">
-            <Navbar.Brand>NDT Timesheet System</Navbar.Brand>
-          </LinkContainer>{" "}
-          <button
-            className="navbar-toggler position-absolute d-md-none collapsed"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#sidebarMenu"
-            aria-controls="sidebarMenu"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="navbar-nav">
-            <div className="nav-item text-nowrap">
-              <LinkContainer to="/">
-                <Nav.Link>
-                  <FaSignOutAlt /> Sign Out
-                </Nav.Link>
-              </LinkContainer>
-            </div>
-          </div>
-        </Container>
-      </header>
-
       <div className="container-fluid">
         <div className="row">
           <nav
             id="sidebarMenu"
             className="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse"
           >
-            <div className="position-sticky pt-3">
+            <div className="position-sticky pt-3 sideBar_menu h-100">
               <ul className="nav flex-column">
                 <li className="nav-item">
                   <Link className="nav-link" to={"/manager"}>
-                    Home
+                    <FaHome /> Home
                   </Link>
                 </li>
                 <li className="nav-item">
@@ -138,43 +110,37 @@ const ManageTimesheets = () => {
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to={"/#"}>
+                  <Link className="nav-link" to={"/generateReport"}>
                     Generate Reports
                   </Link>
                 </li>
               </ul>
+
+              <div className="nav-item text-nowrap logout">
+                <LinkContainer to="/">
+                  <Nav.Link>
+                    <FaSignOutAlt /> Sign Out
+                  </Nav.Link>
+                </LinkContainer>
+              </div>
             </div>
           </nav>
 
           <main className="col-md-9 col-lg-10 px-md-4">
             <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-              <h1>Goodday Manager!</h1>
-              <div className="btn-toolbar mb-2 mb-md-0">
-                <div className="btn-group me-2">
-                  <button
-                    type="button"
-                    className="btn btn-sm btn-outline-secondary"
-                  >
-                    Share
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-sm btn-outline-secondary"
-                  >
-                    Export
-                  </button>
-                </div>
-              </div>
+              <h1>Good day Manager!</h1>
             </div>
             {loading && <p>Loading timesheets...</p>}
 
             <div className="timesheet">
-              <h2 className="h2">Employee Timesheets</h2>
-              {timesheets.length === 0 ? (
-                <p className="p">No timesheets available.</p>
-              ) : (
-                timesheets.map(renderTimesheetCard)
-              )}
+              <h2 className="text-center mb-5 mt-5">Employee Timesheets</h2>
+              <div className="row row-cols-1 row-cols-md-3 g-4">
+                {timesheets.length === 0 ? (
+                  <p className="p">No timesheets available.</p>
+                ) : (
+                  timesheets.map(renderTimesheetCard)
+                )}
+              </div>
             </div>
           </main>
         </div>

@@ -1,29 +1,20 @@
+import asyncHandler from "express-async-handler";
+import { pool } from "../models/database.js";
 
-const generateReport = (req,res) => {
-    const {employeeId, departmentId, projectId, startDate, endDate} = req.body;
+const generateReport = asyncHandler(async (req, res) => {
+  const { userId, departmentId, projectId, startDate, endDate } = req.body;
+  try {
+    const query =
+      "SELECT * FROM Users, Departments, Projects WHERE UserID = ? AND DepartmentID = ? AND ProjectID = ? AND StartTime = ? AND EndTime = ?";
 
-    let filteredTimesheetData = timesheetData;
+    const values = [userId, departmentId, projectId, startDate, endDate];
+    const data = await pool.query(query, values);
 
-    if (employeeId) {
-      filteredTimesheetData = filteredTimesheetData.filter(entry => entry.employeeId === employeeId);
-    }
-  
-    if (departmentId) {
-      filteredTimesheetData = filteredTimesheetData.filter(entry => entry.departmentId === departmentId);
-    }
-  
-    if (projectId) {
-      filteredTimesheetData = filteredTimesheetData.filter(entry => entry.projectId === projectId);
-    }
-  
-    if (startDate && endDate) {
-      filteredTimesheetData = filteredTimesheetData.filter(entry =>
-        entry.date >= startDate && entry.date <= endDate
-      );
-    }
-  
-    res.json({ timesheetData: filteredTimesheetData });
-}
+    res.status(200).json({ data });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Failed to generate report" });
+  }
+});
 
-
-export {generateReport}
+export { generateReport };
