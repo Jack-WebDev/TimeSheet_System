@@ -77,10 +77,11 @@ const EmployeeDashboard = () => {
 
   return (
     <>
-      <header className="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow py-3">
+      <header className="navbar navbar-dark sticky-top flex-md-nowrap p-0 shadow py-3" style={{backgroundColor: 'rgb(31, 41, 57)'}}>
         <Container>
           <LinkContainer to="/">
-            <Navbar.Brand>NDT Timesheet System</Navbar.Brand>
+            <Navbar.Brand style={{fontSize: '1.5rem',
+    fontWeight: 600}}>NDT Timesheet System</Navbar.Brand>
           </LinkContainer>{" "}
           <button
             className="navbar-toggler position-absolute d-md-none collapsed"

@@ -25,14 +25,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/auth", userRoutes);
 app.use("/api/admin", departmentRouter, projectRouter);
 app.use("/api/employee", timesheetRouter);
-// app.use("/api/departments", departmentRouter);
-// app.use("/api/projects", projectRouter);
-// app.use("/api/timesheets");
 app.use("/api/reports", reportRouter);
 
 app.listen(port, () => {
   console.log(`Server running.... on port ${port}`);
 });
-
-
-

@@ -1,79 +1,54 @@
-import { Navbar, Nav, Container } from "react-bootstrap";
-import { FaSignOutAlt } from "react-icons/fa";
+import { Nav } from "react-bootstrap";
+import { FaSignOutAlt, FaHome, FaPeopleArrows, FaBuilding, FaBookOpen, FaBusinessTime } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 
 const AdminDashboard = () => {
   return (
     <>
-      <header className="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow py-3">
-        <Container>
-          <LinkContainer to="/">
-            <Navbar.Brand>NDT Timesheet System</Navbar.Brand>
-          </LinkContainer>{" "}
-          <button
-            className="navbar-toggler position-absolute d-md-none collapsed"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#sidebarMenu"
-            aria-controls="sidebarMenu"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="navbar-nav">
-            <div className="nav-item text-nowrap">
-              <LinkContainer to="/">
-                <Nav.Link>
-                  <FaSignOutAlt /> Sign Out
-                </Nav.Link>
-              </LinkContainer>
-            </div>
-          </div>
-        </Container>
-      </header>
-
       <div className="container-fluid">
         <div className="row">
           <nav
             id="sidebarMenu"
             className="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse"
           >
-            <div className="position-sticky pt-3">
+            <div className="position-sticky pt-3 sideBar_menu">
               <ul className="nav flex-column">
                 <li className="nav-item">
                   <a className="nav-link active" aria-current="page" href="#">
-                    Home
+                    <FaHome/> Home
                   </a>
                 </li>
                 <li className="nav-item">
                   <Link className="nav-link" to={"/employees"}>
-                    Manage Employees
+                    <FaPeopleArrows/> Manage Employees
                   </Link>
                 </li>
                 <li className="nav-item">
                   <Link className="nav-link" to={"/department"}>
-                    Manage Departments
+                    <FaBuilding/> Manage Departments
                   </Link>
                 </li>
                 <li className="nav-item">
                   <Link className="nav-link" to={"/projects"}>
-                    Manage Projects
+                    <FaBookOpen/> Manage Projects
                   </Link>
                 </li>
                 <li className="nav-item">
                   <Link className="nav-link" to={"/timeperiods"}>
-                    Manage Time Periods
+                    <FaBusinessTime/> Manage Time Periods
                   </Link>
                 </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to={"/report"}>
-                    Generate Reports
-                  </Link>
-                </li>
-
               </ul>
+
+              <div className="nav-item text-nowrap logout">
+              <LinkContainer to="/">
+                <Nav.Link>
+                  <FaSignOutAlt /> Sign Out
+                </Nav.Link>
+              </LinkContainer>
+            </div>
+
             </div>
           </nav>
 

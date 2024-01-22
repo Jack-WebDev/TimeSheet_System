@@ -17,11 +17,11 @@ userRouter.post("/admin/login", authUser, verifyToken);
 userRouter.post("/manager/login", authUser, verifyToken);
 userRouter.post("/register", registerUser);
 userRouter.post("/logout", logOutUser);
-userRouter.get("/users", verifyToken,isAdmin,getAllUsers);
+userRouter.get("/users", verifyToken, isAdmin, getAllUsers);
 userRouter
   .route("/users/:id")
-  .get(verifyToken,isAdmin, getUser)
-  .put(verifyToken,isAdmin, updateUserProfile)
-  .delete(verifyToken,isAdmin, deleteUserProfile);
+  .get(verifyToken, isAdmin, getUser)
+  .put(verifyToken, isAdmin, updateUserProfile)
+  .delete(verifyToken, isAdmin, deleteUserProfile);
 
 export default userRouter;
