@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 dotenv.config();
-const port = process.env.PORT || 5001;
+const PORT = process.env.PORT || 5001;
 import userRoutes from "./routes/userRoute.js";
 import timesheetRouter from "./routes/timesheetRoute.js";
 import cookieParser from "cookie-parser";
@@ -27,6 +27,6 @@ app.use("/api/admin", departmentRouter, projectRouter);
 app.use("/api/employee", timesheetRouter);
 app.use("/api/reports", reportRouter);
 
-app.listen(port, () => {
-  console.log(`Server running.... on port ${port}`);
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}....`);
 });
