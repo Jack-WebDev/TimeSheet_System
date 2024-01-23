@@ -1,71 +1,63 @@
-// ... (existing imports)
+// ... (imports and other code remain unchanged)
 
 const ManageTimesheets = () => {
-  // ... (existing state and useEffect)
+  const [timesheets, setTimesheets] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [showDetails, setShowDetails] = useState([]);
+  const [avatars, setAvatars] = useState([]);
 
-  const renderTimesheetCard = (timesheet) => (
-    <div className="col-md-4 mb-4">
-      <Card
-        key={timesheet.TimesheetID}
-        className="p-3 d-flex flex-column align-items-center hero-card bg-gradient shadow"
-      >
-        <>
-          <p className="card-text">Name: {timesheet.FullName}</p>
-          <p className="card-text">Project Name: {timesheet.ProjectName}</p>
-          <p className="card-text">Start Date: {formatDate(timesheet.StartTime)}</p>
-          <p className="card-text">End Date: {formatDate(timesheet.EndTime)}</p>
-          <p className="card-text">Hours Worked: {timesheet.HoursWorked} hours</p>
+  useEffect(() => {
+    const fetchTimesheets = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:8001/api/timesheet/manager/timesheets"
+        );
 
-          <div className="d-flex justify-content-between align-items-center mt-3">
-            <Button
-              variant="success"
-              className="btn-approve"
-              onClick={() => handleTimesheet(timesheet.TimesheetID, "Approved")}
-            >
-              Approve
-            </Button>
-            <Button
-              variant="danger"
-              className="btn-reject"
-              onClick={() => handleTimesheet(timesheet.TimesheetID, "Rejected")}
-            >
-              Reject
-            </Button>
-          </div>
-        </>
-      </Card>
-    </div>
-  );
+        setTimesheets(response.data);
 
-  // ... (existing formatDate function and return statement)
+        const avatarPromises = response.data.map(async (timesheet) => {
+          const response = await fetch('https://randomuser.me/api/');
+          const data = await response.json();
+          return data.results[0];
+        });
 
-  return (
-    <>
-      <div className="container-fluid">
-        <div className="row">
-          {/* ... (existing navigation sidebar) */}
+        const avatarData = await Promise.all(avatarPromises);
+        setAvatars(avatarData);
+      } catch (error) {
+        console.error("Error fetching timesheets:", error);
+        toast.error("Forbidden: Manager access required!");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-          <main className="col-md-9 col-lg-10 px-md-4">
-            <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-              <h1>Good day Manager!</h1>
-            </div>
-            {loading && <p>Loading timesheets...</p>}
+    fetchTimesheets();
+  }, []);
 
-            <div className="timesheet">
-              <h2 className="text-center mb-5 mt-5">Employee Timesheets</h2>
-              <div className="row row-cols-1 row-cols-md-3 g-4">
-                {timesheets.length === 0 ? (
-                  <p className="p">No timesheets available.</p>
-                ) : (
-                  timesheets.map(renderTimesheetCard)
-                )}
-              </div>
-            </div>
-          </main>
-        </div>
+  const handleTimesheet = (timesheetID, status) => {
+    try {
+      axios.put(`http://localhost:8001/api/employee/timesheet/${timesheetID}`, {
+        status,
+      });
+      toast.success("Timesheet status updated successfully");
+    } catch (error) {
+      console.error("Error updating timesheet status:", error);
+    }
+  };
+
+  const renderTimesheetCard = (timesheet, index) => {
+    const randomUser = avatars[index];
+
+    return (
+      <div className="col-md-4 mb-4" key={timesheet.TimesheetID}>
+        <Card className="p-3 d-flex flex-column align-items-center hero-card bg-gradient shadow">
+          {/* ... (rest of the code remains unchanged) */}
+        </Card>
       </div>
-    </>
-  );
+    );
+  };
+
+  // ... (rest of the code remains unchanged)
 };
 
 export default ManageTimesheets;

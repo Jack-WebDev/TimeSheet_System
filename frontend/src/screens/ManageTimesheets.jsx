@@ -9,6 +9,29 @@ import { toast } from "react-toastify";
 const ManageTimesheets = () => {
   const [timesheets, setTimesheets] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showDetails, setShowDetails] = useState({});
+  const [randomUser, setRandomUser] = useState(null);
+
+  useEffect(() => {
+    const fetchRandomUser = async () => {
+      try {
+        const response = await fetch('https://randomuser.me/api/');
+        const data = await response.json();
+        setRandomUser(data.results[0]);
+      } catch (error) {
+        console.error('Error fetching random user:', error);
+      }
+    };
+  
+    fetchRandomUser()
+  }, []);
+
+  const toggleDetails = (timesheetID) => {
+    setShowDetails((prevDetails) => ({
+      ...prevDetails,
+      [timesheetID]: !prevDetails[timesheetID],
+    }));
+  };
 
   useEffect(() => {
     const fetchTimesheets = async () => {
@@ -17,7 +40,6 @@ const ManageTimesheets = () => {
           "http://localhost:8001/api/timesheet/manager/timesheets"
         );
 
-        console.log(response);
         setTimesheets(response.data);
       } catch (error) {
         console.error("Error fetching timesheets:", error);
@@ -47,34 +69,59 @@ const ManageTimesheets = () => {
         key={timesheet.TimesheetID}
         className="p-3 d-flex flex-column align-items-center hero-card bg-gradient shadow"
       >
-        <>
-          <p className="card-text">Name: {timesheet.FullName}</p>
-          <p className="card-text">Project Name: {timesheet.ProjectName}</p>
-          <p className="card-text">
-            Start Date: {formatDate(timesheet.StartTime)}
-          </p>
-          <p className="card-text">End Date: {formatDate(timesheet.EndTime)}</p>
-          <p className="card-text">
-            Hours Worked: {timesheet.HoursWorked} hours
-          </p>
-
-          <div className="d-flex justify-content-between gap-5 align-items-center mt-3">
-            <Button
-              variant="success"
-              className="btn-approve"
-              onClick={() => handleTimesheet(timesheet.TimesheetID, "Approved")}
-            >
-              Approve
-            </Button>
-            <Button
-              variant="danger"
-              className="btn-reject"
-              onClick={() => handleTimesheet(timesheet.TimesheetID, "Rejected")}
-            >
-              Reject
-            </Button>
+        <div className="d-flex align-items-center avatar_container">
+        {randomUser && (
+            <img src={randomUser.picture.thumbnail} alt="Avatar" className="avatar" />
+          )}
+          <div className="ml-3">
+            <p className="card-text">Name: {timesheet.FullName}</p>
           </div>
-        </>
+        </div>
+
+        {showDetails[timesheet.TimesheetID] && (
+          <>
+            {/* Display additional details when showDetails is true */}
+            <p className="card-text">Project Name: {timesheet.ProjectName}</p>
+            <p className="card-text">
+              Start Date: {formatDate(timesheet.StartTime)}
+            </p>
+            <p className="card-text">
+              End Date: {formatDate(timesheet.EndTime)}
+            </p>
+            <p className="card-text">
+              Hours Worked: {timesheet.HoursWorked} hours
+            </p>
+
+            <div className="d-flex justify-content-between gap-5 align-items-center mt-3">
+              <Button
+                variant="success"
+                className="btn-approve"
+                onClick={() =>
+                  handleTimesheet(timesheet.TimesheetID, "Approved")
+                }
+              >
+                Approve
+              </Button>
+              <Button
+                variant="danger"
+                className="btn-reject"
+                onClick={() =>
+                  handleTimesheet(timesheet.TimesheetID, "Rejected")
+                }
+              >
+                Reject
+              </Button>
+            </div>
+          </>
+        )}
+
+        <Button
+          variant="primary"
+          className="btn-view"
+          onClick={() => toggleDetails(timesheet.TimesheetID)}
+        >
+          {showDetails[timesheet.TimesheetID] ? "Hide Details" : "View Details"}
+        </Button>
       </Card>
     </div>
   );

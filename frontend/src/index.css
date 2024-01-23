@@ -75,6 +75,21 @@ body {
   width: fit-content;
 }
 
+.avatar_container {
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  gap: 1rem;
+}
+
+.btn-view {
+  margin-block-start: 1rem;
+}
+
+.avatar {
+  border-radius: 50%;
+}
+
 .p {
   text-align: center;
   font-size: 4rem;

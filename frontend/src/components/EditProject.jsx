@@ -28,8 +28,8 @@ const EditProject = ({ show, onHide, ProjectID, onEdit }) => {
       .then((response) => {
         console.log(response);
         toast.success("Project details updated successfully");
-        onEdit(); // Call the onEdit callback to notify the parent component about the update
-        onHide(); // Hide the modal
+        onEdit();
+        onHide();
       })
       .catch((error) => {
         console.error("Error updating Project details:", error);
