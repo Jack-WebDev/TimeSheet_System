@@ -1,6 +1,6 @@
 {
   "name": "ndt-timesheet-system",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "The system will enable employees to enter their timesheets online, with time booked per department and project. It will also provide reporting capabilities for managers and supervisors.",
   "type": "module",
   "main": "server.js",
@@ -23,8 +23,7 @@
     "express": "^4.18.2",
     "express-async-handler": "^1.2.0",
     "jsonwebtoken": "^9.0.2",
-    "mysql2": "^3.7.0",
-    "react-toastify": "^9.1.3"
+    "mysql2": "^3.7.0"
   },
   "devDependencies": {
     "nodemon": "^3.0.2"
