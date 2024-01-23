@@ -1,11 +1,13 @@
-
 /*
 text-colour: rgb(31, 41, 57);
 */
 
 body {
   background-color: rgb(247, 248, 249);
-  
+}
+
+.rbc-event {
+  background-color: red;
 }
 
 .logo {
@@ -17,7 +19,7 @@ body {
   flex-direction: column;
   justify-content: space-between;
   height: 100vh;
-  background-color: rgb(31,41,57);
+  background-color: rgb(31, 41, 57);
 }
 
 .sideBar_menu ul {
@@ -110,4 +112,3 @@ body {
   top: 5rem;
   left: 5rem;
 }
-

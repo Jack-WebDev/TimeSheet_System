@@ -114,7 +114,7 @@ const EmployeeDashboard = () => {
         <div className="row">
           <main className="col-md-9 col-lg-10 px-md-4">
             <div className="d-flex justify-content-center flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
-              <h1 className="h2">
+              <h1 className="text-center">
                 Welcome to the Employee Timesheet Dashboard!
               </h1>
             </div>
