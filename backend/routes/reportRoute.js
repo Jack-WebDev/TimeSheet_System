@@ -1,10 +1,8 @@
+import express from "express";
+const reportRouter = express.Router();
 
-import express from 'express'
-const reportRouter = express.Router()
+import { generateReport } from "../controllers/reportController.js";
 
-import {generateReport} from '../controllers/reportController.js'
-
-reportRouter.get('/report',generateReport)
-
+reportRouter.get("/report", generateReport);
 
 export default reportRouter;

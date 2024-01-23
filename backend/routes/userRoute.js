@@ -13,8 +13,6 @@ import {
 import { isAdmin, verifyToken } from "../middleware/protectRoute.js";
 
 userRouter.post("/login", authUser, verifyToken);
-userRouter.post("/admin/login", authUser, verifyToken);
-userRouter.post("/manager/login", authUser, verifyToken);
 userRouter.post("/register", registerUser);
 userRouter.post("/logout", logOutUser);
 userRouter.get("/users", verifyToken, isAdmin, getAllUsers);

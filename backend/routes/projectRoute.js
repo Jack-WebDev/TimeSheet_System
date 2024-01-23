@@ -11,7 +11,6 @@ import {
 } from "../controllers/projectController.js";
 import { verifyToken, isAdmin } from "../middleware/protectRoute.js";
 
-// projectRouter.get("/projects/:id")
 projectRouter
   .route("/project")
   .get(verifyToken, isAdmin, getProjects)
