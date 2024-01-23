@@ -1,5 +1,4 @@
 
--- Create User Table
 CREATE TABLE Users (
     UserID INT PRIMARY KEY AUTO_INCREMENT,
     Name VARCHAR(50) NOT NULL,
