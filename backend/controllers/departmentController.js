@@ -6,19 +6,18 @@ import { pool } from "../models/database.js";
 // Public
 const getDepartments = asyncHandler(async (req, res) => {
   try {
-    const query = "SELECT departments.DepartmentID, departments.DepartmentName, COUNT(projects.ProjectID) AS projectCount FROM departments LEFT JOIN projects ON departments.DepartmentID = projects.DepartmentID GROUP BY departments.DepartmentID, departments.DepartmentName";
+    const query =
+      "SELECT departments.DepartmentID, departments.DepartmentName, COUNT(projects.ProjectID) AS projectCount FROM departments LEFT JOIN projects ON departments.DepartmentID = projects.DepartmentID GROUP BY departments.DepartmentID, departments.DepartmentName";
     const [rows] = await pool.query(query);
     if (rows.length === 0) {
-      return res.status(401).json({ message: "No departments available" });
+      return res.status(200).json({ message: "No departments available" });
     }
     res.status(200).json({ rows });
   } catch (error) {
     console.error("Error getting departments", error);
+    res.status(500).json({ error: "Error getting departments." });
   }
 });
-
-
-
 
 // Create Departments
 // Post req
@@ -32,7 +31,7 @@ const createDepartment = asyncHandler(async (req, res) => {
 
     await pool.query(query, values);
 
-    res.status(200).json({ message: "Department created!" });
+    res.status(201).json({ message: "Department created!" });
   } catch (error) {
     console.error("Error creating department", error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -90,7 +89,7 @@ const updateDepartment = asyncHandler(async (req, res) => {
     const values = [departmentName, id];
     await pool.query(query, values);
 
-    res.status(200).json({ message: "Department Updated" });
+    res.status(201).json({ message: "Department Updated" });
   } catch (error) {
     console.error("Error updating department", error);
     res.status(500).json({ error: "Internal Server Error" });

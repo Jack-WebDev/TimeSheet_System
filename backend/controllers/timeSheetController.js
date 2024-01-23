@@ -8,12 +8,13 @@ const getTimesheets = asyncHandler(async (req, res) => {
   try {
     const query = "SELECT * FROM Timesheets ORDER BY CREATED_AT DESC";
     const [rows] = await pool.query(query);
-    // if (rows.length === 0) {
-    //   return res.status(401).json({ message: "No Timesheets available" });
-    // }
+    if (rows.length === 0) {
+      return res.status(200).json({ message: "No Timesheets available" });
+    }
     res.status(200).json(rows);
   } catch (error) {
     console.error("Error getting timesheets", error);
+    res.status(500).json({ error: "Error getting timesheets" });
   }
 });
 
@@ -30,7 +31,7 @@ const createTimesheet = asyncHandler(async (req, res) => {
 
     await pool.query(query, values);
 
-    res.status(200).json({ message: "Project created!" });
+    res.status(201).json({ message: "Project created!" });
   } catch (error) {
     console.error("Error creating project", error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -89,7 +90,7 @@ const updateTimesheet = asyncHandler(async (req, res) => {
 
     await pool.query(query, values);
 
-    res.status(200).json({ message: "Timesheet Updated" });
+    res.status(201).json({ message: "Timesheet Updated" });
   } catch (error) {
     console.error("Error updating timesheet", error);
     res.status(500).json({ error: "Internal Server Error" });

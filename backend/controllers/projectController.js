@@ -9,40 +9,32 @@ const getProjects = asyncHandler(async (req, res) => {
     const query = "SELECT * FROM Projects";
     const [rows] = await pool.query(query);
     if (rows.length === 0) {
-      return res.status(401).json({ message: "No Projects available" });
+      return res.status(200).json({ message: "No Projects available" });
     }
     res.status(200).json({ rows });
   } catch (error) {
     console.error("Error getting projects", error);
+    res.status(500).json({ error: "Error getting projects" });
   }
 });
-
 
 // Get projects by department
 // Get req
 // Private
-
-const getProjectByDepart = asyncHandler(async (req,res) => {
-  const {id} = req.params;
+const getProjectByDepart = asyncHandler(async (req, res) => {
+  const { id } = req.params;
 
   try {
+    const query = "SELECT * FROM Projects WHERE DepartmentID = ?";
+    const value = [id];
 
-    const query = "SELECT * FROM Projects WHERE DepartmentID = ?"
-    const value = [id]
-
-    await pool.query(query, value)
-    res.status(200).json({message: "Project by Department retrieved"})
+    await pool.query(query, value);
+    res.status(200).json({ message: "Project by Department retrieved" });
   } catch (error) {
-    console.error(error)
+    console.error(error);
+    res.status(500).json({ error: "Error getting project" });
   }
-})
-
-
-// app.get('/api/projects/:departmentId', (req, res) => {
-//   const departmentId = parseInt(req.params.departmentId);
-//   const departmentProjects = projects.filter(project => project.department_id === departmentId);
-//   res.json({ projects: departmentProjects });
-// });
+});
 
 // Create Projects
 // Post req
@@ -51,11 +43,11 @@ const createProject = asyncHandler(async (req, res) => {
   const { projectName, departmentID } = req.body;
 
   try {
-    const query = "INSERT INTO Projects (ProjectName, DepartmentID) VALUES (?,?)";
+    const query =
+      "INSERT INTO Projects (ProjectName, DepartmentID) VALUES (?,?)";
     const value = [projectName, departmentID];
 
-    console.log(departmentID)
-    const response = await pool.query(query, value);
+    await pool.query(query, value);
 
     res.status(201).json({ message: "Project and department link created!" });
   } catch (error) {
@@ -114,11 +106,18 @@ const updateProject = asyncHandler(async (req, res) => {
     const values = [projectName, id];
     await pool.query(query, values);
 
-    res.status(200).json({ message: "Project Updated" });
+    res.status(201).json({ message: "Project Updated" });
   } catch (error) {
     console.error("Error updating project", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
-export { getProjects, getProject,getProjectByDepart, deleteProject, createProject, updateProject };
+export {
+  getProjects,
+  getProject,
+  getProjectByDepart,
+  deleteProject,
+  createProject,
+  updateProject,
+};

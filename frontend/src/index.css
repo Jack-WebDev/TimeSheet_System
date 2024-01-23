@@ -5,7 +5,15 @@ text-colour: rgb(31, 41, 57);
 
 body {
   background-color: rgb(247, 248, 249);
-
+  .magicpattern { 
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: repeat;
+    background-image: url("data:image/svg+xml;utf8,%3Csvg viewBox=%220 0 1000 1000%22 xmlns=%22http:%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cdefs%3E%3CclipPath id=%22a%22%3E%3Cpath fill=%22currentColor%22 d=%22M797 571q-155 71-226 225t-232 90q-161-64-117-225t1.5-320.5Q181 181 340.5 99.5T613 146q113 128 226 241t-42 184Z%22%2F%3E%3C%2FclipPath%3E%3C%2Fdefs%3E%3Cg clip-path=%22url(%23a)%22%3E%3Cpath fill=%22%233c43d5%22 d=%22M797 571q-155 71-226 225t-232 90q-161-64-117-225t1.5-320.5Q181 181 340.5 99.5T613 146q113 128 226 241t-42 184Z%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+  }
+  
 }
 
 .logo {

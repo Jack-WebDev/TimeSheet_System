@@ -66,7 +66,7 @@ const registerUser = async (req, res) => {
     return res.status(201).json({ response });
   } catch (error) {
     console.error(`Error registering user: ${error}`);
-    return res.status(500).json({ message: "Internal Server Error" });
+    return res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
@@ -74,29 +74,33 @@ const registerUser = async (req, res) => {
 // POST req api/users/logout
 // Public
 const logOutUser = async (req, res) => {
-  // res.cookie("jwt gone", "", {
-  //   httpOnly: true,
-  //   expires: new Date(0),
-  // });
   res.clearCookie("jwt");
   res.status(200).json({ message: "User Logged out!" });
 };
 
 const getAllUsers = async (req, res) => {
-  const query = "SELECT * FROM USERS";
-  const response = await pool.query(query);
+  try {
+    const query = "SELECT * FROM USERS";
+    const response = await pool.query(query);
 
-  res.status(201).json({ response });
+    res.status(200).json({ response });
+  } catch (error) {
+    res.status(500).json({ error: "Error getting users" });
+  }
 };
 
 const getUser = async (req, res) => {
   const { id } = req.params;
 
-  const query = "SELECT * FROM USERS WHERE UserID = ?";
-  const value = [id];
-  const response = await pool.query(query, value);
+  try {
+    const query = "SELECT * FROM USERS WHERE UserID = ?";
+    const value = [id];
+    const response = await pool.query(query, value);
 
-  res.status(201).json({ response });
+    res.status(200).json({ response });
+  } catch (error) {
+    res.status(500).json({ error: "Error getting user" });
+  }
 };
 
 // Update User Profile
@@ -115,7 +119,7 @@ const updateUserProfile = async (req, res) => {
 
     await pool.query(updateQuery, updateValues);
 
-    return res.json({ message: "User Profile Updated!" });
+    return res.status(201).json({ message: "User Profile Updated!" });
   } catch (error) {
     console.error("Error updating profile:", error);
     return res.status(500).json({ error: "Internal Server Error" });
