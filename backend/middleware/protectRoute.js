@@ -1,5 +1,4 @@
 import jwt from "jsonwebtoken";
-import { pool } from "../models/database.js";
 
 const verifyToken = async (req, res, next) => {
   let token;
@@ -11,7 +10,7 @@ const verifyToken = async (req, res, next) => {
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_KEY);
+    jwt.verify(token, process.env.JWT_KEY);
 
     next();
   } catch (err) {
@@ -23,11 +22,7 @@ const isAdmin = async (req, res, next) => {
   let token = req.cookies.jwt;
 
   const decoded = jwt.verify(token, process.env.JWT_KEY);
-  // const user = await pool.query("SELECT * FROM USERS WHERE UserID = ?", [
-  //   decoded.userID,
-  // ]);
 
-  // console.log(decoded.role);
   if (decoded.role === "Administrator") {
     return next();
   }
@@ -38,11 +33,8 @@ const isManager = async (req, res, next) => {
   let token = req.cookies.jwt;
 
   const decoded = jwt.verify(token, process.env.JWT_KEY);
-  const user = await pool.query("SELECT * FROM USERS WHERE UserID = ?", [
-    decoded.userID,
-  ]);
 
-  if (user[0][0].Role === "Manager") {
+  if (decoded.role === "Manager") {
     return next();
   }
   return res

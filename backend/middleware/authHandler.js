@@ -37,14 +37,16 @@ const comparePassword = async (password, hashedPassword) => {
 };
 
 const generateToken = (res, userID, userRole) => {
-  const token = jwt.sign({ iserID: userID, userRole : userRole}, process.env.JWT_KEY, { expiresIn: "1h" });
+  const token = jwt.sign(
+    { iserID: userID, userRole: userRole },
+    process.env.JWT_KEY,
+    { expiresIn: "1h" }
+  );
 
   res.cookie("jwt", token, {
     httpOnly: true,
     maxAge: 1 * 60 * 60 * 1000,
   });
-
 };
-
 
 export { generateToken, comparePassword, doesUserExist, hashPassword };
