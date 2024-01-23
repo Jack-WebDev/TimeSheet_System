@@ -24,7 +24,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/auth", userRoutes);
 app.use("/api/admin", departmentRouter, projectRouter);
-app.use("/api/employee", timesheetRouter);
+app.use("/api/timesheet", timesheetRouter);
 app.use("/api/reports", reportRouter);
 
 app.listen(PORT, () => {

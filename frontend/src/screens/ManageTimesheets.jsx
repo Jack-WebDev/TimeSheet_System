@@ -14,14 +14,14 @@ const ManageTimesheets = () => {
     const fetchTimesheets = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8001/api/employee/timesheet"
+          "http://localhost:8001/api/timesheet/manager/timesheets"
         );
 
         console.log(response);
         setTimesheets(response.data);
       } catch (error) {
         console.error("Error fetching timesheets:", error);
-        toast.error("Error fetching timesheets. Please try again.");
+        toast.error("Forbidden: Manager access required!");
       } finally {
         setLoading(false);
       }
