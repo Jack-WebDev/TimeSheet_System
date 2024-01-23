@@ -4,11 +4,6 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 const TimesheetForm = () => {
-  // const [fullName, setfullName] = useState("");
-  // const [projectName, setProjectName] = useState("");
-  // const [startTime, setStartTime] = useState("");
-  // const [endTime, setEndTime] = useState("");
-  // const [hoursWorked, setHoursWorked] = useState(0.00);
   const [showModal, setShowModal] = useState(false);
   const [fullName, setFullName] = useState("");
   const [projectName, setProjectName] = useState("");
@@ -33,7 +28,7 @@ const TimesheetForm = () => {
 
     try {
       axios.defaults.withCredentials = true;
-      await axios.post("http://localhost:8001/api/employee/timesheet", {
+      await axios.post("http://localhost:8001/api/timesheet/employee/timesheet", {
         fullName,
         projectName,
         startTime,

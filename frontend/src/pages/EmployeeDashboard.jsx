@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import TimesheetForm from "../screens/TimesheetForm";
 import { toast } from "react-toastify";
-
+import TimesheeetCalendar from "../components/TimesheetCalendar";
 
 const EmployeeDashboard = () => {
   const [timesheets, setTimesheets] = useState([]);
@@ -15,7 +15,7 @@ const EmployeeDashboard = () => {
     const fetchTimesheets = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8001/api/employee/timesheet"
+          "http://localhost:8001/api/timesheet/employee/timesheet"
         );
 
         setTimesheets(response.data);
@@ -77,11 +77,15 @@ const EmployeeDashboard = () => {
 
   return (
     <>
-      <header className="navbar navbar-dark sticky-top flex-md-nowrap p-0 shadow py-3" style={{backgroundColor: 'rgb(31, 41, 57)'}}>
+      <header
+        className="navbar navbar-dark sticky-top flex-md-nowrap p-0 shadow py-3"
+        style={{ backgroundColor: "rgb(31, 41, 57)" }}
+      >
         <Container>
           <LinkContainer to="/">
-            <Navbar.Brand style={{fontSize: '1.5rem',
-    fontWeight: 600}}>NDT Timesheet System</Navbar.Brand>
+            <Navbar.Brand style={{ fontSize: "1.5rem", fontWeight: 600 }}>
+              NDT Timesheet System
+            </Navbar.Brand>
           </LinkContainer>{" "}
           <button
             className="navbar-toggler position-absolute d-md-none collapsed"
@@ -114,6 +118,7 @@ const EmployeeDashboard = () => {
                 Welcome to the Employee Timesheet Dashboard!
               </h1>
             </div>
+            <TimesheeetCalendar />
 
             <TimesheetForm />
 
