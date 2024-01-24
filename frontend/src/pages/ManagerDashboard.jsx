@@ -13,7 +13,6 @@ const ManagerDashboard = () => {
   const completedProjects = Math.floor(Math.random() * 5);
   const ongoingProjects = Math.floor(Math.random() * 3);
 
-  // Sample assigned employees
   const assignedEmployees = [
     { id: 1, name: "John Doe" },
     { id: 2, name: "Jane Smith" },

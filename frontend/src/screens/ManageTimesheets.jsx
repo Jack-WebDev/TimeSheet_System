@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Nav, Button, Card } from "react-bootstrap";
-import { FaSignOutAlt, FaHome } from "react-icons/fa";
+import { FaSignOutAlt, FaHome, FaFilePdf, FaFolderOpen } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import axios from "axios";
@@ -15,15 +15,15 @@ const ManageTimesheets = () => {
   useEffect(() => {
     const fetchRandomUser = async () => {
       try {
-        const response = await fetch('https://randomuser.me/api/');
+        const response = await fetch("https://randomuser.me/api/");
         const data = await response.json();
         setRandomUser(data.results[0]);
       } catch (error) {
-        console.error('Error fetching random user:', error);
+        console.error("Error fetching random user:", error);
       }
     };
-  
-    fetchRandomUser()
+
+    fetchRandomUser();
   }, []);
 
   const toggleDetails = (timesheetID) => {
@@ -70,18 +70,21 @@ const ManageTimesheets = () => {
         className="p-3 d-flex flex-column align-items-center hero-card bg-gradient shadow"
       >
         <div className="d-flex align-items-center avatar_container">
-        {randomUser && (
-            <img src={randomUser.picture.thumbnail} alt="Avatar" className="avatar" />
+          {randomUser && (
+            <img
+              src={randomUser.picture.thumbnail}
+              alt="Avatar"
+              className="avatar"
+            />
           )}
           <div className="ml-3">
-            <p className="card-text">Name: {timesheet.FullName}</p>
+            <p className="card-text">Name: <b>{timesheet.FullName}</b></p>
           </div>
         </div>
 
         {showDetails[timesheet.TimesheetID] && (
           <>
-            {/* Display additional details when showDetails is true */}
-            <p className="card-text">Project Name: {timesheet.ProjectName}</p>
+            <p className="card-text mt-3">Project Name: {timesheet.ProjectName}</p>
             <p className="card-text">
               Start Date: {formatDate(timesheet.StartTime)}
             </p>
@@ -144,7 +147,7 @@ const ManageTimesheets = () => {
             id="sidebarMenu"
             className="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse"
           >
-            <div className="position-sticky pt-3 sideBar_menu h-100">
+            <div className="position-sticky pt-3 sideBar_menu">
               <ul className="nav flex-column">
                 <li className="nav-item">
                   <Link className="nav-link" to={"/manager"}>
@@ -153,12 +156,12 @@ const ManageTimesheets = () => {
                 </li>
                 <li className="nav-item">
                   <Link className="nav-link" to={"/manageTimesheets"}>
-                    Manage Timesheets
+                    <FaFolderOpen /> Manage Timesheets
                   </Link>
                 </li>
                 <li className="nav-item">
                   <Link className="nav-link" to={"/generateReport"}>
-                    Generate Reports
+                    <FaFilePdf /> Generate Reports
                   </Link>
                 </li>
               </ul>

@@ -112,3 +112,15 @@ body {
   top: 5rem;
   left: 5rem;
 }
+
+.card {
+  padding: 1rem 2rem;
+  box-shadow: 1px 1px 20px 1px;
+}
+
+.timesheets {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-items: flex-end;
+  row-gap: 2rem;
+}

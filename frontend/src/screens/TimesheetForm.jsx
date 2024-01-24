@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Form, Button, Container, Card, Modal } from "react-bootstrap";
+import { Form, Button, Modal } from "react-bootstrap";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { FaCalendarPlus } from "react-icons/fa";
 
 const TimesheetForm = () => {
   const [showModal, setShowModal] = useState(false);
@@ -9,7 +10,7 @@ const TimesheetForm = () => {
   const [projectName, setProjectName] = useState("");
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
-  const [hoursWorked, setHoursWorked] = useState(0.0);
+  const [hoursWorked, setHoursWorked] = useState(null);
 
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
@@ -17,36 +18,37 @@ const TimesheetForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Calculate hours worked
     const start = new Date(startTime);
     const end = new Date(endTime);
     const millisecondsDiff = end - start;
     const hours = millisecondsDiff / (1000 * 60 * 60);
 
-    // Update state
     setHoursWorked(parseFloat(hours.toFixed(2)));
 
     try {
       axios.defaults.withCredentials = true;
-      await axios.post("http://localhost:8001/api/timesheet/employee/timesheet", {
-        fullName,
-        projectName,
-        startTime,
-        endTime,
-        hoursWorked: parseFloat(hours.toFixed(2)),
-      });
+      await axios.post(
+        "http://localhost:8001/api/timesheet/employee/timesheet",
+        {
+          fullName,
+          projectName,
+          startTime,
+          endTime,
+          hoursWorked: parseFloat(hours.toFixed(2)),
+        }
+      );
 
       toast.success("Timesheet submitted");
+      window.location.reload();
     } catch (error) {
-      // Handle errors
       toast.error("Error submitting timesheet. Try again!");
     }
   };
 
   return (
     <div className="addTimesheet">
-      <Button variant="primary" onClick={handleShowModal}>
-        Add Timesheet
+      <Button variant="primary" onClick={handleShowModal} className="d-flex justify-content-center align-items-center py-3 gap-1 mb-5 mt-5">
+        <FaCalendarPlus/> Add Timesheet
       </Button>
 
       <Modal show={showModal} onHide={handleCloseModal}>
@@ -107,8 +109,7 @@ const TimesheetForm = () => {
         </Modal.Footer>
       </Modal>
 
-
-      {hoursWorked && (
+      {/* {hoursWorked && (
         <div>
           <Container className="d-flex justify-content-center mb-3">
             <Card className="p-5 d-flex flex-column align-items-start hero-card bg-light">
@@ -120,7 +121,7 @@ const TimesheetForm = () => {
             </Card>
           </Container>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

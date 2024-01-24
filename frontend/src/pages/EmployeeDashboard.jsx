@@ -33,29 +33,29 @@ const EmployeeDashboard = () => {
   const renderTimesheetCard = (timesheet) => (
     <div key={timesheet.TimesheetID}>
       <Container className="d-flex justify-content-center mb-3">
-        <Card className="p-5 d-flex flex-column align-items-center hero-card bg-light">
-          <p className="fs-4">Full Name: {timesheet.FullName}</p>
-          <p className="fs-4">Project Name: {timesheet.ProjectName}</p>
-          <p className="fs-4">Start Date: {formatDate(timesheet.StartTime)}</p>
-          <p className="fs-4">End Date: {formatDate(timesheet.EndTime)}</p>
-          <p className="fs-4">Hours Worked: {timesheet.HoursWorked} hours</p>
+        <Card className="card d-flex flex-column align-items-start">
+          <p className="fs-4"><b>Full Name:</b> {timesheet.FullName}</p>
+          <p className="fs-4"><b>Project Name:</b> {timesheet.ProjectName}</p>
+          <p className="fs-4"><b>Start Date:</b> {formatDate(timesheet.StartTime)}</p>
+          <p className="fs-4"><b>End Date:</b> {formatDate(timesheet.EndTime)}</p>
+          <p className="fs-4"><b>Hours Worked:</b> {timesheet.HoursWorked} hours</p>
           {timesheet.Status === "Pending" && (
             <p className="fs-4">
-              Timesheet Status:{" "}
+              <b>Timesheet Status:</b>{" "}
               <span className="text-warning">{timesheet.Status}</span>
             </p>
           )}
 
           {timesheet.Status === "Approved" && (
             <p className="fs-4">
-              Timesheet Status:{" "}
+              <b>Timesheet Status:</b>{" "}
               <span className="text-success">{timesheet.Status}</span>
             </p>
           )}
 
           {timesheet.Status === "Rejected" && (
             <p className="fs-4">
-              Timesheet Status:{" "}
+              <b>Timesheet Status:</b>{" "}
               <span className="text-danger">{timesheet.Status}</span>
             </p>
           )}
@@ -82,7 +82,7 @@ const EmployeeDashboard = () => {
         style={{ backgroundColor: "rgb(31, 41, 57)" }}
       >
         <Container>
-          <LinkContainer to="/">
+          <LinkContainer to="/employee">
             <Navbar.Brand style={{ fontSize: "1.5rem", fontWeight: 600 }}>
               NDT Timesheet System
             </Navbar.Brand>
@@ -118,14 +118,14 @@ const EmployeeDashboard = () => {
                 Welcome to the Employee Timesheet Dashboard!
               </h1>
             </div>
-            <TimesheeetCalendar />
 
             <TimesheetForm />
+            <TimesheeetCalendar />
 
             {loading && <p>Loading timesheets...</p>}
 
-            <div className="timesheet">
-              <h2 className="h2">Your Timesheets</h2>
+              <h2 className="text-center mb-5 mt-5">Your Timesheets</h2>
+            <div className="timesheets">
               {timesheets.length === 0 ? (
                 <p className="p">No timesheets available.</p>
               ) : (
