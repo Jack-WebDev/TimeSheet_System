@@ -67,11 +67,8 @@ const ManageTimesheetsScreen = () => {
   };
 
   const renderTimesheetCard = (timesheet) => (
-    <div className="col-md-4 mb-4">
-      <Card
-        key={timesheet.TimesheetID}
-        className="p-3 d-flex flex-column align-items-center hero-card bg-gradient shadow"
-      >
+    <div className="col-md-4 mb-4" key={timesheet.TimesheetID}>
+      <Card className="p-3 d-flex flex-column align-items-center hero-card bg-gradient shadow">
         <div className="d-flex align-items-center avatar_container">
           {randomUser && (
             <img

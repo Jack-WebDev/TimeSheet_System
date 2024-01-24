@@ -1,6 +1,6 @@
 {
   "name": "ndt-timesheet-system",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "The system will enable employees to enter their timesheets online, with time booked per department and project. It will also provide reporting capabilities for managers and supervisors.",
   "type": "module",
   "main": "server.js",

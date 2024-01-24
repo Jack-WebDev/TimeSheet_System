@@ -111,10 +111,10 @@ const DepartmentTable = () => {
             </tr>
           ))}
         </tbody>
+      </Table>
         <Button className="mt-3" variant="primary" onClick={handleShowModal}>
           Add
         </Button>
-      </Table>
 
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>

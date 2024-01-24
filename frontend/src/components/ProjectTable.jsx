@@ -126,10 +126,10 @@ const ProjectTable = () => {
             </tr>
           ))}
         </tbody>
-        <Button className="mt-3" variant="primary" onClick={handleShowModal}>
-          Add
-        </Button>
       </Table>
+      <Button className="mt-3" variant="primary" onClick={handleShowModal}>
+        Add
+      </Button>
 
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
