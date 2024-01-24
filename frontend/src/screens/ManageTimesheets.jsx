@@ -54,7 +54,7 @@ const ManageTimesheets = () => {
 
   const handleTimesheet = (timesheetID, status) => {
     try {
-      axios.put(`http://localhost:8001/api/employee/timesheet/${timesheetID}`, {
+      axios.put(`http://localhost:8001/api/timesheet/manager/timesheets/${timesheetID}`, {
         status,
       });
       toast.success("Timesheet status updated successfully");
@@ -167,7 +167,7 @@ const ManageTimesheets = () => {
               </ul>
 
               <div className="nav-item text-nowrap logout">
-                <LinkContainer to="/">
+                <LinkContainer to="/logout">
                   <Nav.Link>
                     <FaSignOutAlt /> Sign Out
                   </Nav.Link>

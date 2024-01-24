@@ -49,6 +49,7 @@ const EditDepartment = ({ show, onHide, DepartmentID, onEdit}) => {
               type="text"
               value={departmentName}
               onChange={(e) => setDepartmentName(e.target.value)}
+              required
             />
           </Form.Group>
         </Form>

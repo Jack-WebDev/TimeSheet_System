@@ -2,7 +2,6 @@ import { Navbar, Nav, Container } from "react-bootstrap";
 import { FaSignOutAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
-import GenerateReport from "./GenerateReport";
 
 const ReportScreen = () => {
 
@@ -83,10 +82,6 @@ const ReportScreen = () => {
               <h1>Hello Admin!</h1>
               
             </div>
-
-            <>
-            <GenerateReport/>
-            </>
           </main>
         </div>
       </div>

@@ -4,7 +4,6 @@ const projectRouter = express.Router();
 import {
   getProjects,
   getProject,
-  getProjectByDepart,
   createProject,
   deleteProject,
   updateProject,

@@ -47,7 +47,7 @@ const ManagerDashboard = () => {
               </ul>
 
               <div className="nav-item text-nowrap logout">
-                <LinkContainer to="/">
+                <LinkContainer to="/logout">
                   <Nav.Link>
                     <FaSignOutAlt /> Sign Out
                   </Nav.Link>

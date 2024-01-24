@@ -64,8 +64,10 @@ const deleteTimesheet = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
   try {
-    const query = "DELETE FROM Timesheets WHERE TimesheetsID = ?";
-    const values = [id];
+    const timesheetID = parseInt(id, 10);
+
+    const query = "DELETE FROM Timesheets WHERE TimesheetID = ?";
+    const values = [timesheetID];
 
     await pool.query(query, values);
 

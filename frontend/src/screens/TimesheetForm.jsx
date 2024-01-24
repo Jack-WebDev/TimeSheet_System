@@ -108,20 +108,6 @@ const TimesheetForm = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-
-      {/* {hoursWorked && (
-        <div>
-          <Container className="d-flex justify-content-center mb-3">
-            <Card className="p-5 d-flex flex-column align-items-start hero-card bg-light">
-              <p className="fs-4">Full Name: {fullName}</p>
-              <p className="fs-4">Project Name: {projectName}</p>
-              <p className="fs-4">Start Date: {startTime}</p>
-              <p className="fs-4">End Date: {endTime}</p>
-              <p className="fs-4">Hours Worked: {hoursWorked} hours</p>
-            </Card>
-          </Container>
-        </div>
-      )} */}
     </div>
   );
 };

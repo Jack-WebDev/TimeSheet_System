@@ -1,5 +1,5 @@
 import { Navbar, Nav, Container, Card } from "react-bootstrap";
-import { FaSignOutAlt } from "react-icons/fa";
+import { FaSignOutAlt, FaTrash } from "react-icons/fa";
 import { LinkContainer } from "react-router-bootstrap";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -30,15 +30,47 @@ const EmployeeDashboard = () => {
     fetchTimesheets();
   }, []);
 
+  const handleDeleteTimesheet = async (timesheetID) => {
+    try {
+      await axios.delete(
+        `http://localhost:8001/api/timesheet/employee/timesheet/${timesheetID}`
+      );
+      setTimesheets((prevTimesheets) =>
+        prevTimesheets.filter(
+          (timesheet) => timesheet.TimesheetID !== timesheetID
+        )
+      );
+    } catch (error) {
+      console.error("Error deleting timesheet:", error);
+      toast.error("Error deleting timesheet. Please try again.");
+    }
+  };
+
   const renderTimesheetCard = (timesheet) => (
     <div key={timesheet.TimesheetID}>
       <Container className="d-flex justify-content-center mb-3">
         <Card className="card d-flex flex-column align-items-start">
-          <p className="fs-4"><b>Full Name:</b> {timesheet.FullName}</p>
-          <p className="fs-4"><b>Project Name:</b> {timesheet.ProjectName}</p>
-          <p className="fs-4"><b>Start Date:</b> {formatDate(timesheet.StartTime)}</p>
-          <p className="fs-4"><b>End Date:</b> {formatDate(timesheet.EndTime)}</p>
-          <p className="fs-4"><b>Hours Worked:</b> {timesheet.HoursWorked} hours</p>
+          <button
+            className="btn btn-danger mt-3 align-self-end"
+            onClick={() => handleDeleteTimesheet(timesheet.TimesheetID)}
+          >
+            <FaTrash />
+          </button>
+          <p className="fs-4">
+            <b>Full Name:</b> {timesheet.FullName}
+          </p>
+          <p className="fs-4">
+            <b>Project Name:</b> {timesheet.ProjectName}
+          </p>
+          <p className="fs-4">
+            <b>Start Date:</b> {formatDate(timesheet.StartTime)}
+          </p>
+          <p className="fs-4">
+            <b>End Date:</b> {formatDate(timesheet.EndTime)}
+          </p>
+          <p className="fs-4">
+            <b>Hours Worked:</b> {timesheet.HoursWorked} hours
+          </p>
           {timesheet.Status === "Pending" && (
             <p className="fs-4">
               <b>Timesheet Status:</b>{" "}
@@ -124,7 +156,7 @@ const EmployeeDashboard = () => {
 
             {loading && <p>Loading timesheets...</p>}
 
-              <h2 className="text-center mb-5 mt-5">Your Timesheets</h2>
+            <h2 className="text-center mb-5 mt-5">Your Timesheets</h2>
             <div className="timesheets">
               {timesheets.length === 0 ? (
                 <p className="p">No timesheets available.</p>

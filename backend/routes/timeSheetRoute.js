@@ -10,12 +10,26 @@ import {
 } from "../controllers/timeSheetController.js";
 import { verifyToken, isManager } from "../middleware/protectRoute.js";
 
-timesheetRouter.get("/manager/timesheets", verifyToken, isManager, getTimesheets);
-timesheetRouter.route("/employee/timesheet").get(getTimesheets).post(createTimesheet);
+timesheetRouter.get(
+  "/manager/timesheets",
+  verifyToken,
+  isManager,
+  getTimesheets
+);
+timesheetRouter.put(
+  "/manager/timesheets/:id",
+  verifyToken,
+  isManager,
+  updateTimesheet
+);
+
 timesheetRouter
-  .route("/timesheet/:id")
+  .route("/employee/timesheet")
+  .get(getTimesheets)
+  .post(createTimesheet);
+timesheetRouter
+  .route("/employee/timesheet/:id")
   .delete(deleteTimesheet)
-  .put(updateTimesheet)
   .get(getTimesheet);
 
 export default timesheetRouter;
