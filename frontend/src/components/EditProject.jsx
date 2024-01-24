@@ -25,8 +25,8 @@ const EditProject = ({ show, onHide, ProjectID, onEdit }) => {
       .put(`http://localhost:8001/api/admin/project/${ProjectID}`, {
         projectName,
       })
+      // eslint-disable-next-line no-unused-vars
       .then((response) => {
-        console.log(response);
         toast.success("Project details updated successfully");
         onEdit();
         onHide();

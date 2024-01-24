@@ -8,7 +8,7 @@ import {
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
-import ProjectTable from "./ProjectTable";
+import ProjectTable from "../components/ProjectTable";
 
 const ProjectScreen = () => {
   return (
@@ -21,7 +21,7 @@ const ProjectScreen = () => {
           >
             <div className="position-sticky pt-3 sideBar_menu">
               <ul className="nav flex-column">
-              <li className="nav-item">
+                <li className="nav-item">
                   <Link className="nav-link" to={"/admin"}>
                     <FaHome /> Home
                   </Link>

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Table, Button, Modal, Form, Container } from "react-bootstrap";
 import { toast } from "react-toastify";
-import EditProject from "../components/EditProject";
+import EditProject from "./EditProject";
 
 const ProjectTable = () => {
   const [projectName, setProjectName] = useState("");
@@ -71,8 +71,8 @@ const ProjectTable = () => {
         projectName,
         departmentID,
       })
+      // eslint-disable-next-line no-unused-vars
       .then((response) => {
-        console.log(response);
         toast.success("Project details updated successfully");
       })
       .catch((error) => {

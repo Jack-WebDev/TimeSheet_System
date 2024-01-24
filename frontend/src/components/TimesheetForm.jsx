@@ -10,6 +10,7 @@ const TimesheetForm = () => {
   const [projectName, setProjectName] = useState("");
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
+  // eslint-disable-next-line no-unused-vars
   const [hoursWorked, setHoursWorked] = useState(null);
 
   const handleShowModal = () => setShowModal(true);
@@ -47,8 +48,12 @@ const TimesheetForm = () => {
 
   return (
     <div className="addTimesheet">
-      <Button variant="primary" onClick={handleShowModal} className="d-flex justify-content-center align-items-center py-3 gap-1 mb-5 mt-5">
-        <FaCalendarPlus/> Add Timesheet
+      <Button
+        variant="primary"
+        onClick={handleShowModal}
+        className="d-flex justify-content-center align-items-center py-3 gap-1 mb-5 mt-5"
+      >
+        <FaCalendarPlus /> Add Timesheet
       </Button>
 
       <Modal show={showModal} onHide={handleCloseModal}>

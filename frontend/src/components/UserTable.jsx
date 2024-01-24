@@ -2,7 +2,7 @@ import { Table, Button } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import EditUser from "../components/EditUser";
+import EditUser from "./EditUser";
 
 const UserTable = () => {
   const [users, setUsers] = useState([]);
@@ -95,7 +95,6 @@ const handleDelete = (UserID) => {
     .catch((error) => {
       console.error("Error deleting status:", error);
     });
-
 };
 
 export default UserTable;

@@ -41,11 +41,7 @@ const RegisterScreen = () => {
 
   return (
     <div className="d-flex">
-      <img
-        src="/illustration-your-users.svg"
-        alt=""
-        className="register_img"
-      />
+      <img src="/illustration-your-users.svg" alt="" className="register_img" />
 
       <FormContainer>
         <h1>Register</h1>

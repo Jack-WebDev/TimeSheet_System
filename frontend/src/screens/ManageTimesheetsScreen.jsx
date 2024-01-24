@@ -6,7 +6,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const ManageTimesheets = () => {
+const ManageTimesheetsScreen = () => {
   const [timesheets, setTimesheets] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showDetails, setShowDetails] = useState({});
@@ -54,9 +54,12 @@ const ManageTimesheets = () => {
 
   const handleTimesheet = (timesheetID, status) => {
     try {
-      axios.put(`http://localhost:8001/api/timesheet/manager/timesheets/${timesheetID}`, {
-        status,
-      });
+      axios.put(
+        `http://localhost:8001/api/timesheet/manager/timesheets/${timesheetID}`,
+        {
+          status,
+        }
+      );
       toast.success("Timesheet status updated successfully");
     } catch (error) {
       console.errxor("Error updating timesheet status:", error);
@@ -78,13 +81,17 @@ const ManageTimesheets = () => {
             />
           )}
           <div className="ml-3">
-            <p className="card-text">Name: <b>{timesheet.FullName}</b></p>
+            <p className="card-text">
+              Name: <b>{timesheet.FullName}</b>
+            </p>
           </div>
         </div>
 
         {showDetails[timesheet.TimesheetID] && (
           <>
-            <p className="card-text mt-3">Project Name: {timesheet.ProjectName}</p>
+            <p className="card-text mt-3">
+              Project Name: {timesheet.ProjectName}
+            </p>
             <p className="card-text">
               Start Date: {formatDate(timesheet.StartTime)}
             </p>
@@ -199,4 +206,4 @@ const ManageTimesheets = () => {
   );
 };
 
-export default ManageTimesheets;
+export default ManageTimesheetsScreen;

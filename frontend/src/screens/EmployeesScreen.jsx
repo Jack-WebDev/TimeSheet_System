@@ -8,7 +8,7 @@ import {
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
-import UserTable from "./UserTable";
+import UserTable from "../components/UserTable";
 
 const EmployeesScreen = () => {
   return (

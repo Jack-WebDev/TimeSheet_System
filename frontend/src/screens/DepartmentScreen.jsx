@@ -8,7 +8,7 @@ import {
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
-import DepartmentTable from "./DepartmentTable";
+import DepartmentTable from "../components/DepartmentTable";
 
 const DepartmentScreen = () => {
   return (

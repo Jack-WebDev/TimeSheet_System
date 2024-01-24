@@ -25,8 +25,8 @@ const EditDepartment = ({ show, onHide, DepartmentID, onEdit}) => {
       .put(`http://localhost:8001/api/admin/department/${DepartmentID}`, {
         departmentName,
       })
+      // eslint-disable-next-line no-unused-vars
       .then((response) => {
-        console.log(response);
         toast.success("Department details updated successfully");
         onEdit();
         onHide();

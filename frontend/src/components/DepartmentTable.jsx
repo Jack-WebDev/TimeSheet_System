@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Table, Button, Modal, Form } from "react-bootstrap";
 import { toast } from "react-toastify";
-import EditDepartment from "../components/EditDepartment";
+import EditDepartment from "./EditDepartment";
 
 const DepartmentTable = () => {
   const [departments, setDepartments] = useState([]);
@@ -54,8 +54,8 @@ const DepartmentTable = () => {
       .post(`http://localhost:8001/api/admin/department`, {
         departmentName,
       })
+      // eslint-disable-next-line no-unused-vars
       .then((response) => {
-        console.log(response);
         toast.success("Department details updated successfully");
       })
       .catch((error) => {

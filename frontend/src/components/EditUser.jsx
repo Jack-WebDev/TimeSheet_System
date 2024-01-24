@@ -10,7 +10,6 @@ const EditUser = ({ show, onHide, userID, onEdit }) => {
   const [role, setRole] = useState("");
 
   useEffect(() => {
-    // Fetch user details based on the userID and populate the form
     axios
       .get(`http://localhost:8001/api/auth/users/${userID}`)
       .then((response) => {
@@ -25,15 +24,14 @@ const EditUser = ({ show, onHide, userID, onEdit }) => {
   }, [show, userID]);
 
   const handleSave = () => {
-    // Perform the update using axios.put as you did before
     axios
       .put(`http://localhost:8001/api/auth/users/${userID}`, {
         name,
         email,
         role,
       })
+      // eslint-disable-next-line no-unused-vars
       .then((response) => {
-        console.log(response);
         toast.success("User details updated successfully");
         onEdit();
         onHide();
