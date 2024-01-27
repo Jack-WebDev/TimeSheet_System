@@ -3,9 +3,19 @@ import { useState, useEffect } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import moment from "moment";
+import ModalForm from "./ModalForm";
 
 const TimesheetCalendar = () => {
   const [events, setEvents] = useState([]);
+  const [selectedEvent, setSelectedEvent] = useState(null);
+
+  const handleDoubleClick = e => {
+    setSelectedEvent(e);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedEvent(null);
+  };
 
   const localizer = momentLocalizer(moment);
 
@@ -201,7 +211,10 @@ const TimesheetCalendar = () => {
           boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
         }}
         components={customComponents}
+        onDoubleClickEvent={handleDoubleClick}
       />
+
+      {selectedEvent && <ModalForm onClose={handleCloseModal} event={selectedEvent}/>}
     </div>
   );
 };
