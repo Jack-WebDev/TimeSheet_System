@@ -3,12 +3,14 @@ import axios from "axios";
 import { Navigate, Link } from "react-router-dom";
 import FormContainer from "../components/FormContainer";
 import { Form, Button, Row, Col } from "react-bootstrap";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [authenticated, setAuthenticated] = useState(false);
   const [role, setRole] = useState("");
+  const { dispatch } = useAuthContext();
 
   const handleLogin = async () => {
     try {
@@ -17,11 +19,13 @@ const LoginScreen = () => {
         "http://localhost:8001/api/auth/login",
         { email, password }
       );
-      const { success, role } = response.data;
+      const { success, role, name } = response.data;
 
       if (success) {
         setAuthenticated(true);
         setRole(role);
+        localStorage.setItem("user", name)
+        dispatch({ type: "LOGIN", payload: name });
       }
     } catch (error) {
       console.error("Login failed", error);

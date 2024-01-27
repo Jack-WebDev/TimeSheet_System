@@ -8,8 +8,10 @@ import {
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
+import {useAuthContext} from '../hooks/useAuthContext'
 
 const AdminDashboard = () => {
+  const {user} = useAuthContext()
   const totalEmployees = Math.floor(Math.random() * 1000) + 200;
   const totalDepartments = Math.floor(Math.random() * 10) + 5;
 
@@ -112,7 +114,7 @@ const AdminDashboard = () => {
 
           <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-              <h1>Hello Admin!</h1>
+              <h1>Hello {user}!</h1>
             </div>
 
             <Container className="mt-5">

@@ -20,6 +20,7 @@ import EmployeeDashboard from "./pages/EmployeeDashboard.jsx";
 import Logout from "./Utils/Logout.jsx";
 import Login from "./screens/LoginScreen.jsx";
 import ManageTimesheets from "./screens/ManageTimesheetsScreen.jsx";
+import { AuthContextProvider } from "./context/AuthContext.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -42,6 +43,8 @@ const router = createBrowserRouter(
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <AuthContextProvider>
+      <RouterProvider router={router} />
+    </AuthContextProvider>
   </React.StrictMode>
 );

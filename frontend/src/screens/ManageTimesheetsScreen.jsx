@@ -5,8 +5,11 @@ import { Link } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const ManageTimesheetsScreen = () => {
+  const {user} = useAuthContext()
+
   const [timesheets, setTimesheets] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showDetails, setShowDetails] = useState({});
@@ -182,7 +185,7 @@ const ManageTimesheetsScreen = () => {
 
           <main className="col-md-9 col-lg-10 px-md-4">
             <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-              <h1>Good day Manager!</h1>
+              <h1>Good day {user}!</h1>
             </div>
             {loading && <p>Loading timesheets...</p>}
 

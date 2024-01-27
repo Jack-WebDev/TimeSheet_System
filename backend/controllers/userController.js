@@ -35,7 +35,7 @@ const authUser = async (req, res) => {
       maxAge: 1 * 60 * 60 * 1000,
     });
 
-    res.json({ success: true, role: user.Role });
+    res.json({ success: true, role: user.Role, name: user.Name });
   } catch (error) {
     console.error("Error during login:", error);
     return res.status(500).json({ error: "Internal Server Error" });

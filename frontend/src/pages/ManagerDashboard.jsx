@@ -2,8 +2,11 @@ import { Nav, Container, Row, Col, Card } from "react-bootstrap";
 import { FaSignOutAlt, FaHome, FaFolderOpen, FaFilePdf } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const ManagerDashboard = () => {
+  const {user} = useAuthContext()
+
   const upcomingProjects = Math.floor(Math.random() * 10);
   const performanceMetrics = Math.floor(Math.random() * 100);
   const teamsWithBestResults = ["Team A", "Team B", "Team C"];
@@ -58,7 +61,7 @@ const ManagerDashboard = () => {
 
           <main className="col-md-9 col-lg-10 px-md-4">
             <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-              <h1>Good day Manager!</h1>
+              <h1>Good day {user}!</h1>
             </div>
 
             <Container className="mt-4">
