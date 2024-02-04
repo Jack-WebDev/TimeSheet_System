@@ -74,7 +74,7 @@ const TimesheetForm = () => {
             </Form.Group>
 
             <Form.Group controlId="formProjectName">
-              <Form.Label>Project Name:</Form.Label>
+              <Form.Label>Task Description:</Form.Label>
               <Form.Control
                 type="text"
                 value={projectName}

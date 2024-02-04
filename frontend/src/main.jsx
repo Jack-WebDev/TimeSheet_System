@@ -10,6 +10,8 @@ import {
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.css";
 
+import NotFound from "./components/NotFound.jsx";
+import PrivateRoute from "./components/PrivateRoute.jsx";
 import RegisterScreen from "./screens/RegisterScreen.jsx";
 import EmployeesScreen from "./screens/EmployeesScreen.jsx";
 import DepartmentScreen from "./screens/DepartmentScreen.jsx";
@@ -24,19 +26,20 @@ import { AuthContextProvider } from "./context/AuthContext.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<App />}>
+    <Route path="/" element={<App />} errorElement={<NotFound />}>
       <Route index={true} path="/" element={<Login />} />
-      <Route path="/employee" element={<EmployeeDashboard />} />
-      <Route path="/admin" element={<AdminDashboard />} />
-
-      <Route path="/manager" element={<ManagerDashboard />} />
-      <Route path="/manageTimesheets" element={<ManageTimesheets />} />
-
       <Route path="/register" element={<RegisterScreen />} />
-      <Route path="/employees" element={<EmployeesScreen />} />
-      <Route path="/department" element={<DepartmentScreen />} />
-      <Route path="/projects" element={<ProjectScreen />} />
       <Route path="/logout" element={<Logout />} />
+
+      <Route path="" element={<PrivateRoute />}>
+        <Route path="/employees" element={<EmployeesScreen />} />
+        <Route path="/department" element={<DepartmentScreen />} />
+        <Route path="/projects" element={<ProjectScreen />} />
+        <Route path="/employee" element={<EmployeeDashboard />} />
+        <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/manager" element={<ManagerDashboard />} />
+        <Route path="/manageTimesheets" element={<ManageTimesheets />} />
+      </Route>
     </Route>
   )
 );
