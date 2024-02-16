@@ -124,3 +124,26 @@ body {
   justify-items: flex-end;
   row-gap: 2rem;
 }
+
+
+.btn__toggle {
+  position: absolute;
+  top: 1.5rem;
+  right: 2rem;
+  z-index: 999;
+  background-color: #FFF;
+  padding: 1px;
+}
+
+
+@media screen and (max-width: 425px) {
+  .loginScreen {
+    display: grid;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .btn__toggle{
+    display: none;
+  }
+}

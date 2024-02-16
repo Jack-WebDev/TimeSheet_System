@@ -116,23 +116,13 @@ const EmployeeDashboard = () => {
         className="navbar navbar-dark sticky-top flex-md-nowrap p-0 shadow py-3"
         style={{ backgroundColor: "rgb(31, 41, 57)" }}
       >
-        <Container>
+        <Container className="mt-0">
           <LinkContainer to="/employee">
             <Navbar.Brand style={{ fontSize: "1.5rem", fontWeight: 600 }}>
               NDT Timesheet System
             </Navbar.Brand>
           </LinkContainer>{" "}
-          <button
-            className="navbar-toggler position-absolute d-md-none collapsed"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#sidebarMenu"
-            aria-controls="sidebarMenu"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
+
           <div className="navbar-nav">
             <div className="nav-item text-nowrap">
               <LinkContainer to="/logout">
