@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 dotenv.config();
 const PORT = process.env.PORT || 5001;
 import userRoutes from "./routes/userRoute.js";
-import timesheetRouter from "./routes/timesheetRoute.js";
+import timesheetRouter from "./routes/timeSheetRoute.js"
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import departmentRouter from "./routes/departmentRoute.js";
