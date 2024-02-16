@@ -1,5 +1,6 @@
 import { pool } from "../models/database.js";
 import jwt from "jsonwebtoken";
+import validator from "validator"
 
 import {
   doesUserExist,
@@ -12,6 +13,11 @@ import {
 // Public
 const authUser = async (req, res) => {
   const { email, password } = req.body;
+
+  if(!validator.isEmail(email)){
+    return res.status(309).json({message: "Invalid email"})
+  }
+
   try {
     const query = "SELECT * FROM Users WHERE Email = ?";
     const [rows] = await pool.query(query, [email]);
@@ -48,6 +54,10 @@ const authUser = async (req, res) => {
 const registerUser = async (req, res) => {
   const { name, email, password, role } = req.body;
 
+  if(!validator.isEmail(email)){
+    return res.status(309).json({message: "Invalid email"})
+  }
+
   const userExists = await doesUserExist(email);
 
   if (userExists) {
@@ -55,6 +65,11 @@ const registerUser = async (req, res) => {
   }
 
   try {
+
+    if(!validator.isStrongPassword(password)) {
+      return res.status(309).json({message: "Password not strong enough"})
+    }
+
     const hashedPassword = await hashPassword(password);
 
     const insertQuery =
