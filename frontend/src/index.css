@@ -125,25 +125,35 @@ body {
   row-gap: 2rem;
 }
 
-
 .btn__toggle {
   position: absolute;
   top: 1.5rem;
   right: 2rem;
   z-index: 999;
-  background-color: #FFF;
+  background-color: #fff;
   padding: 1px;
 }
 
-
-@media screen and (max-width: 425px) {
-  .loginScreen {
+@media screen and (max-width: 768px) {
+  .loginScreen,
+  .registerScreen {
     display: grid;
+    margin-inline: 1.5rem;
+  }
+
+  .login_img,
+  .register_img {
+    width: 100%;
+    left: 0;
   }
 }
 
 @media screen and (min-width: 768px) {
-  .btn__toggle{
+  .btn__toggle {
     display: none;
+  }
+
+  .loginScreen, .registerScreen {
+    display: flex;
   }
 }

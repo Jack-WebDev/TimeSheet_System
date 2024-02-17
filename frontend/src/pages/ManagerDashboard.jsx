@@ -1,5 +1,12 @@
 import { Nav, Container, Row, Col, Card } from "react-bootstrap";
-import { FaSignOutAlt, FaHome, FaFolderOpen, FaFilePdf, FaBars, FaTimes} from "react-icons/fa";
+import {
+  FaSignOutAlt,
+  FaHome,
+  FaFolderOpen,
+  FaFilePdf,
+  FaBars,
+  FaTimes,
+} from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import { useAuthContext } from "../hooks/useAuthContext";
@@ -11,7 +18,7 @@ const ManagerDashboard = () => {
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
-  const {user} = useAuthContext()
+  const { user } = useAuthContext();
 
   const upcomingProjects = Math.floor(Math.random() * 10);
   const performanceMetrics = Math.floor(Math.random() * 100);
@@ -34,7 +41,9 @@ const ManagerDashboard = () => {
         <div className="row">
           <nav
             id="sidebarMenu"
-            className={`col-md-3 col-lg-2 d-md-block bg-light sidebar ${isMenuOpen ? 'show' : 'collapse'}`}
+            className={`col-md-3 col-lg-2 d-md-block bg-light sidebar ${
+              isMenuOpen ? "show" : "collapse"
+            }`}
           >
             <div className="position-sticky pt-3 sideBar_menu">
               <ul className="nav flex-column">
@@ -67,18 +76,21 @@ const ManagerDashboard = () => {
 
           <main className="col-md-9 col-lg-10 px-md-4">
             <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-              <h1>Good day {user}! <button
-        className="navbar-toggler btn__toggle"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#sidebarMenu"
-        aria-controls="sidebarMenu"
-        aria-expanded={isMenuOpen ? 'true' : 'false'}
-        aria-label="Toggle navigation"
-        onClick={toggleMenu}
-      >
-        {isMenuOpen ? <FaTimes/> : <FaBars/>}
-      </button></h1>
+              <h1>
+                Good day {user}!
+              </h1>
+                <button
+                  className="navbar-toggler btn__toggle"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#sidebarMenu"
+                  aria-controls="sidebarMenu"
+                  aria-expanded={isMenuOpen ? "true" : "false"}
+                  aria-label="Toggle navigation"
+                  onClick={toggleMenu}
+                >
+                  {isMenuOpen ? <FaTimes /> : <FaBars />}
+                </button>
             </div>
 
             <Container className="mt-4">

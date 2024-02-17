@@ -1,12 +1,10 @@
-// const knex = require('knex');
-// const db = knex(require('../../Knexfile.cjs'));
-import knex from "knex"
-import knexfile from "../../Knexfile.js"
+import knex from "knex";
+import knexfile from "../Knexfile.js";
 
-const db = knex(knexfile)
+const db = knex(knexfile);
 
 function authUserEmail() {
-  return console.log(db)
+  return console.log(db);
 }
 
 //  export function validateUser(email) {
@@ -35,4 +33,4 @@ function authUserEmail() {
 //   return db('Users').where('UserID', id).delete();
 // }
 
-authUserEmail()
+authUserEmail();

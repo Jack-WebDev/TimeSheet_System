@@ -1,6 +1,13 @@
 import { useState, useEffect } from "react";
 import { Nav, Button, Card } from "react-bootstrap";
-import { FaSignOutAlt, FaHome, FaFilePdf, FaFolderOpen } from "react-icons/fa";
+import {
+  FaSignOutAlt,
+  FaHome,
+  FaFilePdf,
+  FaFolderOpen,
+  FaTimes,
+  FaBars,
+} from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import axios from "axios";
@@ -8,7 +15,12 @@ import { toast } from "react-toastify";
 import { useAuthContext } from "../hooks/useAuthContext";
 
 const ManageTimesheetsScreen = () => {
-  const {user} = useAuthContext()
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+  const { user } = useAuthContext();
 
   const [timesheets, setTimesheets] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -152,7 +164,9 @@ const ManageTimesheetsScreen = () => {
         <div className="row">
           <nav
             id="sidebarMenu"
-            className="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse"
+            className={`col-md-3 col-lg-2 d-md-block bg-light sidebar ${
+              isMenuOpen ? "show" : "collapse"
+            }`}
           >
             <div className="position-sticky pt-3 sideBar_menu">
               <ul className="nav flex-column">
@@ -186,6 +200,19 @@ const ManageTimesheetsScreen = () => {
           <main className="col-md-9 col-lg-10 px-md-4">
             <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
               <h1>Good day {user}!</h1>
+
+              <button
+                className="navbar-toggler btn__toggle"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#sidebarMenu"
+                aria-controls="sidebarMenu"
+                aria-expanded={isMenuOpen ? "true" : "false"}
+                aria-label="Toggle navigation"
+                onClick={toggleMenu}
+              >
+                {isMenuOpen ? <FaTimes /> : <FaBars />}
+              </button>
             </div>
             {loading && <p>Loading timesheets...</p>}
 

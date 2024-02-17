@@ -43,7 +43,7 @@ const LoginScreen = () => {
   }
 
   return (
-    <div className="d-flex loginScreen">
+    <div className="loginScreen">
       <img
         src="/illustration-flowing-conversation.svg"
         alt=""
