@@ -3,11 +3,10 @@
  * @returns { Promise<void> } 
  */
 
-const bcrypt = require('bcryptjs');
+import bcrypt from "bcryptjs"
 
 
 exports.seed = async function(knex) {
-  // Deletes ALL existing entries
   await knex('Users').del()
 
   const hashedPassword = bcrypt.hashSync("1", 10)
