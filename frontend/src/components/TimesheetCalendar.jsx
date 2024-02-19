@@ -1,4 +1,4 @@
-import axios from "axios";
+import useAxios from "../hooks/useAxios"
 import { useState, useEffect } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -6,6 +6,7 @@ import moment from "moment";
 import ModalForm from "./ModalForm";
 
 const TimesheetCalendar = () => {
+  const axios = useAxios()
   const [events, setEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
 

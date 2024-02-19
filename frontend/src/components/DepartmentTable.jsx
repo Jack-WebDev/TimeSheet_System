@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { Table, Button, Modal, Form } from "react-bootstrap";
+import useAxios from "../hooks/useAxios"
 import { toast } from "react-toastify";
 import EditDepartment from "./EditDepartment";
 
 const DepartmentTable = () => {
+  const axios = useAxios()
   const [departments, setDepartments] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [departmentName, setDepartmentName] = useState("");

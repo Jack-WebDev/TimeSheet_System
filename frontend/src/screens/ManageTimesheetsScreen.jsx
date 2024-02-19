@@ -10,12 +10,13 @@ import {
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
-import axios from "axios";
+import useAxios from "../hooks/useAxios";
 import { toast } from "react-toastify";
 import { useAuthContext } from "../hooks/useAuthContext";
 
 const ManageTimesheetsScreen = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const axios = useAxios();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -65,7 +66,7 @@ const ManageTimesheetsScreen = () => {
     };
 
     fetchTimesheets();
-  }, []);
+  }, [axios]);
 
   const handleTimesheet = (timesheetID, status) => {
     try {

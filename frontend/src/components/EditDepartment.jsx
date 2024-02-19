@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { Modal, Form, Button } from "react-bootstrap";
-import axios from "axios";
+import useAxios from "../hooks/useAxios"
 import { toast } from "react-toastify";
 
 // eslint-disable-next-line react/prop-types
 const EditDepartment = ({ show, onHide, DepartmentID, onEdit}) => {
+  const axios = useAxios()
   const [departmentName, setDepartmentName] = useState("");
 
 
@@ -18,7 +19,7 @@ const EditDepartment = ({ show, onHide, DepartmentID, onEdit}) => {
       .catch((error) => {
         console.error("Error fetching department details:", error);
       });
-  }, [show, DepartmentID]);
+  }, [show, DepartmentID, axios]);
 
   const handleSave = () => {
     axios

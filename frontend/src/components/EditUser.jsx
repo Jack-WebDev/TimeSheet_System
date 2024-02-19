@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { Modal, Form, Button } from "react-bootstrap";
-import axios from "axios";
+import useAxios from "../hooks/useAxios"
 import { toast } from "react-toastify";
 
 // eslint-disable-next-line react/prop-types
 const EditUser = ({ show, onHide, userID, onEdit }) => {
+  const axios = useAxios()
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("");
@@ -21,7 +22,7 @@ const EditUser = ({ show, onHide, userID, onEdit }) => {
       .catch((error) => {
         console.error("Error fetching user details:", error);
       });
-  }, [show, userID]);
+  }, [show, userID,axios]);
 
   const handleSave = () => {
     axios

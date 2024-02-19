@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import useAxios from "../hooks/useAxios"
 import { Table, Button, Modal, Form, Container } from "react-bootstrap";
 import { toast } from "react-toastify";
 import EditProject from "./EditProject";
 
 const ProjectTable = () => {
+  const axios = useAxios()
   const [projectName, setProjectName] = useState("");
   const [departmentID, setDepartmentID] = useState("");
   const [projects, setProjects] = useState([]);

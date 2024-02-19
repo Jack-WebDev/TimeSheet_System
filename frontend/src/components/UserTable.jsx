@@ -1,10 +1,11 @@
 import { Table, Button } from "react-bootstrap";
 import { useState, useEffect } from "react";
-import axios from "axios";
+import useAxios from "../hooks/useAxios"
 import { toast } from "react-toastify";
 import EditUser from "./EditUser";
 
 const UserTable = () => {
+  const axios = useAxios()
   const [users, setUsers] = useState([]);
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedUserID, setSelectedUserID] = useState(null);
@@ -65,7 +66,7 @@ const UserTable = () => {
                 <Button
                   variant="danger"
                   size="sm"
-                  onClick={() => handleDelete(user.UserID)}
+                  onClick={() => handleDelete(user.UserID, axios)}
                 >
                   Delete
                 </Button>
@@ -85,7 +86,7 @@ const UserTable = () => {
   );
 };
 
-const handleDelete = (UserID) => {
+const handleDelete = (UserID, axios) => {
   axios
     .delete(`http://localhost:8001/api/auth/users/${UserID}`)
     // eslint-disable-next-line no-unused-vars

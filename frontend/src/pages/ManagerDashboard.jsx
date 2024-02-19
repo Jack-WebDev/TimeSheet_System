@@ -12,6 +12,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useState } from "react";
 
+
 const ManagerDashboard = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 

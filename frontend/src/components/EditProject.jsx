@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { Modal, Form, Button } from "react-bootstrap";
-import axios from "axios";
+import useAxios from "../hooks/useAxios"
 import { toast } from "react-toastify";
 
 // eslint-disable-next-line react/prop-types
 const EditProject = ({ show, onHide, ProjectID, onEdit }) => {
+  const axios = useAxios()
   const [projectName, setProjectName] = useState("");
 
 
@@ -18,7 +19,7 @@ const EditProject = ({ show, onHide, ProjectID, onEdit }) => {
       .catch((error) => {
         console.error("Error fetching Project details:", error);
       });
-  }, [show, ProjectID]);
+  }, [show, ProjectID,axios]);
 
   const handleSave = () => {
     axios

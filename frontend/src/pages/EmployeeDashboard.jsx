@@ -2,13 +2,14 @@ import { Navbar, Nav, Container, Card } from "react-bootstrap";
 import { FaSignOutAlt, FaTrash } from "react-icons/fa";
 import { LinkContainer } from "react-router-bootstrap";
 import { useState, useEffect } from "react";
-import axios from "axios";
+import useAxios from "../hooks/useAxios"
 import TimesheetForm from "../components/TimesheetForm";
 import { toast } from "react-toastify";
 import TimesheeetCalendar from "../components/TimesheetCalendar";
 import { useAuthContext } from "../hooks/useAuthContext";
 
 const EmployeeDashboard = () => {
+  const axios = useAxios()
   const {user} = useAuthContext()
 
   const [timesheets, setTimesheets] = useState([]);
@@ -31,7 +32,7 @@ const EmployeeDashboard = () => {
     };
 
     fetchTimesheets();
-  }, []);
+  }, [axios]);
 
   const handleDeleteTimesheet = async (timesheetID) => {
     try {
@@ -142,6 +143,7 @@ const EmployeeDashboard = () => {
               <h1 className="text-center">
                 Welcome to your Employee Timesheet Dashboard {user}!
               </h1>
+
             </div>
 
             <TimesheetForm />

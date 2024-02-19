@@ -1,12 +1,13 @@
 import { pool } from "../models/database.js";
 import jwt from "jsonwebtoken";
-import validator from "validator"
+import validator from "validator";
 
 import {
   doesUserExist,
   hashPassword,
   comparePassword,
 } from "../middleware/authHandler.js";
+import { saveRefreshToken } from "./refreshTokenController.js";
 
 // Auth User
 // POST req api/users/auth
@@ -14,9 +15,9 @@ import {
 const authUser = async (req, res) => {
   const { email, password } = req.body;
 
-  if(!validator.isEmail(email)){
-    return res.status(309).json({message: "Invalid email"})
-  }
+  // if (!validator.isEmail(email)) {
+  //   return res.status(309).json({ message: "Invalid email" });
+  // }
 
   try {
     const query = "SELECT * FROM Users WHERE Email = ?";
@@ -33,15 +34,36 @@ const authUser = async (req, res) => {
     const token = jwt.sign(
       { id: user.UserID, role: user.Role },
       process.env.JWT_KEY,
-      { expiresIn: "1h" }
+      { expiresIn: "10s" }
     );
 
     res.cookie("jwt", token, {
       httpOnly: true,
-      maxAge: 1 * 60 * 60 * 1000,
+      maxAge: 15 * 1000,
+      sameSite: "strict",
     });
 
-    res.json({ success: true, role: user.Role, name: user.Name });
+    const refresh_token = jwt.sign(
+      { id: user.userID, role: user.Role },
+      process.env.REFRESH_TOKEN,
+      { expiresIn: "30d" }
+    );
+
+    res.cookie("refreshToken", refresh_token, {
+      httpOnly: true,
+      sameSite: "strict",
+      maxAge: 30 * 24 * 60 * 60 * 1000,
+    });
+
+    saveRefreshToken(pool, user.UserID, refresh_token);
+
+    res.json({
+      success: true,
+      role: user.Role,
+      name: user.Name,
+      refreshToken: refresh_token,
+      token: token,
+    });
   } catch (error) {
     console.error("Error during login:", error);
     return res.status(500).json({ error: "Internal Server Error" });
@@ -54,8 +76,8 @@ const authUser = async (req, res) => {
 const registerUser = async (req, res) => {
   const { name, email, password, role } = req.body;
 
-  if(!validator.isEmail(email)){
-    return res.status(309).json({message: "Invalid email"})
+  if (!validator.isEmail(email)) {
+    return res.status(309).json({ message: "Invalid email" });
   }
 
   const userExists = await doesUserExist(email);
@@ -65,9 +87,8 @@ const registerUser = async (req, res) => {
   }
 
   try {
-
-    if(!validator.isStrongPassword(password)) {
-      return res.status(309).json({message: "Password not strong enough"})
+    if (!validator.isStrongPassword(password)) {
+      return res.status(309).json({ message: "Password not strong enough" });
     }
 
     const hashedPassword = await hashPassword(password);
@@ -90,6 +111,7 @@ const registerUser = async (req, res) => {
 // Public
 const logOutUser = async (req, res) => {
   res.clearCookie("jwt");
+  res.clearCookie("refreshToken");
   res.status(200).json({ message: "User Logged out!" });
 };
 

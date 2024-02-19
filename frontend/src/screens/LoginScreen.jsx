@@ -1,16 +1,17 @@
 import { useState } from "react";
-import axios from "axios";
 import { Navigate, Link } from "react-router-dom";
 import FormContainer from "../components/FormContainer";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import { useAuthContext } from "../hooks/useAuthContext";
+import useAxios from "../hooks/useAxios";
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [authenticated, setAuthenticated] = useState(false);
   const [role, setRole] = useState("");
-  const { dispatch } = useAuthContext();
+  const { dispatch, setAuth } = useAuthContext();
+  const axios = useAxios();
 
   const handleLogin = async () => {
     try {
@@ -19,13 +20,15 @@ const LoginScreen = () => {
         "http://localhost:8001/api/auth/login",
         { email, password }
       );
-      const { success, role, name } = response.data;
+      console.log(response);
+      const { success, role, name, token } = response.data;
 
       if (success) {
         setAuthenticated(true);
         setRole(role);
-        localStorage.setItem("user", name)
+        localStorage.setItem("user", name);
         dispatch({ type: "LOGIN", payload: name });
+        setAuth({ role, token });
       }
     } catch (error) {
       console.error("Login failed", error);
@@ -77,7 +80,7 @@ const LoginScreen = () => {
 
           <Row className="py-3">
             <Col>
-              Dont Have An Account? <Link to="/register">Register</Link>
+              Do not Have An Account? <Link to="/register">Register</Link>
             </Col>
           </Row>
         </Form>

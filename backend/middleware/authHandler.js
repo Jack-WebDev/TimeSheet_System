@@ -38,7 +38,7 @@ const comparePassword = async (password, hashedPassword) => {
 
 const generateToken = (res, userID, userRole) => {
   const token = jwt.sign(
-    { iserID: userID, userRole: userRole },
+    { userID: userID, userRole: userRole },
     process.env.JWT_KEY,
     { expiresIn: "1h" }
   );
@@ -49,4 +49,17 @@ const generateToken = (res, userID, userRole) => {
   });
 };
 
-export { generateToken, comparePassword, doesUserExist, hashPassword };
+const refreshToken = (res, userID, userRole) => {
+  const refresh_token = jwt.sign(
+    { userID, userRole },
+    process.env.REFRESH_TOKEN,
+    { expiresIn: "30d" }
+  );
+
+  res.cookie("refreshToken", refresh_token, {
+    httpOnly: true,
+    maxAge: 30 * 24 * 60 * 60 * 1000,
+  });
+};
+
+export { generateToken, comparePassword, doesUserExist, hashPassword, refreshToken };

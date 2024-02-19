@@ -9,6 +9,14 @@ CREATE TABLE Users (
 
 );
 
+CREATE TABLE RefreshTokens (
+    RefreshToken VARCHAR(255) NOT NULL PRIMARY KEY,
+    expires_at TIMESTAMP NOT NULL,
+    UserID INT,
+    FOREIGN KEY (UserID) REFERENCES Users(UserID)
+);
+
+
 CREATE TABLE Departments (
     DepartmentID INT PRIMARY KEY AUTO_INCREMENT,
     DepartmentName VARCHAR(50) NOT NULL,

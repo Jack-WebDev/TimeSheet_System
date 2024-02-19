@@ -1,10 +1,11 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import useAxios from "../hooks/useAxios";
 import { toast } from "react-toastify";
 import { useAuthContext } from "../hooks/useAuthContext";
 
 const Logout = () => {
+  const axios = useAxios();
   const { dispatch } = useAuthContext();
   const clearCookie = (name) => {
     document.cookie =
@@ -18,6 +19,7 @@ const Logout = () => {
       try {
         await axios.post("http://localhost:8001/api/auth/logout");
         clearCookie("jwt");
+        clearCookie("refreshToken");
         localStorage.clear();
         dispatch({ type: "LOG OUT" });
         navigate("/");

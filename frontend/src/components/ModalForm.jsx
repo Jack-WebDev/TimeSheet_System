@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { Form, Button, Modal } from "react-bootstrap";
-import axios from "axios";
+import useAxios from "../hooks/useAxios"
 import { toast } from "react-toastify";
 
 // eslint-disable-next-line react/prop-types
 const ModalForm = () => {
+  const axios = useAxios()
   const [showModal, setShowModal] = useState(false);
   const [fullName, setFullName] = useState("");
   const [projectName, setProjectName] = useState("");

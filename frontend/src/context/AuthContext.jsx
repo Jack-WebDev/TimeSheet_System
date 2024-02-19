@@ -1,4 +1,4 @@
-import { createContext, useReducer, useEffect } from "react";
+import { createContext, useReducer, useEffect, useState } from "react";
 
 export const AuthContext = createContext();
 
@@ -16,6 +16,7 @@ export const AuthReducer = (state, action) => {
 // eslint-disable-next-line react/prop-types
 export const AuthContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AuthReducer, { user: null });
+  const [auth, setAuth] = useState({})
 
   useEffect(() => {
     const user = localStorage.getItem("user");
@@ -27,8 +28,10 @@ export const AuthContextProvider = ({ children }) => {
 
   console.log(state);
 
+  console.log(auth)
+
   return (
-    <AuthContext.Provider value={{ ...state, dispatch }}>
+    <AuthContext.Provider value={{ ...state, dispatch, auth, setAuth }}>
       {children}
     </AuthContext.Provider>
   );
