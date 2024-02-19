@@ -15,9 +15,9 @@ import { saveRefreshToken } from "./refreshTokenController.js";
 const authUser = async (req, res) => {
   const { email, password } = req.body;
 
-  // if (!validator.isEmail(email)) {
-  //   return res.status(309).json({ message: "Invalid email" });
-  // }
+  if (!validator.isEmail(email)) {
+    return res.status(309).json({ message: "Invalid email" });
+  }
 
   try {
     const query = "SELECT * FROM Users WHERE Email = ?";
@@ -74,7 +74,7 @@ const authUser = async (req, res) => {
 // POST req api/users
 // Public
 const registerUser = async (req, res) => {
-  const { name, email, password, role } = req.body;
+  const { name, email, password} = req.body;
 
   if (!validator.isEmail(email)) {
     return res.status(309).json({ message: "Invalid email" });

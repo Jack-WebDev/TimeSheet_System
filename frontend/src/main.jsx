@@ -11,7 +11,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.css";
 
 import NotFound from "./components/NotFound.jsx";
-// import PrivateRoute from "./components/PrivateRoute.jsx";
+import PrivateRoute from "./components/PrivateRoute.jsx";
 import RegisterScreen from "./screens/RegisterScreen.jsx";
 import EmployeesScreen from "./screens/EmployeesScreen.jsx";
 import DepartmentScreen from "./screens/DepartmentScreen.jsx";
@@ -31,7 +31,7 @@ const router = createBrowserRouter(
       <Route path="/register" element={<RegisterScreen />} />
       <Route path="/logout" element={<Logout />} />
 
-      {/* <Route path="" element={<PrivateRoute />}> */}
+      <Route path="" element={<PrivateRoute />}>
         <Route path="/employees" element={<EmployeesScreen />} />
         <Route path="/department" element={<DepartmentScreen />} />
         <Route path="/projects" element={<ProjectScreen />} />
@@ -39,7 +39,7 @@ const router = createBrowserRouter(
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/manager" element={<ManagerDashboard />} />
         <Route path="/manageTimesheets" element={<ManageTimesheets />} />
-      {/* </Route> */}
+      </Route>
     </Route>
   )
 );

@@ -31,8 +31,8 @@ const ProjectTable = () => {
       );
       setProjects(response.data.rows);
     } catch (error) {
-      console.error("Error fetching Project:", error);
       toast.error("Forbidden: Admin access required!");
+      console.error("Error fetching Project:", error);
     }
   };
 
@@ -44,7 +44,6 @@ const ProjectTable = () => {
       setDepartments(response.data.rows);
     } catch (error) {
       console.error("Error fetching departments:", error);
-      toast.error("Forbidden: Admin access required!");
     }
   };
 

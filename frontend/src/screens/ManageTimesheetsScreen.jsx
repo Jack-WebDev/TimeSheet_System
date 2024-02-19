@@ -78,7 +78,7 @@ const ManageTimesheetsScreen = () => {
       );
       toast.success("Timesheet status updated successfully");
     } catch (error) {
-      console.errxor("Error updating timesheet status:", error);
+      console.error("Error updating timesheet status:", error);
     }
   };
 

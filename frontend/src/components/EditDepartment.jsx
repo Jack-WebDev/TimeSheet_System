@@ -1,13 +1,12 @@
 import { useState, useEffect } from "react";
 import { Modal, Form, Button } from "react-bootstrap";
-import useAxios from "../hooks/useAxios"
+import useAxios from "../hooks/useAxios";
 import { toast } from "react-toastify";
 
 // eslint-disable-next-line react/prop-types
-const EditDepartment = ({ show, onHide, DepartmentID, onEdit}) => {
-  const axios = useAxios()
+const EditDepartment = ({ show, onHide, DepartmentID, onEdit }) => {
+  const axios = useAxios();
   const [departmentName, setDepartmentName] = useState("");
-
 
   useEffect(() => {
     axios

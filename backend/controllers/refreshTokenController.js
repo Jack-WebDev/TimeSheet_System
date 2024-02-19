@@ -46,7 +46,6 @@ const getRefreshToken = async (req, res) => {
     console.error(`Error refreshing token: ${error}`);
   }
 
-  // return res.status(200).json({newToken})
 };
 
 export { saveRefreshToken, getRefreshToken };

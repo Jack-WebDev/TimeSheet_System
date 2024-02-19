@@ -20,7 +20,6 @@ const LoginScreen = () => {
         "http://localhost:8001/api/auth/login",
         { email, password }
       );
-      console.log(response);
       const { success, role, name, token } = response.data;
 
       if (success) {

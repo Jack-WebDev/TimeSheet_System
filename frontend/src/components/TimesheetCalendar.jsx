@@ -32,7 +32,7 @@ const TimesheetCalendar = () => {
 
       const eventsData = response.data.map((timesheet, index) => ({
         title: `${timesheet.HoursWorked} hrs`,
-        projectName: `Project Name: ${timesheet.ProjectName}`,
+        projectName: `Task Description: ${timesheet.ProjectName}`,
         start: new Date(timesheet.StartTime),
         end: new Date(timesheet.EndTime),
         color: index % 2 === 0 ? "#6495ed" : "#4682b4",

@@ -31,6 +31,7 @@ const DepartmentTable = () => {
     } catch (error) {
       console.error("Error fetching department:", error);
       toast.error("Forbidden: Admin access required!");
+
     }
   };
 
